@@ -1,0 +1,918 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉" />
+
+
+
+  <meta name="keywords" content="PPMessage,Python,Mac,Redis," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Robin's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言  最近项目想整一个类似客服系统的东西，网上找了找，整了一个叫 PPMessage 的开源项目叫研究，拿来看一看。今天讲一下使用的情况，首先今天说一下如何搭建这个东西（其实在GitHub上有说明，但是具体上步骤还是有些问题，就来简单讲一讲）。">
+<meta name="keywords" content="PPMessage,Python,Mac,Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PPMessage 使用踩坑：环境搭建篇">
+<meta property="og:url" content="http://whtacm.cc/2016/12/26/PPMessage-使用纪实-一-：环境搭建篇/index.html">
+<meta property="og:site_name" content="Robin&#39;s blog">
+<meta property="og:description" content="前言  最近项目想整一个类似客服系统的东西，网上找了找，整了一个叫 PPMessage 的开源项目叫研究，拿来看一看。今天讲一下使用的情况，首先今天说一下如何搭建这个东西（其实在GitHub上有说明，但是具体上步骤还是有些问题，就来简单讲一讲）。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-09T08:22:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PPMessage 使用踩坑：环境搭建篇">
+<meta name="twitter:description" content="前言  最近项目想整一个类似客服系统的东西，网上找了找，整了一个叫 PPMessage 的开源项目叫研究，拿来看一看。今天讲一下使用的情况，首先今天说一下如何搭建这个东西（其实在GitHub上有说明，但是具体上步骤还是有些问题，就来简单讲一讲）。">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: '[object Object]'
+  };
+</script>
+
+  <title> PPMessage 使用踩坑：环境搭建篇 | Robin's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?97551011862ccb1d84eef0bd7737cfc3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">人淡如菊</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              PPMessage 使用踩坑：环境搭建篇
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-12-26T10:19:07+08:00" content="2016-12-26">
+            2016-12-26
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/PPMessage/" itemprop="url" rel="index">
+                  <span itemprop="name">PPMessage</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/PPMessage/Python/" itemprop="url" rel="index">
+                  <span itemprop="name">Python</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <!--
+              <a href="/2016/12/26/PPMessage-使用纪实-一-：环境搭建篇/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/26/PPMessage-使用纪实-一-：环境搭建篇/" itemprop="commentsCount"></span>
+              </a>
+              -->
+              <a href="/2016/12/26/PPMessage-使用纪实-一-：环境搭建篇/#comments" itemprop="discussionUrl">
+                <span>评论</span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote>
+<p>前言</p>
+</blockquote>
+<p>最近项目想整一个类似<code>客服</code>系统的东西，网上找了找，整了一个叫 <code>PPMessage</code> 的开源项目叫研究，拿来看一看。今天讲一下使用的情况，首先今天说一下如何搭建这个东西（其实在<a href="https://github.com/PPMESSAGE/ppmessage" target="_blank" rel="noopener"><code>GitHub</code></a>上有说明，但是具体上步骤还是有些问题，就来简单讲一讲）。<br><a id="more"></a></p>
+<p><br></p>
+<h1 id="1、下载项目"><a href="#1、下载项目" class="headerlink" title="1、下载项目"></a>1、下载项目</h1><p><br></p>
+<p>在<code>GitHub</code>上你能找到在：</p>
+<ul>
+<li><em>Linux/Ubuntu</em></li>
+<li><em>Mac</em></li>
+<li><em>Windows</em></li>
+</ul>
+<p>三个系统里的部署操作，我的是 <em>Mac</em>，<em>Linux/Ubuntu</em> 和 <em>Mac</em> 差不多，<em>Windows</em> 的略微麻烦。本质上差不多，因为这个项目是基于 <code>Python</code> 开发的，所以搭建的工作基本上就是下载项目的各种依赖。</p>
+<p>首先，通过下载项目源码到本地，不多说，都知道的（当然官方上还有另外一个路子是使用 <code>Docker</code> 来进行搭建）：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/PPMESSAGE/ppmessage.git</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="2、安装-Python-amp-amp-pip"><a href="#2、安装-Python-amp-amp-pip" class="headerlink" title="2、安装 Python &amp;&amp; pip"></a>2、安装 Python &amp;&amp; pip</h1><p><br><br>之后如果你按照官方的操作，<em>cd ppmessage</em> 到项目的目录下，执行 <code>bash</code> 的话，十有八九就会跪掉。。。因为项目需要的各种东西都需要你一步步来下载部署，不要看项目主页上就那么两三行命令，到后面你就知道了喝两三杯咖啡不一定能搞定。首先如果是 <em>Mac</em> 系统的话，我的是 <code>OS X EI Capitan 10.11</code>,装有 <code>Python</code> （版本2.7.10），但是并没有安装 <code>pip</code>，需要先按照这个，否则的话，你一上来就会报错的。</p>
+<p><br></p>
+<h2 id="2-1、替换镜像"><a href="#2-1、替换镜像" class="headerlink" title="2.1、替换镜像"></a>2.1、替换镜像</h2><p><br><br>在安装 <code>pip</code> 之前，我们要把镜像改为国内的，我相信现在很多的开发，无论你是 <code>Android</code> 还是 <code>Python</code> 的，基本上都要配置一把国内的镜像（原因你懂）。百度一下有很多文章，我用的是 <code>豆瓣</code> 的镜像。根据你自己的系统情况，在下面的目录中添加文件路径和文件：</p>
+<ul>
+<li>Mac  下： Users/xxx/.pip/pip.conf </li>
+<li>Windows 下： Users/xxx\pip\pip.ini </li>
+</ul>
+<p>没有路径和文件的自行添加，然后在 <code>pip.conf/pip.ini</code> 中添加：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[global]</span> </span><br><span class="line"></span><br><span class="line"><span class="attr">index-url</span> = http://pypi.douban.com/simple </span><br><span class="line"></span><br><span class="line"><span class="attr">trusted-host</span> = pypi.douban.com</span><br></pre></td></tr></table></figure>
+<p>因为这个镜像不支持 <em><code>HTTPS</code></em>，在最后一定要添加 <code>trusted-host</code>，否则的话，执行后面的操作会出现一些文件，比如类似这样的：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> The repository located at pypi.douban.com <span class="keyword">is</span> <span class="keyword">not</span> a trusted <span class="keyword">or</span> secure host <span class="keyword">and</span> <span class="keyword">is</span> being ignored. If <span class="keyword">this</span> repository <span class="keyword">is</span> available via HTTPS <span class="literal">it</span> <span class="keyword">is</span> recommended <span class="keyword">to</span> use HTTPS instead, <span class="keyword">otherwise</span> you may silence <span class="keyword">this</span> warning <span class="keyword">and</span> allow <span class="literal">it</span> anyways <span class="keyword">with</span> <span class="string">'--trusted-host pypi.douban.com'</span>.</span><br><span class="line">  Could <span class="keyword">not</span> find a version <span class="literal">that</span> satisfies the requirement apns2 (<span class="keyword">from</span> versions: )</span><br><span class="line">No matching distribution found <span class="keyword">for</span> apns2</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="2-2、安装-pip"><a href="#2-2、安装-pip" class="headerlink" title="2.2、安装 pip"></a>2.2、安装 pip</h2><p><br></p>
+<p>然后，在 <code>Terminal</code> 中执行：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> easy_install pip</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="3、安装依赖"><a href="#3、安装依赖" class="headerlink" title="3、安装依赖"></a>3、安装依赖</h1><p><br><br>OK，下面就来到这一步的操作了，执行：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash ppmessage/scripts/<span class="keyword">set</span>-up-ppmessage-<span class="keyword">on</span>-<span class="keyword">mac</span>.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p>然后，看到这样的：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">XXXXMac:ppmessage-master xxx$ bash ppmessage/scripts/set-up-ppmessage-on-mac.sh </span><br><span class="line">==&gt; This script will install:</span><br><span class="line">/usr/local/bin/brew</span><br><span class="line">/usr/local/share/doc/homebrew</span><br><span class="line">/usr/local/share/man/man1/brew<span class="number">.1</span></span><br><span class="line">/usr/local/share/zsh/site-functions/_brew</span><br><span class="line">/usr/local/etc/bash_completion.d/brew</span><br><span class="line">/usr/local/Homebrew</span><br><span class="line"></span><br><span class="line">Press RETURN to continue or any other key to abort</span><br><span class="line">==&gt; Downloading and installing Homebrew...</span><br><span class="line">remote: Counting objects: <span class="number">4288</span>, done.</span><br><span class="line">remote: Compressing objects: <span class="number">100</span>% (<span class="number">2824</span>/<span class="number">2824</span>), done.</span><br><span class="line">remote: Total <span class="number">4288</span> (delta <span class="number">2222</span>), reused <span class="number">2762</span> (delta <span class="number">1316</span>), pack-reused <span class="number">0</span></span><br><span class="line">Receiving objects: <span class="number">100</span>% (<span class="number">4288</span>/<span class="number">4288</span>), <span class="number">2.46</span> MiB | <span class="number">24.00</span> KiB/s, done.</span><br><span class="line">Resolving deltas: <span class="number">100</span>% (<span class="number">2222</span>/<span class="number">2222</span>), done.</span><br><span class="line">From https:<span class="comment">//github.com/Homebrew/brew</span></span><br><span class="line"> * [new branch]      master     -&gt; origin/master</span><br><span class="line"> * [new tag]         <span class="number">0.1</span>        -&gt; <span class="number">0.1</span></span><br><span class="line"> * [new tag]         <span class="number">0.2</span>        -&gt; <span class="number">0.2</span></span><br><span class="line"> * [new tag]         <span class="number">0.3</span>        -&gt; <span class="number">0.3</span></span><br><span class="line"> ....</span><br><span class="line"> ....</span><br><span class="line">==&gt; Next steps:</span><br><span class="line">- Run `brew help` to get started</span><br><span class="line">- Further documentation: </span><br><span class="line">    https:<span class="comment">//git.io/brew-docs</span></span><br><span class="line">Updating Homebrew...</span><br><span class="line">==&gt; Downloading https:<span class="comment">//homebrew.bintray.com/bottles/autoconf-2.69.el_capitan.bottle.4.tar.gz</span></span><br><span class="line">######################################################################## <span class="number">100.0</span>%</span><br><span class="line">==&gt; Pouring autoconf<span class="number">-2.69</span>.el_capitan.bottle<span class="number">.4</span>.tar.gz</span><br><span class="line">==&gt; Caveats</span><br><span class="line">Emacs Lisp files have been installed to:</span><br><span class="line">  /usr/local/share/emacs/site-lisp/autoconf</span><br><span class="line">==&gt; Summary</span><br><span class="line">🍺  /usr/local/Cellar/autoconf/<span class="number">2.69</span>: <span class="number">70</span> files, <span class="number">3.0</span>M</span><br><span class="line">==&gt; Downloading https:<span class="comment">//homebrew.bintray.com/bottles/automake-1.15.el_capitan.bottle.2.tar.gz</span></span><br><span class="line">######################################################################## <span class="number">100.0</span>%</span><br><span class="line">==&gt; Pouring automake<span class="number">-1.15</span>.el_capitan.bottle<span class="number">.2</span>.tar.gz</span><br><span class="line">🍺  /usr/local/Cellar/automake/<span class="number">1.15</span>: <span class="number">130</span> files, <span class="number">2.9</span>M</span><br><span class="line">==&gt; Downloading https:<span class="comment">//homebrew.bintray.com/bottles/fdk-aac-0.1.4.el_capitan.bottle.1.tar.gz</span></span><br><span class="line">######################################################################## <span class="number">100.0</span>%</span><br><span class="line">==&gt; Pouring fdk-aac<span class="number">-0.1</span><span class="number">.4</span>.el_capitan.bottle<span class="number">.1</span>.tar.gz</span><br></pre></td></tr></table></figure>
+<p>你要是打开刚才命令中的那个文件看看就知道了，里面内容大概就这样：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ruby -e <span class="string">"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span></span><br><span class="line"></span><br><span class="line">brew install <span class="string">\</span></span><br><span class="line">     autoconf <span class="string">\</span></span><br><span class="line">     automake <span class="string">\</span></span><br><span class="line">     fdk-aac <span class="string">\</span></span><br><span class="line">     libtool <span class="string">\</span></span><br><span class="line">     libmagic <span class="string">\</span></span><br><span class="line">     libjpeg <span class="string">\</span></span><br><span class="line">     libffi <span class="string">\</span></span><br><span class="line">     lame <span class="string">\</span></span><br><span class="line">     nodejs <span class="string">\</span></span><br><span class="line">     redis</span><br><span class="line"></span><br><span class="line">brew tap homebrew/services</span><br><span class="line"></span><br><span class="line"><span class="comment"># In Mac OS X EI Captain, if your encount below error when install green,</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OSError: [Errno 1] Operation not permitted: '/var/folders/nj/ky4gzkdn0db_wdxxyph3j93h0000gn/T/pip-xoS3tF-uninstall/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/six-1.4.1-py2.7.egg-info'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># try this command to install green:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># sudo pip install green --ignore-installed six</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Installing other package might have similar problem. In that case, use '--ignore-installed xxx' should do the trick.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># "pip install -i http://pypi.douban.com/simple xxx" might be faster</span></span><br><span class="line">sudo pip install <span class="string">\</span></span><br><span class="line">     apns2 <span class="string">\</span></span><br><span class="line">     pillow <span class="string">\</span></span><br><span class="line">     StringGenerator <span class="string">\</span></span><br><span class="line">     beautifulsoup4 <span class="string">\</span></span><br><span class="line">     filemagic <span class="string">\</span></span><br><span class="line">     identicon <span class="string">\</span></span><br><span class="line">     jieba <span class="string">\</span></span><br><span class="line">     paramiko <span class="string">\</span></span><br><span class="line">     paho-mqtt <span class="string">\</span></span><br><span class="line">     ppmessage-mqtt <span class="string">\</span></span><br><span class="line">     pypinyin <span class="string">\</span></span><br><span class="line">     pyparsing <span class="string">\</span></span><br><span class="line">     python-dateutil <span class="string">\</span></span><br><span class="line">     python-gcm <span class="string">\</span></span><br><span class="line">     python-magic <span class="string">\</span></span><br><span class="line">     qrcode <span class="string">\</span></span><br><span class="line">     readline <span class="string">\</span></span><br><span class="line">     redis <span class="string">\</span></span><br><span class="line">     sqlalchemy <span class="string">\</span></span><br><span class="line">     tornado <span class="string">\</span></span><br><span class="line">     xlrd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo <span class="string">"Finish install the PPMessage requirements successfully, have fun with PPMessage"</span></span><br></pre></td></tr></table></figure>
+<p>恩，是的，就是安装一些依赖的命令的合集，并且里面也告诉你了使用 <code>豆瓣</code> 的镜像，并且可能的问题的解决方法。</p>
+<p><br></p>
+<h1 id="4、运行-PPMessage"><a href="#4、运行-PPMessage" class="headerlink" title="4、运行 PPMessage"></a>4、运行 PPMessage</h1><p><br></p>
+<p>进行到这里了，最后一步了，执行这个：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./ppmessage.py</span></span><br></pre></td></tr></table></figure>
+<p>如果成功的话，控制台应该会报出访问服务的地址信息，不过我就悲剧了，继续出错，报错这样：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent <span class="keyword">call</span> <span class="keyword">last</span>):</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"./ppmessage.py"</span>, line <span class="number">5</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</span><br><span class="line">    <span class="keyword">import</span> ppmessage</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Proma/PPMessage/ppmessage/ppmessage-master/ppmessage/__init__.py"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> . <span class="keyword">import</span> backend</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Proma/PPMessage/ppmessage/ppmessage-master/ppmessage/backend/__init__.py"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> .main <span class="keyword">import</span> _main</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Proma/PPMessage/ppmessage/ppmessage-master/ppmessage/backend/main.py"</span>, line <span class="number">22</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> ppmessage.core.downloadhandler <span class="keyword">import</span> DownloadHandler</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Proma/PPMessage/ppmessage/ppmessage-master/ppmessage/core/downloadhandler.py"</span>, line <span class="number">9</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> ppmessage.db.models <span class="keyword">import</span> FileInfo</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Proma/PPMessage/ppmessage/ppmessage-master/ppmessage/db/models.py"</span>, line <span class="number">16</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> ppmessage.core.redis <span class="keyword">import</span> row_to_redis_hash</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Proma/PPMessage/ppmessage/ppmessage-master/ppmessage/core/redis.py"</span>, line <span class="number">13</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</span><br><span class="line">    <span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> <span class="keyword">String</span></span><br><span class="line">ImportError: <span class="keyword">No</span> <span class="keyword">module</span> named sqlalchemy</span><br></pre></td></tr></table></figure>
+<p>定位最后一句这个报错，没有 <code>sqlalchemy</code>。OK，使用 <code>pip</code> 安装这个 <em>module</em> 就行了：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> sqlalchemy</span><br></pre></td></tr></table></figure>
+<p>但是，会出现新的 <em>module</em> 不存在的问题，比如我在接下来遇到了 <code>PIL</code> 的问题，关键是怎么都找不到这个 <em>module</em>，最后才发现这个玩意已经改名字了（新的名字 <code>pillow</code>，蛋疼啊 (⊙﹏⊙)b）。如果依赖一个个下载，想想头大啊。别怕，实际上，在 <em>ppmessage/scripts/requirements.txt</em> 这个目录下的文件里有需要的所有依赖，你直接执行：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r ppmessage<span class="regexp">/scripts/</span>requirements.txt</span><br></pre></td></tr></table></figure>
+<p>一次性就把所有的依赖都安装完啦。OK，再次执行，又报错了：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"./ppmessage.py"</span>, <span class="keyword">line</span> 12, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    _main()</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"./ppmessage.py"</span>, <span class="keyword">line</span> 9, <span class="keyword">in</span> _main</span><br><span class="line">    ppmessage.backend._main()</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Proma/PPMessage/ppmessage/ppmessage-master/ppmessage/backend/main.py"</span>, <span class="keyword">line</span> 130, <span class="keyword">in</span> _main</span><br><span class="line">    _app.load_db_to_cache()</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Proma/PPMessage/ppmessage/ppmessage-master/ppmessage/backend/main.py"</span>, <span class="keyword">line</span> 101, <span class="keyword">in</span> load_db_to_cache</span><br><span class="line">    self.redis.flushdb()</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/redis/client.py"</span>, <span class="keyword">line</span> 652, <span class="keyword">in</span> flushdb</span><br><span class="line">    <span class="keyword">return</span> self.execute_command('FLUSHDB')</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/redis/client.py"</span>, <span class="keyword">line</span> 578, <span class="keyword">in</span> execute_command</span><br><span class="line">    connection.send_command(*<span class="keyword">args</span>)</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/redis/connection.py"</span>, <span class="keyword">line</span> 563, <span class="keyword">in</span> send_command</span><br><span class="line">    self.send_packed_command(self.pack_command(*<span class="keyword">args</span>))</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/redis/connection.py"</span>, <span class="keyword">line</span> 538, <span class="keyword">in</span> send_packed_command</span><br><span class="line">    self.connect()</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/redis/connection.py"</span>, <span class="keyword">line</span> 442, <span class="keyword">in</span> connect</span><br><span class="line">    raise ConnectionError(self._error_message(<span class="keyword">e</span>))</span><br><span class="line">redis.exceptions.ConnectionError: <span class="keyword">Error</span> 61 connecting to 127.0.0.1:6379. Connection refused.</span><br></pre></td></tr></table></figure>
+<p>嗯？拒绝了，发了张好人卡。。。。不怕，排查下是不是 <code>Redis</code> 服务的问题。结果发现是服务没启，启动服务吧：</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">XXXXMac:~ xxx$ redis-server</span><br><span class="line"><span class="number">526</span>:C <span class="number">26</span> Dec <span class="number">14</span>:<span class="number">13</span>:<span class="number">17.587</span> # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf</span><br><span class="line"><span class="number">526</span>:M <span class="number">26</span> Dec <span class="number">14</span>:<span class="number">13</span>:<span class="number">17.589</span> * Increased maximum number of open files to <span class="number">10032</span> (it was originally set to <span class="number">256</span>).</span><br><span class="line">                <span class="symbol">_</span>.<span class="symbol">_</span>                                                  </span><br><span class="line">           <span class="symbol">_</span>.-``<span class="symbol">__</span> ''-.<span class="symbol">_</span>                                             </span><br><span class="line">      <span class="symbol">_</span>.-``    `.  `<span class="symbol">_</span>.  ''-.<span class="symbol">_</span>           Redis <span class="number">3.2</span>.6 (<span class="number">00000000</span>/<span class="number">0</span>) <span class="number">64</span> bit</span><br><span class="line">  .-`` .-```.  ```\/    <span class="symbol">_</span>.,<span class="symbol">_</span> ''-.<span class="symbol">_</span>                                   </span><br><span class="line"> (    '      ,       .-`  | `,    )     Running <span class="keyword">in</span> standalone mode</span><br><span class="line"> |`-.<span class="symbol">_</span>`-...-` <span class="symbol">__</span>...-.``-.<span class="symbol">_</span>|'` <span class="symbol">_</span>.-'|     Port: <span class="number">6379</span></span><br><span class="line"> |    `-.<span class="symbol">_</span>   `.<span class="symbol">_</span>    /     <span class="symbol">_</span>.-'    |     PID: <span class="number">526</span></span><br><span class="line">  `-.<span class="symbol">_</span>    `-.<span class="symbol">_</span>  `-./  <span class="symbol">_</span>.-'    <span class="symbol">_</span>.-'                                   </span><br><span class="line"> |`-.<span class="symbol">_</span>`-.<span class="symbol">_</span>    `-.<span class="symbol">__</span>.-'    <span class="symbol">_</span>.-'<span class="symbol">_</span>.-'|                                  </span><br><span class="line"> |    `-.<span class="symbol">_</span>`-.<span class="symbol">_</span>        <span class="symbol">_</span>.-'<span class="symbol">_</span>.-'    |           http://redis.io        </span><br><span class="line">  `-.<span class="symbol">_</span>    `-.<span class="symbol">_</span>`-.<span class="symbol">__</span>.-'<span class="symbol">_</span>.-'    <span class="symbol">_</span>.-'                                   </span><br><span class="line"> |`-.<span class="symbol">_</span>`-.<span class="symbol">_</span>    `-.<span class="symbol">__</span>.-'    <span class="symbol">_</span>.-'<span class="symbol">_</span>.-'|                                  </span><br><span class="line"> |    `-.<span class="symbol">_</span>`-.<span class="symbol">_</span>        <span class="symbol">_</span>.-'<span class="symbol">_</span>.-'    |                                  </span><br><span class="line">  `-.<span class="symbol">_</span>    `-.<span class="symbol">_</span>`-.<span class="symbol">__</span>.-'<span class="symbol">_</span>.-'    <span class="symbol">_</span>.-'                                   </span><br><span class="line">      `-.<span class="symbol">_</span>    `-.<span class="symbol">__</span>.-'    <span class="symbol">_</span>.-'                                       </span><br><span class="line">          `-.<span class="symbol">_</span>        <span class="symbol">_</span>.-'                                           </span><br><span class="line">              `-.<span class="symbol">__</span>.-'                                               </span><br><span class="line"></span><br><span class="line"><span class="number">526</span>:M <span class="number">26</span> Dec <span class="number">14</span>:<span class="number">13</span>:<span class="number">17.592</span> # Server started, Redis version <span class="number">3.2</span>.6</span><br><span class="line"><span class="number">526</span>:M <span class="number">26</span> Dec <span class="number">14</span>:<span class="number">13</span>:<span class="number">17.592</span> * The server <span class="built_in">is</span> now ready to accept connections on port <span class="number">6379</span></span><br><span class="line"><span class="number">526</span>:M <span class="number">26</span> Dec <span class="number">14</span>:<span class="number">19</span>:<span class="number">06.569</span> * <span class="number">100</span> changes <span class="keyword">in</span> <span class="number">300</span> seconds. Saving...</span><br><span class="line"><span class="number">526</span>:M <span class="number">26</span> Dec <span class="number">14</span>:<span class="number">19</span>:<span class="number">06.569</span> * Background <span class="built_in">saving</span> started by pid <span class="number">566</span></span><br><span class="line"><span class="number">566</span>:C <span class="number">26</span> Dec <span class="number">14</span>:<span class="number">19</span>:<span class="number">06.570</span> * DB saved on disk</span><br><span class="line"><span class="number">526</span>:M <span class="number">26</span> Dec <span class="number">14</span>:<span class="number">19</span>:<span class="number">06.669</span> * Background <span class="built_in">saving</span> terminated with success</span><br></pre></td></tr></table></figure>
+<p>蓝后，测试下连通性：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">XXXXMac:</span>~ xxx$ redis-cli</span><br><span class="line"><span class="meta">127.0.0.1:6379&gt;</span> set key <span class="string">"hellow world"</span></span><br><span class="line">OK</span><br><span class="line"><span class="meta">127.0.0.1:6379&gt;</span> get key</span><br><span class="line"><span class="string">"hellow world"</span></span><br><span class="line"><span class="meta">127.0.0.1:6379&gt;</span></span><br></pre></td></tr></table></figure>
+<p>成功了，运行 <code>PPMessage</code> 吧，然后通过你的 <code>Terminal</code> 显示的这个地址访问就行了，进到页面配置一些信息，重启下服务刷新页面就OK了。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[I <span class="number">161226</span> <span class="number">14</span>:<span class="number">16</span>:<span class="number">58</span> <span class="string">main:</span><span class="number">139</span>] Access <span class="string">http:</span><span class="comment">//192.168.191.3:8945/ to config PPMessage.</span></span><br></pre></td></tr></table></figure>
+<p><br> </p>
+<h1 id="5、最后"><a href="#5、最后" class="headerlink" title="5、最后"></a>5、最后</h1><p><br> </p>
+<h2 id="5-1、关于镜像"><a href="#5-1、关于镜像" class="headerlink" title="5.1、关于镜像"></a>5.1、关于镜像</h2><p><br> </p>
+<p>关于镜像这块，<code>豆瓣</code> 已有了支持  <em><code>HTTPS</code></em> 的：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">global</span>] </span><br><span class="line"></span><br><span class="line"><span class="built_in">index</span>-url = http<span class="variable">s:</span>//pypi.douban.<span class="keyword">com</span>/simple</span><br></pre></td></tr></table></figure>
+<p>另外，还有其他的可选，网上有很多，不过我自己试了一下，有的链接都打不开，这两个最快：</p>
+<ul>
+<li>阿里云  <a href="http://mirrors.aliyun.com/pypi/simple/" target="_blank" rel="noopener">http://mirrors.aliyun.com/pypi/simple/</a></li>
+<li>中科大  <a href="https://mirrors.ustc.edu.cn/pypi/web/simple/" target="_blank" rel="noopener">https://mirrors.ustc.edu.cn/pypi/web/simple/</a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PPMessage/" rel="tag">#PPMessage</a>
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+            <a href="/tags/Mac/" rel="tag">#Mac</a>
+          
+            <a href="/tags/Redis/" rel="tag">#Redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/28/Python-引用路径问题/" rel="prev">Python 引用路径问题</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/23/Android-Studio日常：使用aar以及style中使用自定义控件属性/" rel="next">Android Studio日常：本地仓库引用方式使用 aar 以及 style 中使用自定义控件属性</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        请我喝杯茶
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/12/26/PPMessage-使用纪实-一-：环境搭建篇/"
+                   data-title="PPMessage 使用踩坑：环境搭建篇" data-url="http://whtacm.cc/2016/12/26/PPMessage-使用纪实-一-：环境搭建篇/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Robin" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Robin</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/whtacm" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="whtacm@gmail.com" target="_blank">Gmail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/robinbird" target="_blank">Zhihu</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://hexo.io/" target="_blank">Hexo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://theme-next.iissnan.com/getting-started.html" target="_blank">NexT</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、下载项目"><span class="nav-text">1、下载项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、安装-Python-amp-amp-pip"><span class="nav-text">2、安装 Python &amp;&amp; pip</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、替换镜像"><span class="nav-text">2.1、替换镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、安装-pip"><span class="nav-text">2.2、安装 pip</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、安装依赖"><span class="nav-text">3、安装依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、运行-PPMessage"><span class="nav-text">4、运行 PPMessage</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、最后"><span class="nav-text">5、最后</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1、关于镜像"><span class="nav-text">5.1、关于镜像</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2016 - 
+  <span itemprop="copyrightYear">2018
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Robin
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://whtacm.cc">Robin</a>.<a class="theme-link" href="https://github.com/whtacm/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+  <div class="busuanzi-info">
+    <div class="theme-info">
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量<a class="theme-link"><span id="busuanzi_value_site_pv"></span></a>次
+    </span>
+</div>
+  </div>
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"whtacm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
