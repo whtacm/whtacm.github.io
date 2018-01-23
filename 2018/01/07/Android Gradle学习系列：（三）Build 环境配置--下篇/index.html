@@ -40,18 +40,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="前言  从 Eclipse 转 Android Studio 已经有很长一段时间了，期间也尝试过从把公司的项目在两个 IDE 之间进行过转换，还是有一些坑和心得体会的。我们都知道 Android Studio 是 Google 力推的开发 IDE ，其中主要的特性之一是项目的构建是基于Gradle 的。一直以来都在使用各种 gradle.build 文件，对其中的一些东西还是掌握的不够。加之最近">
+<meta name="description" content="前言  有了上一篇的介绍工作，本篇将正式介绍 Gradle Build（构建） 环境配置的相关内容了。">
 <meta name="keywords" content="Android,Gradle">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android Gradle学习系列：（一）初识Gradle">
-<meta property="og:url" content="http://whtacm.cc/2018/01/01/Android Gradle学习系列：（一）初识Gradle/index.html">
+<meta property="og:title" content="Android Gradle学习系列：（三）Build 环境配置—下篇">
+<meta property="og:url" content="http://whtacm.cc/2018/01/07/Android Gradle学习系列：（三）Build 环境配置--下篇/index.html">
 <meta property="og:site_name" content="Robin&#39;s blog">
-<meta property="og:description" content="前言  从 Eclipse 转 Android Studio 已经有很长一段时间了，期间也尝试过从把公司的项目在两个 IDE 之间进行过转换，还是有一些坑和心得体会的。我们都知道 Android Studio 是 Google 力推的开发 IDE ，其中主要的特性之一是项目的构建是基于Gradle 的。一直以来都在使用各种 gradle.build 文件，对其中的一些东西还是掌握的不够。加之最近">
+<meta property="og:description" content="前言  有了上一篇的介绍工作，本篇将正式介绍 Gradle Build（构建） 环境配置的相关内容了。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-22T07:25:04.000Z">
+<meta property="og:updated_time" content="2018-01-23T07:52:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Gradle学习系列：（一）初识Gradle">
-<meta name="twitter:description" content="前言  从 Eclipse 转 Android Studio 已经有很长一段时间了，期间也尝试过从把公司的项目在两个 IDE 之间进行过转换，还是有一些坑和心得体会的。我们都知道 Android Studio 是 Google 力推的开发 IDE ，其中主要的特性之一是项目的构建是基于Gradle 的。一直以来都在使用各种 gradle.build 文件，对其中的一些东西还是掌握的不够。加之最近">
+<meta name="twitter:title" content="Android Gradle学习系列：（三）Build 环境配置—下篇">
+<meta name="twitter:description" content="前言  有了上一篇的介绍工作，本篇将正式介绍 Gradle Build（构建） 环境配置的相关内容了。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -61,7 +61,7 @@
   };
 </script>
 
-  <title> Android Gradle学习系列：（一）初识Gradle | Robin's blog </title>
+  <title> Android Gradle学习系列：（三）Build 环境配置—下篇 | Robin's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -193,7 +193,7 @@
           
           
             
-              Android Gradle学习系列：（一）初识Gradle
+              Android Gradle学习系列：（三）Build 环境配置—下篇
             
           
         </h1>
@@ -202,8 +202,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2018-01-01T20:23:31+08:00" content="2018-01-01">
-            2018-01-01
+          <time itemprop="dateCreated" datetime="2018-01-07T19:55:23+08:00" content="2018-01-07">
+            2018-01-07
           </time>
         </span>
 
@@ -212,8 +212,32 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/Gradle/" itemprop="url" rel="index">
+                <a href="/categories/Android/" itemprop="url" rel="index">
+                  <span itemprop="name">Android</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Android/Gradle/" itemprop="url" rel="index">
                   <span itemprop="name">Gradle</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Android/Gradle/Android-Studio/" itemprop="url" rel="index">
+                  <span itemprop="name">Android Studio</span>
                 </a>
               </span>
 
@@ -229,11 +253,11 @@
             <span class="post-comments-count">
               &nbsp; | &nbsp;
               <!--
-              <a href="/2018/01/01/Android Gradle学习系列：（一）初识Gradle/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/01/Android Gradle学习系列：（一）初识Gradle/" itemprop="commentsCount"></span>
+              <a href="/2018/01/07/Android Gradle学习系列：（三）Build 环境配置--下篇/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/07/Android Gradle学习系列：（三）Build 环境配置--下篇/" itemprop="commentsCount"></span>
               </a>
               -->
-              <a href="/2018/01/01/Android Gradle学习系列：（一）初识Gradle/#comments" itemprop="discussionUrl">
+              <a href="/2018/01/07/Android Gradle学习系列：（三）Build 环境配置--下篇/#comments" itemprop="discussionUrl">
                 <span>评论</span>
               </a>
             </span>
@@ -251,57 +275,98 @@
         <span itemprop="articleBody"><blockquote>
 <p>前言</p>
 </blockquote>
-<p>从 Eclipse 转 Android Studio 已经有很长一段时间了，期间也尝试过从把公司的项目在两个 IDE 之间进行过转换，还是有一些坑和心得体会的。我们都知道 Android Studio 是 Google 力推的开发 IDE ，其中主要的特性之一是项目的构建是基于Gradle 的。一直以来都在使用各种 gradle.build 文件，对其中的一些东西还是掌握的不够。加之最近在看 Android 和 Gradle 的官方文档，索性就整合成一个系列，本系列会紧密结合 Android 开发。如需详细学习 Gradle，请阅读 <a href="https://docs.gradle.org/current/userguide/userguide.html" target="_blank" rel="noopener"><em>用户指南</em></a>。</p>
-<a id="more"></a>
-<p><br></p>
-<h1 id="1、Gradle介绍"><a href="#1、Gradle介绍" class="headerlink" title="1、Gradle介绍"></a>1、Gradle介绍</h1><p><br></p>
-<p>Gradle 是一个基于 JVM 的构建工具，功能类似于 Ant 或着 Maven 。它使用基于 Groovy 的特定领域语言（DSL）来声明项目的一些配置，不同于 Maven 使用 XML 进行项目配置。因此，它需要 JDK 的支持，这意味着它能运行于目前大多数操作系统之上；另一方面，Gradle 的核心是一个基于依赖编程的语言 <em>（ <a href="https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:project_evaluation" target="_blank" rel="noopener">We said earlier that the core of Gradle is a language for dependency based programming</a>.）</em>。</p>
-<p><br></p>
-<h1 id="2、Gradle安装"><a href="#2、Gradle安装" class="headerlink" title="2、Gradle安装"></a>2、Gradle安装</h1><p><br></p>
-<p>Gradle的安装，两种方式：</p>
+<p>有了上一篇的介绍工作，本篇将正式介绍 Gradle Build（构建） 环境配置的相关内容了。<br><a id="more"></a><br><br></p>
+<h1 id="1、配置-Build-环境"><a href="#1、配置-Build-环境" class="headerlink" title="1、配置 Build 环境"></a>1、配置 Build 环境</h1><p><br></p>
+<p>Gradle提供了一系列的选项，让你能够更容易的对执行构建的 Java 进程进行配置。通过 <em>GRADLE_OPTS</em> 或者 <em>JAVA_OPTS</em> 的本地环境配置，JVM 内存设置、Java home，开启守护<em>（daemon）</em>进程等操作，如果这些统统可以在版本管理系统<em>（VCS）</em>中进行控制，这将有利于团队在一个一致的开发环境中工作。设置这样一个环境只需要简单的进行 <em>gradle.properties</em> 文件进行配置。有多处文件可以进行配置，最终配置的生效会按下面的顺序（即同一个配置如果出现多个地方，最后一个位置生效）。</p>
 <ul>
-<li>使用包管理器进行安装</li>
-<li>手动安装，下载压缩包解压，需要配置环境变量</li>
+<li><p>项目目录中的 <em>gradle.properties</em> 文件</p>
+</li>
+<li><p>gradle 用户目录下的  <em>gradle.properties</em> 文件，即 <em>$User/.gradle/</em> 目录下</p>
+</li>
+<li><p>系统配置，例如在命令行中设置 <em>-Dsome.property</em> </p>
+</li>
 </ul>
-<p>下载完，可以进行验证，这一部分请参考<a href="https://gradle.org/install/" target="_blank" rel="noopener"><em>官方文档</em></a><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> gradle -v</span></span><br></pre></td></tr></table></figure></p>
+<p>当设置这些属性时，你需要注意的是 Gradle 需要 Java JDK 或 JRE  7 或更高的版本。</p>
+<p>下面的这些属性可以用来进行 Gradle 构建环境的配置：</p>
+<blockquote>
+<p>org.gradle.daemon</p>
+</blockquote>
+<p>当设置为 <em>true</em> 时，Gradle 守护进行将在执行构建的时候被使用。从 Gradle 3.0 开始，默认是开启的，这也是官方所推荐的方式。</p>
+<blockquote>
+<p>org.gradle.java.home</p>
+</blockquote>
+<p>指定 Gradle 构建进程的Java home。值可以是 jdk 或者 jre 的位置，然而，这取决于你构建的内容，<strong><em>设置成 jdk 会更加保险一点</em></strong>。如果没有设置将会使用默认。</p>
+<blockquote>
+<p>org.gradle.jvmargs</p>
+</blockquote>
+<p>指定守护进程使用的 jvmargs。该设置对于内存调整特别有用。</p>
+<blockquote>
+<p>org.gradle.configureondemand</p>
+</blockquote>
+<p>新的 <em>incubating mode</em> 在配置项目时增加了 Gradle 的可选择性。只有配置相关的项目能够在多项目中加速构建过程。</p>
+<blockquote>
+<p>org.gradle.parallel</p>
+</blockquote>
+<p>配置该属性，Gradle 决定是否允许并行模式。</p>
+<blockquote>
+<p>org.gradle.workers.max</p>
+</blockquote>
+<p>配置 Gradle 可以使用的最大 worker 数，默认是处理器数 <em>（number of processors）</em>。</p>
+<blockquote>
+<p>org.gradle.logging.level</p>
+</blockquote>
+<p>设置日志级别，例如 quiet 、warn 、lifecycle 、info 或者 debug。该值对大小写不敏感。</p>
+<blockquote>
+<p>org.gradle.debug</p>
+</blockquote>
+<p>该属性设置为 <em>true</em> 时，Gradle 会允许在构建时开启远程调试，端口为 <em>5005</em>。这等价于使用 JVM 命令行 <em>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</em> ，这回在调试点将虚拟机挂起。</p>
+<blockquote>
+<p>org.gradle.daemon.performance.enable-monitoring</p>
+</blockquote>
+<p>是否开启对守护进程内存使用情况的监视。</p>
+<blockquote>
+<p>org.gradle.caching</p>
+</blockquote>
+<p>设置为 <em>true</em>，Gradle 将尝试重用之前构建的输出。</p>
+<blockquote>
+<p>org.gradle.console</p>
+</blockquote>
+<p>设置 Gradle 使用不同类型的控制台，候选值为 <em>plain、auto或者 rich</em>。<br><br></p>
+<h1 id="1-1、Forcked-Java-Process"><a href="#1-1、Forcked-Java-Process" class="headerlink" title="1.1、Forcked Java Process"></a>1.1、Forcked Java Process</h1><p><br><br>许多的设置（例如 Java 版本和最大堆）只能在启动新的 JVM 进程时使用。这意味着在解析 <em>gradle.properties</em> 文件后，Gradle 必须要启动一个单独的 JVM 进程来执行构建任务。当运行守护进程时，一旦 JVM 运行就可以在每一次守护构建运行时被重复使用。假如没有守护进程，那么新的 JVM 将被启动，除非 Gradle 开始脚本启动的 JVM 有相同的参数。</p>
+<p>每次构建执行的 JVM 启动都需要很大的开销，这也是为什么无论你是设置 <em>`org.gradle.java.home</em> 还是 <em>org.gradle.jvmargs</em>，我们都强烈建议你使用 Gradle 守护。</p>
 <p><br></p>
-<h1 id="3、Gradle的特性"><a href="#3、Gradle的特性" class="headerlink" title="3、Gradle的特性"></a>3、Gradle的特性</h1><p><br></p>
-<p>Gradle 拥有众多的特性，来帮助用户进行快速构建项目，例如在性能方面：</p>
+<h1 id="2、Gradle-属性和系统属性"><a href="#2、Gradle-属性和系统属性" class="headerlink" title="2、Gradle 属性和系统属性"></a>2、Gradle 属性和系统属性</h1><p><br></p>
+<p>Gradle 提供了多种方式来为你的构建添加属性设置。使用 <em>-D</em> 选项你可以来为运行 Gradle 的 JVM 传递系统属性。 <em>gradle</em> 命令中的 <em>-D</em> 选项和 <em>java</em> 命令的 <em>-D</em> 选项有着相同的效果。</p>
+<p>当然，你也可以使用属性文件来为你的项目对象添加属性设置。你可以在 Gradle 的用户 home 目录或项目目录下添加一个 <em>gradle.properties</em> 文件。对于多项目构建来说，你可以在任意子项目目录下放置 <em>gradle.properties</em> 文件。这些文件中设置的属性可以通过项目对象被访问到。用户 home 目录中的属性文件会覆盖掉项目目录中的属性文件。</p>
+<p>同时，你还可以通过 <em>-P</em> 命令行选项直接为你的项目对象添加属性。</p>
+<p>Gradle 还可以引用系统属性或者环境变量来设置项目属性。当你没有持续集成服务器的管理员权限，还要必须设置那些明显不可见的属性（典型的是处于安全考虑）时十分有用。在这个时候，你不能使用 <em>-P</em> 选项，也不能改变系统级别的配置文件。正确的策略是更改持续集成构建工作的配置，添加那些可与预期模式匹配的环境变量。这些对于系统的普通用户不可见<em>[1]</em>。</p>
+<p>如果环境变量的命名类似 <em>ORG_GRADLE_PROJECT_prop=somevalue</em>，那么 Gradle 将会为项目对象设置一个 <em>prop</em> 属性，它的值是 <em>somevalue</em>。Gradle 还支持系统属性进行如此设置，只是它支持这样的命名模式 <em>org.gradle.project.prop</em>。</p>
+<p>你可以在 <em>grdle.properties</em> 文件中进行系统属性的设置。如果属性名前缀为 <em>systemProp</em>，例如 <em>systemProp.propName</em>，这样一个 <strong>属性名<em>（去掉前缀）</em>-值</strong> 对就是一个系统属性。在多项目构建中，除了根目录，其他的子项目中的 <em>systemProp</em> 属性会被忽略。这意味着，只有根项目的 <em>gradle.properties</em> 文件中那些有 <em>systemProp</em> 前缀的属性会被检查。</p>
+<p>例子，gradle.properties文件：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">gradlePropertiesProp</span>=gradlePropertiesValue</span><br><span class="line"><span class="attribute">sysProp</span>=shouldBeOverWrittenBySysProp</span><br><span class="line"><span class="attribute">envProjectProp</span>=shouldBeOverWrittenByEnvProp</span><br><span class="line">systemProp.<span class="attribute">system</span>=systemValue</span><br></pre></td></tr></table></figure>
+<p>build.gradle 文件：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">task</span> printProps &#123;</span><br><span class="line">    <span class="keyword">doLast</span> &#123;</span><br><span class="line">        <span class="keyword">println</span> commandLineProjectProp</span><br><span class="line">        <span class="keyword">println</span> gradlePropertiesProp</span><br><span class="line">        <span class="keyword">println</span> systemProjectProp</span><br><span class="line">        <span class="keyword">println</span> envProjectProp</span><br><span class="line">        <span class="keyword">println</span> System.properties[<span class="string">'system'</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>gradle -q -PcommandLineProjectProp=commandLineProjectPropValue -Dorg.gradle.project.systemProjectProp=systemPropertyValue printProps</em> 命令输出：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; gradle -<span class="selector-tag">q</span> -PcommandLineProjectProp=commandLineProjectPropValue -Dorg<span class="selector-class">.gradle</span><span class="selector-class">.project</span><span class="selector-class">.systemProjectProp</span>=systemPropertyValue printProps</span><br><span class="line">commandLineProjectPropValue</span><br><span class="line">gradlePropertiesValue</span><br><span class="line">systemPropertyValue</span><br><span class="line">envPropertyValue</span><br><span class="line">systemValue</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="2-1、项目属性检查"><a href="#2-1、项目属性检查" class="headerlink" title="2.1、项目属性检查"></a>2.1、项目属性检查</h2><p><br><br>在构建脚本中，你可以使用变量名的方式访问项目属性。如果属性不存在，会抛出异常并造成构建失败。假如构建脚本以来一些用户设置的备选属性，例如在 <em>gradle.properties</em> 文件中，那么你需要在访问前进行一些存在性检查。你可以是使用 <em>hasProperty(‘propertyName’)</em> 方法，该方法会返回 <em>true</em> 或 <em>false</em>。</p>
+<p><br></p>
+<h1 id="3、代理设置"><a href="#3、代理设置" class="headerlink" title="3、代理设置"></a>3、代理设置</h1><p><br></p>
+<p>通过标准的 JVM 系统属性可以配置 HTTP 或者 HTTPS 代理（例如，下载依赖包）。你可以直接配置在构建脚本中，例如使用 <em>System.setProperty(‘http.proxyHost’, ‘www.somehost.org’)</em> 设置 HTTP 代理 host。或者，在 <em>gradle.properties</em> 文件中。当然，也可以在项目根目录中。</p>
+<p>例子，在 gradle.properties 文件中配置 HTTP：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemProp.http.<span class="attribute">proxyHost</span>=www.somehost.org</span><br><span class="line">systemProp.http.<span class="attribute">proxyPort</span>=8080</span><br><span class="line">systemProp.http.<span class="attribute">proxyUser</span>=userid</span><br><span class="line">systemProp.http.<span class="attribute">proxyPassword</span>=password</span><br><span class="line">systemProp.http.<span class="attribute">nonProxyHosts</span>=*.nonproxyrepos.com|localhost</span><br></pre></td></tr></table></figure>
+<p>在 gradle.properties 文件中配置 HTTPS：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemProp.https.<span class="attribute">proxyHost</span>=www.somehost.org</span><br><span class="line">systemProp.https.<span class="attribute">proxyPort</span>=8080</span><br><span class="line">systemProp.https.<span class="attribute">proxyUser</span>=userid</span><br><span class="line">systemProp.https.<span class="attribute">proxyPassword</span>=password</span><br><span class="line">systemProp.https.<span class="attribute">nonProxyHosts</span>=*.nonproxyrepos.com|localhost</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="3-1、NTLM-认证"><a href="#3-1、NTLM-认证" class="headerlink" title="3.1、NTLM 认证"></a>3.1、NTLM 认证</h2><p><br></p>
+<p>如果代理需要进行 NTLM 认证，你可能不但要提供用户名和密码还要提供认证域名。对于 NTLM 代理你有两种方式提供域名：</p>
 <ul>
-<li>增量构建<em>（Incremental Builds）</em>， 构建过的任务，当输入、输出或配置没有发生变化不会再次构建</li>
-<li>任务输出缓存<em>（Task Output Caching）</em>，任务构建后的输出会被缓存起来，以便复用</li>
-<li>编译器守护<em>（Compiler Daemon）</em>，Gradle 可以通过开启守护进程加快构建速度</li>
-<li>并行执行<em>（Task Output Caching）</em>，Gradle 可以开启任务并行执行来获得性能的提升</li>
-<li>依赖并行下载<em>（Task Output Caching）</em></li>
+<li><p>设置 <em>http.proxyUser</em> 系统属性，提供类似 <em>domain/username</em> 的值</p>
+</li>
+<li><p>通过 <em>http.auth.ntlm.domain</em> 系统属性来提供认证域名</p>
+</li>
 </ul>
-<p>此外，还提供命令行接口进行任务执行、持续构建<em>（Continuous build）</em>，对依赖进行缓存、动态依赖、版本冲突解决，针对跨团队管理能够进行自配置构建环境（可以通过 Gradle wrapper指定 Gradle版本）。</p>
-<p><br></p>
-<h1 id="4、Android-Plugin"><a href="#4、Android-Plugin" class="headerlink" title="4、Android Plugin"></a>4、Android Plugin</h1><p><br></p>
-<p>针对不同生态，例如JVM、Android、C++、Swift、Objective-C，都有其特定的特性，这些特性主要是由相应的插件来完成，比如 Android 的 Build Tool，我们都会在每个 Android 项目的根目录下的 <strong>build.gradle</strong> 中看到这样的配置：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">    <span class="keyword">dependencies</span> &#123;</span><br><span class="line">        <span class="keyword">classpath</span> <span class="string">'com.android.tools.build:gradle:2.3.1'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>它指定了 Gradle Android Plugin 的版本信息，不同版本的插件版本有不同的特性，比如 <em>Instant Run</em> 需要 2.3.0 或更高的版本。因此，我们的Android项目的构建工作需要 Gradle 以及 Gradle Android Plugin 一起搭配来完成，两者版本的配置表可以参考 <a href="https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-plugin" target="_blank" rel="noopener"><em>Android开发者官网#Update Gradle</em></a> 。通过 Android Plugin， 你可以使用到多种（功能）<a href="https://gradle.org/features/#android-applications" target="_blank" rel="noopener"><em>特性</em></a>：</p>
-<ul>
-<li>构建变体<em>（Build Variants）</em>，通过构建类型和产品风味的配置来完成</li>
-<li>配置清单合并<em>（Manifest Merging）</em>，完成Manifest文件以及资源文件的自动合并</li>
-<li>Android 库工程<em>（Android Library Projects）</em>，支持多个工程（multi-projects）的构建</li>
-<li>变体依赖管理<em>（Per-Variant Dependency Management）</em>，可以针对每个变体进行依赖声明</li>
-<li>应用签名<em>（Application Signing）</em>，为应用进行自动签名</li>
-<li>混淆支持<em>（ProGuard Support）</em>，轻松为应用进行代码混淆和压缩APK</li>
-<li>单元测试<em>（Unit Testing）</em>，支持单元测试</li>
-<li>设备功能测试<em>（On-device Functional Testing）</em></li>
-<li>APK分片<em>（APK Splits）</em>，对于不同分辨率的设备或 <em>ABIs (Application Binary Interfaces)</em> 生成APK，并复用构建输出</li>
-<li>Multidex支持<em>（Multidex Support）</em>，避免单个 DEX 文件方法超过 65k 的限制</li>
-<li>NDK支持<em>（NDK Support）</em>，可以基于本地库进行 Android 开发</li>
-<li>数据绑定<em>（Databinding）</em>，使用数据绑定能够自动的把数据更新到 View 上</li>
-</ul>
-<p>Gradle Android Plugin 的源码可以通过在 app 工程的 <em>build.gradle</em> 中添加依赖：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">        <span class="keyword">compile</span> <span class="string">'com.android.tools.build:gradle:2.3.1'</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后在 <em>External Libraries</em> 中查看插件源码，实现部分可以参考<a href="http://blog.csdn.net/qq_23012315/article/details/74230956" target="_blank" rel="noopener">Android Gradle Plugin解析</a>。</p>
-<p>其他的生态特性，本文就不在介绍，有兴趣的可以去了解 <a href="https://gradle.org/features/" target="_blank" rel="noopener"><em>Gradle Features</em></a>。</p>
-<p><br></p>
-<h1 id="5、写在最后"><a href="#5、写在最后" class="headerlink" title="5、写在最后"></a>5、写在最后</h1><p><br></p>
-<p>本篇介绍了 Gradle 的核心作用以及功能特性。Android 主要是靠 Gradle 以及附加的插件 Android Plugin 共同完成项目的构建工作的。</p>
-<p>下一篇，我们将介绍 Gradle 的一些相关知识、命令行工具 <em>（command-line）</em>和 Gradle Wrapper。</p>
-<p><br></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br></h2><p>[1] Jenkins、Teamcity、Bamboo还有其他的 CI 系统提供此类功能</p>
 </span>
       
     </div>
@@ -321,13 +386,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/02/Android Gradle学习系列：（二）命令行和 Gradle Wrapper/" rel="prev">Android Gradle学习系列：（二）命令行和 Gradle Wrapper</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/08/Android-常用开源框架和项目（持续更新中-）/" rel="next">Android 常用开源框架和项目（持续更新中...）</a>
+              <a href="/2018/01/05/Android Gradle学习系列：（三）Build 环境配置--上篇/" rel="next">Android Gradle学习系列：（三）Build 环境配置--上篇</a>
             
           </div>
         </div>
@@ -484,8 +547,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2018/01/01/Android Gradle学习系列：（一）初识Gradle/"
-                   data-title="Android Gradle学习系列：（一）初识Gradle" data-url="http://whtacm.cc/2018/01/01/Android Gradle学习系列：（一）初识Gradle/">
+              <div class="ds-thread" data-thread-key="2018/01/07/Android Gradle学习系列：（三）Build 环境配置--下篇/"
+                   data-title="Android Gradle学习系列：（三）Build 环境配置—下篇" data-url="http://whtacm.cc/2018/01/07/Android Gradle学习系列：（三）Build 环境配置--下篇/">
               </div>
             
           </div>
@@ -599,7 +662,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、Gradle介绍"><span class="nav-text">1、Gradle介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、Gradle安装"><span class="nav-text">2、Gradle安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、Gradle的特性"><span class="nav-text">3、Gradle的特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、Android-Plugin"><span class="nav-text">4、Android Plugin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、写在最后"><span class="nav-text">5、写在最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、配置-Build-环境"><span class="nav-text">1、配置 Build 环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1、Forcked-Java-Process"><span class="nav-text">1.1、Forcked Java Process</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、Gradle-属性和系统属性"><span class="nav-text">2、Gradle 属性和系统属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、项目属性检查"><span class="nav-text">2.1、项目属性检查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、代理设置"><span class="nav-text">3、代理设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1、NTLM-认证"><span class="nav-text">3.1、NTLM 认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text"></span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
