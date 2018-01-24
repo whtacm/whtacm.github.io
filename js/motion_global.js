@@ -32,6 +32,10 @@ $(document).ready(function () {
   //add motion effect to toc
   $('.sidebar-nav-toc') && $('.post-toc-wrap').addClass('motion-element');
 
+  if($('.page-post-detail').length > 0){
+    console.log('xxxx',$('.page-post-detail').length)
+    sidebarShowMotion();
+  }
 
   //当前选择的是目录列表时添加 class 'motion-element'
   sidebar.bind('click', function(e){

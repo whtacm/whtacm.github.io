@@ -48,7 +48,7 @@
 <meta property="og:site_name" content="Robin&#39;s blog">
 <meta property="og:description" content="前言  Gradle 的核心就是依赖管理。在 Gradle 中，我们熟知的是第三方依赖包。除此之外，任务、项目都可以是相互依赖的。本篇将对 Gradle 的依赖管理进行介绍。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-23T09:31:20.000Z">
+<meta property="og:updated_time" content="2018-01-24T02:05:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Gradle学习系列：（四）依赖管理-基础篇">
 <meta name="twitter:description" content="前言  Gradle 的核心就是依赖管理。在 Gradle 中，我们熟知的是第三方依赖包。除此之外，任务、项目都可以是相互依赖的。本篇将对 Gradle 的依赖管理进行介绍。">
@@ -328,7 +328,7 @@
 <p>也可以上传至 Maven 仓库，语法稍有不同。需要先引入 Maven 插件。Gradle 会生成并上传 pom.xml 文件。</p>
 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'maven'</span></span><br><span class="line"></span><br><span class="line">uploadArchives &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenDeployer &#123;</span><br><span class="line">            repository(url: <span class="string">"file://localhost/tmp/myRepo/"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><br></p>
-<h2 id="进一步阅读"><a href="#进一步阅读" class="headerlink" title="进一步阅读"></a>进一步阅读</h2><hr>
+<h1 id="进一步阅读"><a href="#进一步阅读" class="headerlink" title="进一步阅读"></a>进一步阅读</h1><hr>
 <ul>
 <li><p><a href="https://docs.gradle.org/current/userguide/dependency_management.html" target="_blank" rel="noopener">Chapter 25, <em>Dependency Management</em></a></p>
 </li>
@@ -360,6 +360,8 @@
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/13/Android Gradle学习系列：（四）依赖管理-进阶篇/" rel="prev">Android Gradle学习系列：（四）依赖管理-进阶篇</a>
             
           </div>
 
@@ -563,7 +565,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -637,7 +639,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、什么是依赖管理"><span class="nav-text">1、什么是依赖管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、声明依赖"><span class="nav-text">2、声明依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、依赖配置"><span class="nav-text">3、依赖配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、外部依赖"><span class="nav-text">4、外部依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、仓库"><span class="nav-text">5、仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6、发布构件"><span class="nav-text">6、发布构件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进一步阅读"><span class="nav-text">进一步阅读</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、什么是依赖管理"><span class="nav-text">1、什么是依赖管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、声明依赖"><span class="nav-text">2、声明依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、依赖配置"><span class="nav-text">3、依赖配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、外部依赖"><span class="nav-text">4、外部依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、仓库"><span class="nav-text">5、仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6、发布构件"><span class="nav-text">6、发布构件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进一步阅读"><span class="nav-text">进一步阅读</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
