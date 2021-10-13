@@ -1,0 +1,907 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉" />
+
+
+
+  <meta name="keywords" content="Android,Java,Android Studio,jitpack.io," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Robin's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言  项目里想添加一个九宫格手势锁的控件，在增加便捷性的同时来增加安全性，虽然是重复造轮子，但是本着自我娱乐的精神就手撸了一个简易九宫格手势锁的自定义view控件。">
+<meta name="keywords" content="Android,Java,Android Studio,jitpack.io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义View系列：简易九宫格手势锁控件">
+<meta property="og:url" content="http://whtacm.cc/2017/01/04/自定义View系列：简易九宫格手势锁控件/index.html">
+<meta property="og:site_name" content="Robin&#39;s blog">
+<meta property="og:description" content="前言  项目里想添加一个九宫格手势锁的控件，在增加便捷性的同时来增加安全性，虽然是重复造轮子，但是本着自我娱乐的精神就手撸了一个简易九宫格手势锁的自定义view控件。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ofdub8np7.bkt.clouddn.com/2017/01/04/screenshot.gif">
+<meta property="og:updated_time" content="2018-04-11T13:55:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义View系列：简易九宫格手势锁控件">
+<meta name="twitter:description" content="前言  项目里想添加一个九宫格手势锁的控件，在增加便捷性的同时来增加安全性，虽然是重复造轮子，但是本着自我娱乐的精神就手撸了一个简易九宫格手势锁的自定义view控件。">
+<meta name="twitter:image" content="http://ofdub8np7.bkt.clouddn.com/2017/01/04/screenshot.gif">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: '[object Object]'
+  };
+</script>
+
+  <title> 自定义View系列：简易九宫格手势锁控件 | Robin's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?97551011862ccb1d84eef0bd7737cfc3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">人淡如菊</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              自定义View系列：简易九宫格手势锁控件
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-01-04T22:36:32+08:00" content="2017-01-04">
+            2017-01-04
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/View/" itemprop="url" rel="index">
+                  <span itemprop="name">View</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <!--
+              <a href="/2017/01/04/自定义View系列：简易九宫格手势锁控件/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/04/自定义View系列：简易九宫格手势锁控件/" itemprop="commentsCount"></span>
+              </a>
+              -->
+              <a href="/2017/01/04/自定义View系列：简易九宫格手势锁控件/#comments" itemprop="discussionUrl">
+                <span>评论</span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote>
+<p>前言</p>
+</blockquote>
+<p>项目里想添加一个九宫格手势锁的控件，在增加便捷性的同时来增加安全性，虽然是重复造轮子，但是本着自我娱乐的精神就手撸了一个简易九宫格手势锁的自定义view控件。</p>
+<a id="more"></a>
+<p><br></p>
+<h1 id="1、Demo-演示"><a href="#1、Demo-演示" class="headerlink" title="1、Demo 演示"></a>1、Demo 演示</h1><p><br><br>该控件实现的功能比较简单，一个九宫格手势解锁控件，你可以通过控件的几个属性来对控件的 UI 和功能进行控制：</p>
+<ul>
+<li>九宫格圆圈的颜色和宽度 （<code>mLockCircleStrokeColor</code>/ <code>mLockCircleStrokeWidth</code>）</li>
+<li>手势路径上小圆点的颜色 （<code>mLockPointStrokeColor</code>）</li>
+<li>手势路径的颜色以及路径的宽 （<code>mLockPathStrokeColor</code>/ <code>mLockPathStrokeWidth</code>）</li>
+<li>定义锁的最小和最大长度 （<code>mMinLockLength</code>/ <code>mMaxLockLength</code>）</li>
+<li>锁是否可重复（手势划过的圆圈是否可重复）（<code>mRepeatAllowed</code>）</li>
+<li>是否显示锁（手势划过的）路径 （<code>mShowPath</code>）</li>
+<li>解（绘制）锁成功或失败时的小圆点和路径的颜色 （<code>mSuccessColor</code>/ <code>mErrorColor</code>）</li>
+</ul>
+<p>下面是简单演示的动图：</p>
+<p><img src="http://ofdub8np7.bkt.clouddn.com/2017/01/04/screenshot.gif" alt="image"></p>
+<p><br></p>
+<h1 id="2、实现流程"><a href="#2、实现流程" class="headerlink" title="2、实现流程"></a>2、实现流程</h1><p><br><br>自定义手势锁控件点实现类直接继承了 View 类，实现上分为了三大块，首先自定义 attr、复写 onDraw(Canvas canvas) 实现界面点绘制、在 onTouchEvent(MotionEvent event) 中处理事件。<br><br></p>
+<h2 id="2-1、定义-attr"><a href="#2-1、定义-attr" class="headerlink" title="2.1、定义 attr"></a>2.1、定义 attr</h2><p><br></p>
+<p>首先，定义下九宫格手势锁控件的相关属性，大概就下面几个，参照之前的说明，很容易理解。</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;declare-styleable <span class="built_in">name</span>=<span class="string">"com.robin.gesturelockview"</span>&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mMinLockLength"</span> <span class="built_in">format</span>=<span class="string">"integer"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mMaxLockLength"</span> <span class="built_in">format</span>=<span class="string">"integer"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mRepeatAllowed"</span> <span class="built_in">format</span>=<span class="string">"boolean"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mShowPath"</span> <span class="built_in">format</span>=<span class="string">"boolean"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mLockCircleStrokeWidth"</span> <span class="built_in">format</span>=<span class="string">"dimension"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mLockCircleStrokeColor"</span> <span class="built_in">format</span>=<span class="string">"color"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mLockPointStrokeColor"</span> <span class="built_in">format</span>=<span class="string">"color"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mLockPathStrokeColor"</span> <span class="built_in">format</span>=<span class="string">"color"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mLockPathStrokeWidth"</span> <span class="built_in">format</span>=<span class="string">"dimension"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mErrorColor"</span> <span class="built_in">format</span>=<span class="string">"color"</span> /&gt;</div><div class="line">     &lt;attr <span class="built_in">name</span>=<span class="string">"mSuccessColor"</span> <span class="built_in">format</span>=<span class="string">"color"</span> /&gt;</div><div class="line"> &lt;/declare-styleable&gt;</div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="2-2、界面绘制"><a href="#2-2、界面绘制" class="headerlink" title="2.2、界面绘制"></a>2.2、界面绘制</h2><p><br><br>OK，进入正题。首先读取相关的属性，这个比较简单，跳过，主要说一下，就是默认的参数情况是：</p>
+<ul>
+<li>最小最长锁长度是4</li>
+<li>不允许重复锁</li>
+<li>不显示手势路径</li>
+<li>九宫格圆圈宽度是4px</li>
+<li>手势路径宽度是4px</li>
+<li>解（绘制）锁成功颜色是蓝色，失败则是红色</li>
+<li>其他情况颜色均为黑色</li>
+</ul>
+<p>那么首先，我们要读取自定义view的长宽数值，然后来初始化我们的画笔了,主要就是四个画笔，一个来绘制九宫格圆圈的 <code>mLockCirclePaint</code>，并且需要一个 <code>mLockInnerCirclePaint</code> 来配合绘制空心圆圈，<code>mLockPointPaint</code> 负责绘制手势路径上的小圆点，<code>mLockPathPaint</code> 则负责绘制手势路径。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">if (mWidth == <span class="number">0</span>) &#123;</div><div class="line">	mWidth = getWidth()<span class="comment">;</span></div><div class="line">	mHeight = getHeight()<span class="comment">;</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="attribute">mLockInnerCirclePaint</span> = new Paint(Paint.ANTI_ALIAS_FLAG)<span class="comment">;</span></div><div class="line">mLockInnerCirclePaint.setColor(Color.WHITE)<span class="comment">;</span></div><div class="line"></div><div class="line"><span class="attribute">mLockCirclePaint</span> = new Paint(Paint.ANTI_ALIAS_FLAG)<span class="comment">;</span></div><div class="line">mLockCirclePaint.setColor(mLockCircleStrokeColor)<span class="comment">;</span></div><div class="line"></div><div class="line"><span class="attribute">mLockPointPaint</span> = new Paint(Paint.ANTI_ALIAS_FLAG)<span class="comment">;</span></div><div class="line">mLockPointPaint.setColor(mLockPointStrokeColor)<span class="comment">;</span></div><div class="line"></div><div class="line"><span class="attribute">mLockPathPaint</span> = new Paint(Paint.ANTI_ALIAS_FLAG)<span class="comment">;</span></div><div class="line">mLockPathPaint.setColor(mLockPathStrokeColor)<span class="comment">;</span></div><div class="line">mLockPathPaint.setStrokeWidth(mLockPathStrokeWidth)<span class="comment">;</span></div><div class="line"></div><div class="line">if (status == Status.FAIL) &#123;</div><div class="line">	mLockPointPaint.setColor(mErrorColor)<span class="comment">;</span></div><div class="line">	mLockPathPaint.setColor(mErrorColor)<span class="comment">;</span></div><div class="line">&#125;</div><div class="line">if (status == Status.SUCCESS) &#123;</div><div class="line">	mLockPointPaint.setColor(mSuccessColor)<span class="comment">;</span></div><div class="line">	mLockPathPaint.setColor(mSuccessColor)<span class="comment">;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里，简单了定义几个绘制的状态，分为四个，看名字也非常容易理解，即初始阶段、解（绘制）锁中、成功和失败。通过状态值来改变相关画笔的颜色值。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Status</span> &#123;</span></div><div class="line">	SUCCESS,</div><div class="line">	FAIL,</div><div class="line">	ORIGIN,</div><div class="line">	LOCKING</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第一步，绘制九宫格空心圆圈，首先根据自定义 View 的宽度来计算空心圆圈的半径 mCirclrRadius，然后找左上角第一个空心圆圈距离自定义 View 的 marginLeft 和 marginTop 值，然后计算下空心圆圈之间的距离 marginBetweenCircles。 接下来，定位左上角第一个空心圆圈的圆点位置 （mStartCx， mStartCy），很好理解吧，marginLeft 和 marginTop 分别加上半径。根据左上角的圆圈的圆心为相对坐标点 （cx, cy），分别找个 9 个空心圆圈的圆心位置并绘制。</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">mCirclrRadius = mWidth / <span class="number">12</span><span class="comment">;</span></div><div class="line">marginLeft = (<span class="name">mWidth</span> - mCirclrRadius * 6) / 3;</div><div class="line">marginTop = (mHeight - mCirclrRadius * <span class="number">6</span> - marginLeft) / <span class="number">2</span><span class="comment">;</span></div><div class="line">marginBetweenCircles = marginLeft / <span class="number">2</span><span class="comment">;</span></div><div class="line"></div><div class="line">mStartCx = marginLeft + mCirclrRadius<span class="comment">;</span></div><div class="line">mStartCy = marginTop + mCirclrRadius<span class="comment">;</span></div><div class="line"></div><div class="line">for (<span class="name">int</span> i = <span class="number">0</span><span class="comment">; i &lt; 9; i++) &#123;</span></div><div class="line">        int cx = mStartCx + (<span class="name">mCirclrRadius</span> * 2 + marginBetweenCircles) * (<span class="name">i</span> % <span class="number">3</span>)<span class="comment">;</span></div><div class="line">        int cy = mStartCy + (<span class="name">mCirclrRadius</span> * 2 + marginBetweenCircles) * (<span class="name">i</span> / <span class="number">3</span>)<span class="comment">;</span></div><div class="line">        canvas.drawCircle(<span class="name">cx</span>, cy, mCirclrRadius, mLockCirclePaint)<span class="comment">;</span></div><div class="line">        canvas.drawCircle(<span class="name">cx</span>, cy, mCirclrRadius - mLockCircleStrokeWidth, mLockInnerCirclePaint)<span class="comment">;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第二步，在绘制完九宫格之后，我们来绘制手势划过九宫格空心圆圈时的小圆点和手势路径。这里所有可能经过的格子的圆心点都已经有了，我们可以很轻松的完成这一步骤。路径显示控制条件为 <code>mShowPath</code>，绘制的点 <code>mLockList</code> 为记录的手势划过的格子序列（我们这里是 9 个格子，就用了 0-8 来表示）。需要注意的是，在对 <code>mLockList</code> 循环的过程中，路径线段需要两个点，我们从 i＝1 开始。先画路径，然后画小圆点，没有在一个循环中同时绘制路径和小圆点，这是因为这样小圆点会完全覆盖路径线段。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (mShowPath) &#123;</div><div class="line">	<span class="keyword">int</span> lastcx = mStartCx;</div><div class="line">	<span class="keyword">int</span> lastcy = mStartCy;</div><div class="line">	<span class="comment">//</span></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mLockList.<span class="keyword">size</span>(); i++) &#123;</div><div class="line">		<span class="keyword">int</span> idx = mLockList.get(i);</div><div class="line">		<span class="keyword">int</span> cx = mStartCx + (mCirclrRadius * <span class="number">2</span> + marginBetweenCircles) * (idx % <span class="number">3</span>);</div><div class="line">		<span class="keyword">int</span> cy = mStartCy + (mCirclrRadius * <span class="number">2</span> + marginBetweenCircles) * (idx / <span class="number">3</span>);</div><div class="line">		<span class="keyword">if</span> (i &gt; <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">canvas</span>.drawLine(lastcx, lastcy, cx, cy, mLockPathPaint);</div><div class="line">		&#125;</div><div class="line">		lastcx = cx;</div><div class="line">		lastcy = cy;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">//</span></div><div class="line">	<span class="keyword">for</span> (Integer idx : mLockList) &#123;</div><div class="line">		<span class="keyword">int</span> cx = mStartCx + (mCirclrRadius * <span class="number">2</span> + marginBetweenCircles) * (idx % <span class="number">3</span>);</div><div class="line">		<span class="keyword">int</span> cy = mStartCy + (mCirclrRadius * <span class="number">2</span> + marginBetweenCircles) * (idx / <span class="number">3</span>);</div><div class="line">		<span class="keyword">canvas</span>.drawCircle(cx, cy, mCirclrRadius / <span class="number">3</span>, mLockPointPaint);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="2-3、事件处理"><a href="#2-3、事件处理" class="headerlink" title="2.3、事件处理"></a>2.3、事件处理</h2><p><br><br>OK，完成了绘制代码之后，要进行事件处理了。首先，为了方便使用，我们定义了一个回调点接口，来方便对解（绘制）锁成功／失败之后进行自己的处理。主要就两个方法：</p>
+<ul>
+<li>成功回调 onNext，并返回锁（格子）路径序列，方便你去做处理，比如解锁或者存储；</li>
+<li>失败回调 onError，除了返回锁路径，还返回 errCode：1 为锁过长、2 为锁过短、3 为锁重复</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GestureLockListener</span> </span>&#123;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@param</span> lockArray</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(List&lt;Integer&gt; lockArray)</span></span>;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@param</span> lockArray</div><div class="line">	 * <span class="doctag">@param</span> errCode</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(List&lt;Integer&gt; lockArray, <span class="keyword">int</span> errCode)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>事件的处理，大致的处理思路是，对于每一次解（绘制）锁来说，当该过程没有结束（解锁时成功或失败视为结束状态）。判断每个 event 是否在某一个九宫格上，根据此条件进行如下处理过程：</p>
+<ul>
+<li>如果是在其中一个九宫格上，分为三种情况： 1）按下事件，则纪录锁并刷新界面；2）移动事件，判断是否超过最大长度（若超过，则回调接口并刷新界面）、根据是否允许锁重复进行处理，无异常情况则纪录锁并刷新界面；3）抬起事件，重复锁的情况只会在移动过程中出现，这里不用再处理，只处理锁的长度是否在规定的最大和最小长度之间即可；</li>
+<li>不在的情况，只处理当手指离开 view 的情况，判断解锁是否成功或失败，调用接口方法并刷新界面</li>
+</ul>
+<p>相关的代码如下：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line"><span class="keyword">public</span> <span class="built_in">boolean</span> onTouchEvent(MotionEvent event) &#123;</div><div class="line">	<span class="keyword">if</span> (status == Status.ORIGIN || status == Status.LOCKING) &#123;</div><div class="line">		<span class="built_in">int</span> idx = getPoint(event);</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_DOWN)</div><div class="line">		status = Status.LOCKING;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (idx != <span class="number">-1</span>) &#123;</div><div class="line">		<span class="keyword">switch</span> (event.getAction()) &#123;</div><div class="line">			<span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">				mLockList.<span class="built_in">add</span>(idx);</div><div class="line">				invalidate();</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			<span class="keyword">case</span> MotionEvent.ACTION_MOVE:</div><div class="line">				<span class="keyword">if</span> (mLockList.<span class="built_in">size</span>() &gt; <span class="number">0</span> &amp;&amp; mLockList.<span class="built_in">get</span>(mLockList.<span class="built_in">size</span>() - <span class="number">1</span>) == idx) &#123;</div><div class="line">					<span class="comment">//do nothing</span></div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					<span class="keyword">if</span> (mMaxLockLength == mLockList.<span class="built_in">size</span>()) &#123;</div><div class="line">						<span class="keyword">if</span> (mGestureLockListener != <span class="keyword">null</span>) &#123;</div><div class="line">							status = Status.FAIL;</div><div class="line">							invalidate();</div><div class="line">							mGestureLockListener.onError(mLockList, OUT_OF_MAX_LOCK_LENGTH);</div><div class="line">						&#125;</div><div class="line">						<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">					&#125;</div><div class="line"></div><div class="line">					<span class="keyword">if</span> (mRepeatAllowed) &#123;</div><div class="line">						mLockList.<span class="built_in">add</span>(idx);</div><div class="line">						invalidate();</div><div class="line">					&#125; <span class="keyword">else</span> &#123;</div><div class="line">						HashSet&lt;Integer&gt; <span class="built_in">set</span> = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">						<span class="built_in">set</span>.addAll(mLockList);</div><div class="line">						<span class="keyword">if</span> (<span class="built_in">set</span>.contains(idx)) &#123;</div><div class="line">							<span class="keyword">if</span> (mGestureLockListener != <span class="keyword">null</span>) &#123;</div><div class="line">								status = Status.FAIL;</div><div class="line">								invalidate();</div><div class="line">								mGestureLockListener.onError(mLockList, REPEAT_NOT_ALLOWED);</div><div class="line">							&#125;</div><div class="line">							<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">						&#125;</div><div class="line"></div><div class="line">						mLockList.<span class="built_in">add</span>(idx);</div><div class="line">  						invalidate();</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			<span class="keyword">case</span> MotionEvent.ACTION_UP:</div><div class="line">				<span class="keyword">if</span> (mLockList.<span class="built_in">size</span>() &gt; <span class="number">0</span> &amp;&amp; mLockList.<span class="built_in">get</span>(mLockList.<span class="built_in">size</span>() - <span class="number">1</span>) == idx) &#123;</div><div class="line">					<span class="comment">//</span></div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					mLockList.<span class="built_in">add</span>(idx);</div><div class="line">				&#125;</div><div class="line">				<span class="built_in">int</span> code = <span class="number">-1</span>;</div><div class="line">				<span class="keyword">if</span> (mLockList.<span class="built_in">size</span>() &lt; mMinLockLength) &#123;</div><div class="line">					code = LOWER_THAN_MIN_LOCK_LENGTH;</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">if</span> (mMaxLockLength &lt; mLockList.<span class="built_in">size</span>()) &#123;</div><div class="line">					code = OUT_OF_MAX_LOCK_LENGTH;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				<span class="keyword">if</span> (mGestureLockListener != <span class="keyword">null</span>) &#123;</div><div class="line">					<span class="keyword">if</span> (code != <span class="number">-1</span>) &#123;</div><div class="line"> 						status = Status.FAIL;</div><div class="line">						mGestureLockListener.onError(mLockList, code);</div><div class="line">					&#125; <span class="keyword">else</span> &#123;</div><div class="line">						status = Status.SUCCESS;</div><div class="line">						mGestureLockListener.onNext(mLockList);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				invalidate();</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_UP) &#123;</div><div class="line">				<span class="keyword">if</span> (mLockList.<span class="built_in">size</span>() &lt; mMinLockLength &amp;&amp; mGestureLockListener != <span class="keyword">null</span>) &#123;</div><div class="line">					status = Status.FAIL;</div><div class="line">					invalidate();</div><div class="line">					mGestureLockListener.onError(mLockList, LOWER_THAN_MIN_LOCK_LENGTH);</div><div class="line">					<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				<span class="keyword">if</span> (mGestureLockListener != <span class="keyword">null</span>) &#123;</div><div class="line">					status = Status.SUCCESS;</div><div class="line">					invalidate();</div><div class="line">					mGestureLockListener.onNext(mLockList);</div><div class="line">				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/***</span></div><div class="line"> * @param event</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="built_in">int</span> getPoint(MotionEvent event) &#123;</div><div class="line">	<span class="built_in">int</span> idx = <span class="number">-1</span>;</div><div class="line">	<span class="built_in">int</span> <span class="built_in">dist</span> = mCirclrRadius * mCirclrRadius;</div><div class="line">	<span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; i++) &#123;</div><div class="line">		<span class="built_in">int</span> cx = mStartCx + (mCirclrRadius * <span class="number">2</span> + marginBetweenCircles) * (i % <span class="number">3</span>);</div><div class="line">		<span class="built_in">int</span> cy = mStartCy + (mCirclrRadius * <span class="number">2</span> + marginBetweenCircles) * (i / <span class="number">3</span>);</div><div class="line">		<span class="keyword">if</span> (<span class="built_in">dist</span> &gt; Math.<span class="built_in">pow</span>(event.getX() - cx, <span class="number">2.0</span>) + Math.<span class="built_in">pow</span>(event.getY() - cy, <span class="number">2.0</span>)) &#123;</div><div class="line">			idx = i;</div><div class="line">			<span class="keyword">break</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> idx;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此外，还提供一个方法来重置所有的状态，代码较为简单，如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> </span>&#123;</div><div class="line">	mLockList.clear();</div><div class="line">	status = Status.ORIGIN;</div><div class="line">	invalidate();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="3、View-使用"><a href="#3、View-使用" class="headerlink" title="3、View 使用"></a>3、View 使用</h1><p><br><br>该自定义控件已经上传到 <code>GitHub</code>，你可以 down 下来源码自己改造（项目地址 <a href="https://github.com/whtacm/GestureLockView" target="_blank" rel="external">GestureLockView</a>），也可以直接通过下面的两步加到你的工程中去。</p>
+<p>第一步，在你的项目的 <code>build.gradle</code> 中加上 <code>jitpack</code>：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">allprojects &#123;</div><div class="line">    repositories &#123;</div><div class="line">        jcenter()</div><div class="line">        maven &#123; url <span class="string">'https://jitpack.io'</span> &#125; // <span class="keyword">add</span><span class="bash"> this</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第二步，在你需要的 <code>Module</code> 的依赖中加入这个：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">    <span class="keyword">compile</span> <span class="string">'com.github.whtacm:GestureLockView:v1.0.1'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>OK， sync 下一你的项目，就可以使用了，那么今天这个简单的九宫格手势锁自定义 View 就到这里了。 </p>
+<p><br></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+            <a href="/tags/Android-Studio/" rel="tag">#Android Studio</a>
+          
+            <a href="/tags/jitpack-io/" rel="tag">#jitpack.io</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/08/Android-常用开源框架和项目（持续更新中-）/" rel="prev">Android 常用开源框架和项目（持续更新中...）</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/28/Python-引用路径问题/" rel="next">Python 引用路径问题</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        请我喝杯茶
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2017/01/04/自定义View系列：简易九宫格手势锁控件/"
+                   data-title="自定义View系列：简易九宫格手势锁控件" data-url="http://whtacm.cc/2017/01/04/自定义View系列：简易九宫格手势锁控件/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Robin" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Robin</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/whtacm" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="whtacm@gmail.com" target="_blank">Gmail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="364432355" target="_blank">QQ</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://hexo.io/" target="_blank">Hexo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://theme-next.iissnan.com/getting-started.html" target="_blank">NexT</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、Demo-演示"><span class="nav-number">1.</span> <span class="nav-text">1、Demo 演示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、实现流程"><span class="nav-number">2.</span> <span class="nav-text">2、实现流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、定义-attr"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、定义 attr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、界面绘制"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、界面绘制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3、事件处理"><span class="nav-number">2.3.</span> <span class="nav-text">2.3、事件处理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、View-使用"><span class="nav-number">3.</span> <span class="nav-text">3、View 使用</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2016 - 
+  <span itemprop="copyrightYear">2021
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Robin
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://whtacm.cc">Robin</a>.<a class="theme-link" href="https://github.com/whtacm/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+  <div class="busuanzi-info">
+    <div class="theme-info">
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量<a class="theme-link"><span id="busuanzi_value_site_pv"></span></a>次
+    </span>
+</div>
+  </div>
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"whtacm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
