@@ -1,0 +1,872 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉" />
+
+
+
+  <meta name="keywords" content="Python,sys.path," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Robin's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言  这两天由于要接触一个基于 Python 的开源项目，顺便重温下，毕竟 Python 也是最近最火的语言了，数据处理和机器学习的项目都是 Python。然后，在 GitHub 上 clone 了一个画画的工程，没运行起来，搞了半天，原因主要是 Python 的环境变量问题，把解决方法放上来。">
+<meta name="keywords" content="Python,sys.path">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 引用路径问题">
+<meta property="og:url" content="http://whtacm.cc/2016/12/28/Python-引用路径问题/index.html">
+<meta property="og:site_name" content="Robin&#39;s blog">
+<meta property="og:description" content="前言  这两天由于要接触一个基于 Python 的开源项目，顺便重温下，毕竟 Python 也是最近最火的语言了，数据处理和机器学习的项目都是 Python。然后，在 GitHub 上 clone 了一个画画的工程，没运行起来，搞了半天，原因主要是 Python 的环境变量问题，把解决方法放上来。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T13:55:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 引用路径问题">
+<meta name="twitter:description" content="前言  这两天由于要接触一个基于 Python 的开源项目，顺便重温下，毕竟 Python 也是最近最火的语言了，数据处理和机器学习的项目都是 Python。然后，在 GitHub 上 clone 了一个画画的工程，没运行起来，搞了半天，原因主要是 Python 的环境变量问题，把解决方法放上来。">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: '[object Object]'
+  };
+</script>
+
+  <title> Python 引用路径问题 | Robin's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?97551011862ccb1d84eef0bd7737cfc3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">人淡如菊</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Python 引用路径问题
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-12-28T15:26:21+08:00" content="2016-12-28">
+            2016-12-28
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Python/" itemprop="url" rel="index">
+                  <span itemprop="name">Python</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <!--
+              <a href="/2016/12/28/Python-引用路径问题/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/28/Python-引用路径问题/" itemprop="commentsCount"></span>
+              </a>
+              -->
+              <a href="/2016/12/28/Python-引用路径问题/#comments" itemprop="discussionUrl">
+                <span>评论</span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote>
+<p>前言</p>
+</blockquote>
+<p>这两天由于要接触一个基于 <code>Python</code> 的开源项目，顺便重温下，毕竟 <code>Python</code> 也是最近最火的语言了，数据处理和机器学习的项目都是 <code>Python</code>。然后，在 <code>GitHub</code> 上 <em>clone</em> 了一个画画的工程，没运行起来，搞了半天，原因主要是 <code>Python</code> 的环境变量问题，把解决方法放上来。</p>
+<a id="more"></a>
+<p><br></p>
+<h1 id="1、正文"><a href="#1、正文" class="headerlink" title="1、正文"></a>1、正文</h1><p><br><br><code>GitHub</code> 上的项目就是这个：<a href="https://github.com/anishathalye/neural-style" target="_blank" rel="external">neural-style</a>，大家可以去这个项目的链接上看看介绍，是一个学习绘画风格的项目，蛮有趣的 </p>
+<p><em>clone</em> 下来后，就直接运行了这个：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">xxxMac:</span>~ xx$ python /Python<span class="meta-keyword">/neural-style/</span>neural_style.py</div></pre></td></tr></table></figure></p>
+<p><br></p>
+<p>然后，嗯，是的。项目报错 ＝ ＝…… 来，让我们先看看报错信息吧。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">RuntimeError: module compiled against API version 0xa but this version of numpy is 0x9</div><div class="line">Traceback (most recent <span class="keyword">call</span> <span class="keyword">last</span>):</div><div class="line">  <span class="keyword">File</span> <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/__init__.py"</span>, line <span class="number">24</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">from</span> tensorflow.python <span class="keyword">import</span> *</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/__init__.py"</span>, line <span class="number">60</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">raise</span> ImportError(msg)</div><div class="line">ImportError: Traceback (most recent <span class="keyword">call</span> <span class="keyword">last</span>):</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/__init__.py"</span>, line <span class="number">49</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">from</span> tensorflow.python <span class="keyword">import</span> pywrap_tensorflow</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/pywrap_tensorflow.py"</span>, line <span class="number">28</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    _pywrap_tensorflow = swig_import_helper()</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/pywrap_tensorflow.py"</span>, line <span class="number">24</span>, <span class="keyword">in</span> swig_import_helper</div><div class="line">    _mod = imp.load_module(<span class="string">'_pywrap_tensorflow'</span>, fp, pathname, description)</div><div class="line">ImportError: numpy.core.multiarray <span class="keyword">failed</span> <span class="keyword">to</span> <span class="keyword">import</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">Error</span> importing tensorflow.  Unless you <span class="keyword">are</span> <span class="keyword">using</span> bazel,</div><div class="line">you should <span class="keyword">not</span> try <span class="keyword">to</span> <span class="keyword">import</span> tensorflow <span class="keyword">from</span> its <span class="keyword">source</span> <span class="keyword">directory</span>;</div><div class="line">please exit the tensorflow source tree, and relaunch your python interpreter</div><div class="line">from there.</div></pre></td></tr></table></figure>
+<p>看了一下报错，这一句 <code>“module compiled against API version 0xa but this version of numpy is 0x9
+”</code>，如果你去搜一下，很多帖子都是说你需要升级下 <code>numpy</code> 的版本，可是我在下 <code>tensorflow</code> 这个点时候，如果你仔细看的话，其实就下了很多依赖的，<code>pillow</code>、<code>numpy</code> 都在其中，而且已经是最新版本了。有的帖子的思路是卸载了 <code>numpy</code> 或者是 <code>tensorflow</code> 然后重新安装。在我这里都不管用。然后，我在一个帖子里看到了下面这个解决方法。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import numpy</div><div class="line">&gt;&gt;&gt; print numpy.__path__</div><div class="line">[<span class="string">'/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/numpy'</span>]</div><div class="line">&gt;&gt;&gt; <span class="keyword">exit</span>()</div><div class="line">Haitao-WongdeiMac:~ haitao$ sudo mv <span class="regexp">/System/</span>Library<span class="regexp">/Frameworks/</span>Python.framework<span class="regexp">/Versions/</span><span class="number">2.7</span><span class="regexp">/Extras/</span>lib<span class="regexp">/python/</span>numpy <span class="regexp">/System/</span>Library<span class="regexp">/Frameworks/</span>Python.framework<span class="regexp">/Versions/</span><span class="number">2.7</span><span class="regexp">/Extras/</span>lib<span class="regexp">/python/</span>numpy_old</div></pre></td></tr></table></figure>
+<p>通过打印 <code>numpy</code> 的路径，发现这个路径不是我下载的位置（我通过 <code>pip install</code> 下载的位置是 <code>/Library/Python/2.7/site-packages/</code>），然后继续运行之前的 <code>Python</code> 命令运行项目，发现 <code>numpy</code> 这个不报错了，但是有了新的问题，定位到这个一句 <code>type object &#39;NewBase&#39; has no attribute &#39;is_abstract&#39;</code>，找不到方法的错误。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Traceback (most recent <span class="keyword">call</span> <span class="keyword">last</span>):</div><div class="line">  <span class="keyword">File</span> <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/__init__.py"</span>, line <span class="number">24</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">from</span> tensorflow.python <span class="keyword">import</span> *</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/__init__.py"</span>, line <span class="number">106</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">from</span> tensorflow.python.platform <span class="keyword">import</span> <span class="keyword">test</span></div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/platform/test.py"</span>, line <span class="number">67</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">from</span> tensorflow.python.framework <span class="keyword">import</span> test_util <span class="keyword">as</span> _test_util</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/framework/test_util.py"</span>, line <span class="number">43</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">from</span> tensorflow.python.platform <span class="keyword">import</span> googletest</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/platform/googletest.py"</span>, line <span class="number">32</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">from</span> tensorflow.python.platform <span class="keyword">import</span> <span class="keyword">benchmark</span>  # pylint: <span class="keyword">disable</span>=<span class="keyword">unused</span>-<span class="keyword">import</span></div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/platform/benchmark.py"</span>, line <span class="number">119</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">    <span class="keyword">class</span> <span class="keyword">Benchmark</span>(six.with_metaclass(_BenchmarkRegistrar, <span class="keyword">object</span>)):</div><div class="line">  <span class="keyword">File</span> <span class="string">"/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/six.py"</span>, line <span class="number">566</span>, <span class="keyword">in</span> with_metaclass</div><div class="line">    <span class="keyword">return</span> meta(<span class="string">"NewBase"</span>, bases, &#123;&#125;)</div><div class="line">  <span class="keyword">File</span> <span class="string">"/Library/Python/2.7/site-packages/tensorflow/python/platform/benchmark.py"</span>, line <span class="number">114</span>, <span class="keyword">in</span> __new__</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> newclass.is_abstract():</div><div class="line">AttributeError: <span class="keyword">type</span> <span class="keyword">object</span> <span class="string">'NewBase'</span> has <span class="keyword">no</span> <span class="keyword">attribute</span> <span class="string">'is_abstract'</span></div></pre></td></tr></table></figure>
+<p>查了下，是属于 <code>six</code> 这个包的。然后我发现这个我也有下载过了该包的最新版本，然后结合刚才那个 <code>numpy</code> 版本的错误，我就查了下这个路径下面 <code>/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/</code>，对的，没错，是之前那个打印的 <code>numpy</code> 的路径。发现下面就有 <code>six</code>，而且是个老版本的。于是乎就懂了，所有的问题就是 <code>tensorflow</code> 中 <em>import</em> 的包的路径的问题，然后打印了下面这个 <code>sys.path</code>，就是 <code>Python</code> 的环境变量，这有点类似于我们配置的 <code>Java</code> 环境，我发现我下载的包的路径在最后，而旧包的路径在前面被提前加载了，于是乎就报了 <em>api低</em> 、<em>no attribute</em> 的问题。</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import sys</div><div class="line">&gt;&gt;&gt; sys.path</div><div class="line">['', '/<span class="keyword">Library</span>/Python/<span class="number">2.7</span>/site-packages/pip<span class="number">-9.0</span><span class="number">.1</span>-py2<span class="number">.7</span>.egg', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python27.zip', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-darwin', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-mac', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-mac/<span class="keyword">lib</span>-scriptpackages', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/Extras/<span class="keyword">lib</span>/python', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-tk', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-old', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-dynload', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/Extras/<span class="keyword">lib</span>/python/PyObjC', '/<span class="keyword">Library</span>/Python/<span class="number">2.7</span>/site-packages']</div><div class="line">&gt;&gt;&gt; sys.path =</div><div class="line">['', '/<span class="keyword">Library</span>/Python/<span class="number">2.7</span>/site-packages', '/<span class="keyword">Library</span>/Python/<span class="number">2.7</span>/site-packages/pip<span class="number">-9.0</span><span class="number">.1</span>-py2<span class="number">.7</span>.egg', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python27.zip', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-darwin', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-mac', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-mac/<span class="keyword">lib</span>-scriptpackages', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/Extras/<span class="keyword">lib</span>/python', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-tk', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-old', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-dynload', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/Extras/<span class="keyword">lib</span>/python/PyObjC']</div><div class="line">&gt;&gt;&gt; import tensorflow</div><div class="line">&gt;&gt;&gt; exit()</div><div class="line">xxxMac:~ xx$ python /Python/neural-style/neural_style.py</div></pre></td></tr></table></figure>
+<p>于是乎，我在 <code>Python</code> 命令行里修改了 <code>sys.path</code> 的值，然后执行了 <code>import tensorflow</code>，发现并没有报错。似乎大功告成了，然而当我执行 <code>exit（）</code> 后，发现在 <code>Terminal</code> 中运行项目失败了。最后发现在 <code>Python</code> 命令行里修改了 <code>sys.path</code> 的值，退出后并不能保存。其他有永久保存的解决的方法，比如在 <code>sys.path</code> 中任意一个路径下建立 <code>.pth</code> 文件去新加路径，但是都不能解决问题，因为新加的路径还是 append 在最后面，仍然加载不到最新版本的包。那么有没有类似 <em>Windows</em> 中在 <code>path</code> 里配置 <code>Java</code> 变量的那种方式吗？</p>
+<p>爱慕骚瑞，找了一下，发现如果你搜 <code>sys.path</code> 大部分文章都是讲的上面的那种类似添加 <code>.pth</code> 文件到方法，终于还是在 <code>StackOverflow</code> 上，我们找到了一个解决的方法，也不是方法了，是一个思路。链接在下面： </p>
+<p><a href="http://stackoverflow.com/questions/4271494/what-sets-up-sys-path-with-python-and-when" target="_blank" rel="external">What sets up sys.path with Python, and when?</a></p>
+<p>通过这篇文章，我们知道，<code>Python</code> 是如何构建自己的 <code>sys.path</code> 中的那些路径呢？答案是通过下面这个 <code>site.py</code> 文件。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/System/Library/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="class"><span class="keyword">lib</span>/<span class="title">python2</span>.7/<span class="title">site</span>.<span class="title">py</span></span></div></pre></td></tr></table></figure>
+<p>找到这一段代码，看下面：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">addsitepackages</span><span class="params">(known_paths)</span>:</span></div><div class="line">    <span class="string">"""Add site-packages (and possibly site-python) to sys.path"""</span></div><div class="line">    <span class="keyword">for</span> sitedir <span class="keyword">in</span> getsitepackages():</div><div class="line">        <span class="keyword">if</span> os.path.isdir(sitedir):</div><div class="line">            addsitedir(sitedir, known_paths)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> known_paths</div><div class="line">    </div><div class="line">    </div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getsitepackages</span><span class="params">()</span>:</span></div><div class="line">    <span class="string">"""Returns a list containing all global site-packages directories</span></div><div class="line">    (and possibly site-python).</div><div class="line"></div><div class="line">    For each directory present in the global ``PREFIXES``, this function</div><div class="line">    will find its `site-packages` subdirectory depending on the system</div><div class="line">    environment, and will return a list of full paths.</div><div class="line">    """</div><div class="line">    sitepackages = []</div><div class="line">    seen = set()</div><div class="line"></div><div class="line">    <span class="keyword">for</span> prefix <span class="keyword">in</span> PREFIXES:</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> prefix <span class="keyword">or</span> prefix <span class="keyword">in</span> seen:</div><div class="line">            <span class="keyword">continue</span></div><div class="line">        seen.add(prefix)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> sys.platform <span class="keyword">in</span> (<span class="string">'os2emx'</span>, <span class="string">'riscos'</span>):</div><div class="line">            sitepackages.append(os.path.join(prefix, <span class="string">"Lib"</span>, <span class="string">"site-packages"</span>))</div><div class="line">        <span class="keyword">elif</span> sys.platform == <span class="string">'darwin'</span> <span class="keyword">and</span> prefix == sys.prefix:</div><div class="line">            sitepackages.append(os.path.join(prefix, <span class="string">"Extras"</span>, <span class="string">"lib"</span>, <span class="string">"python"</span>))</div><div class="line">        <span class="keyword">elif</span> os.sep == <span class="string">'/'</span>:</div><div class="line">            sitepackages.append(os.path.join(prefix, <span class="string">"lib"</span>,</div><div class="line">                                        <span class="string">"python"</span> + sys.version[:<span class="number">3</span>],</div><div class="line">                                        <span class="string">"site-packages"</span>))</div><div class="line">            sitepackages.append(os.path.join(prefix, <span class="string">"lib"</span>, <span class="string">"site-python"</span>))</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            sitepackages.append(prefix)</div><div class="line">            sitepackages.append(os.path.join(prefix, <span class="string">"lib"</span>, <span class="string">"site-packages"</span>))</div><div class="line">        <span class="keyword">if</span> sys.platform == <span class="string">"darwin"</span>:</div><div class="line">            <span class="comment"># for framework builds *only* we add the standard Apple</span></div><div class="line">            <span class="comment"># locations.</span></div><div class="line">            <span class="keyword">from</span> sysconfig <span class="keyword">import</span> get_config_var</div><div class="line">            framework = get_config_var(<span class="string">"PYTHONFRAMEWORK"</span>)</div><div class="line">            <span class="keyword">if</span> framework:</div><div class="line">                sitepackages.append(</div><div class="line">                        os.path.join(<span class="string">"/Library"</span>, framework,</div><div class="line">                            sys.version[:<span class="number">3</span>], <span class="string">"site-packages"</span>))</div><div class="line">    <span class="keyword">return</span> sitepackages</div></pre></td></tr></table></figure>
+<p>我们先看这个方法 <code>getsitepackages()</code>，跳到这个方法的代码中，通过下面命令行得出的 <code>sys</code> 的信息，我们可以得知， <code>getsitepackages()</code> 方法就是通过你的 <code>OS</code>、<code>Python</code> 版本等信息来拼接一些路径，他们都被添加到一个列表中。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; import sys</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; sys.prefix</div><div class="line"><span class="string">'/System/Library/Frameworks/Python.framework/Versions/2.7'</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; sys.platform</div><div class="line"><span class="string">'darwin'</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; sys.version[<span class="symbol">:</span><span class="number">3</span>]</div><div class="line"><span class="string">'2.7'</span></div></pre></td></tr></table></figure>
+<p>最后我们看这个方法 <code>addsitedir(sitedir, known_paths)</code>，跳到这个方法的代码中，修改了 <code>sys.path.append(sitedir)</code> 这一句，改为了 <code>sys.path.insert(0, sitedir)</code>。改完之后，需要重启 <code>Mac</code> 来重新生成 <code>sys.path</code> 的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">addsitedir</span><span class="params">(sitedir, known_paths=None)</span>:</span></div><div class="line">    <span class="string">"""Add 'sitedir' argument to sys.path if missing and handle .pth files in</span></div><div class="line">    'sitedir'"""</div><div class="line">    <span class="keyword">if</span> known_paths <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        known_paths = _init_pathinfo()</div><div class="line">        reset = <span class="number">1</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        reset = <span class="number">0</span></div><div class="line">    sitedir, sitedircase = makepath(sitedir)</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sitedircase <span class="keyword">in</span> known_paths:</div><div class="line">        sys.path.append(sitedir)        <span class="comment"># Add path component</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        names = os.listdir(sitedir)</div><div class="line">    <span class="keyword">except</span> os.error:</div><div class="line">        <span class="keyword">return</span></div><div class="line">    dotpth = os.extsep + <span class="string">"pth"</span></div><div class="line">    names = [name <span class="keyword">for</span> name <span class="keyword">in</span> names <span class="keyword">if</span> name.endswith(dotpth)]</div><div class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> sorted(names):</div><div class="line">        addpackage(sitedir, name, known_paths)</div><div class="line">    <span class="keyword">if</span> reset:</div><div class="line">        known_paths = <span class="keyword">None</span></div><div class="line">    <span class="keyword">return</span> known_paths</div></pre></td></tr></table></figure>
+<p>开机之后，打开 <code>Terminal</code> ，查一下<code>sys.path</code>，嗯，就是下面这样，<code>&#39;/Library/Python/2.7/site-packages&#39;</code> 这个路径在前面了，运行项目也OK了。</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import sys</div><div class="line">&gt;&gt;&gt; sys.path</div><div class="line">['', '/<span class="keyword">Library</span>/Python/<span class="number">2.7</span>/site-packages/pip<span class="number">-9.0</span><span class="number">.1</span>-py2<span class="number">.7</span>.egg', '/<span class="keyword">Library</span>/Python/<span class="number">2.7</span>/site-packages', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python27.zip', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-darwin', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-mac', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/plat-mac/<span class="keyword">lib</span>-scriptpackages', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/Extras/<span class="keyword">lib</span>/python', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-tk', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-old', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">lib</span>/python2<span class="number">.7</span>/<span class="keyword">lib</span>-dynload', '/<span class="keyword">System</span>/<span class="keyword">Library</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/Extras/<span class="keyword">lib</span>/python/PyObjC']</div><div class="line">&gt;&gt;&gt; import tensorflow</div><div class="line">&gt;&gt;&gt; exit()</div><div class="line">xxxMac:~ xx$ python /Python/neural-style/neural_style.py</div></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="2、补充"><a href="#2、补充" class="headerlink" title="2、补充"></a>2、补充</h1><p><br><br>还有两个问题，补充一下：</p>
+<ul>
+<li>除了这个方式，还有一个一个就是通过打印报错的包的 <code>path</code> 信息来确认在哪个位置，然后删除旧版本，理论上应该是可行的，最后都加载你下载的最新版本的包就OK了，不过就是比较麻烦而已。</li>
+<li>可能你修改了 <code>site.py</code> 文件，不能保存，这是由于苹果在 <code>OS X El Capitan</code> 版本之后引入的 <code>SIP (Sytem Integrity Protection，系统完整性保护)]</code> 的机制，你需要重启时按住 <code>Command ＋ R</code> 进入 <code>Recovery Model</code>，通过 <code>Terminal</code> 输入 <code>csrutil disable</code> 关闭就OK了。</li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+            <a href="/tags/sys-path/" rel="tag">#sys.path</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/04/自定义View系列：简易九宫格手势锁控件/" rel="prev">自定义View系列：简易九宫格手势锁控件</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/26/PPMessage-使用纪实-一-：环境搭建篇/" rel="next">PPMessage 使用踩坑：环境搭建篇</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        请我喝杯茶
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/12/28/Python-引用路径问题/"
+                   data-title="Python 引用路径问题" data-url="http://whtacm.cc/2016/12/28/Python-引用路径问题/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Robin" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Robin</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/whtacm" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="whtacm@gmail.com" target="_blank">Gmail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="364432355" target="_blank">QQ</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://hexo.io/" target="_blank">Hexo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://theme-next.iissnan.com/getting-started.html" target="_blank">NexT</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、正文"><span class="nav-number">1.</span> <span class="nav-text">1、正文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、补充"><span class="nav-number">2.</span> <span class="nav-text">2、补充</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2016 - 
+  <span itemprop="copyrightYear">2021
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Robin
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://whtacm.cc">Robin</a>.<a class="theme-link" href="https://github.com/whtacm/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+  <div class="busuanzi-info">
+    <div class="theme-info">
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量<a class="theme-link"><span id="busuanzi_value_site_pv"></span></a>次
+    </span>
+</div>
+  </div>
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"whtacm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

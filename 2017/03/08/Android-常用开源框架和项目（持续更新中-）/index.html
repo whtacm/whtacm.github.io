@@ -1,0 +1,1101 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉" />
+
+
+
+  <meta name="keywords" content="Android,GitHub," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Robin's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言  把之前项目中用到和网上看到一些Android框架、库和开源项目进行汇总，方便今天的查找和使用。日后会不断更新和添加…另外，文章中 gif 图可能会挂，开源到 GitHub 上看一下原图（比较大）">
+<meta name="keywords" content="Android,GitHub">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 常用开源框架和项目（持续更新中...）">
+<meta property="og:url" content="http://whtacm.cc/2017/03/08/Android-常用开源框架和项目（持续更新中-）/index.html">
+<meta property="og:site_name" content="Robin&#39;s blog">
+<meta property="og:description" content="前言  把之前项目中用到和网上看到一些Android框架、库和开源项目进行汇总，方便今天的查找和使用。日后会不断更新和添加…另外，文章中 gif 图可能会挂，开源到 GitHub 上看一下原图（比较大）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/nostra13/Android-Universal-Image-Loader/raw/master/wiki/UIL_Flow.png">
+<meta property="og:image" content="https://github.com/square/picasso/blob/master/website/static/sample.png">
+<meta property="og:image" content="http://jakewharton.github.io/butterknife/static/logo.png">
+<meta property="og:image" content="http://greenrobot.org/wordpress/wp-content/uploads/greenDAO-orm-320.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/greenrobot/EventBus/master/EventBus-Publish-Subscribe.png">
+<meta property="og:image" content="https://weex-project.io/cn/guide/images/flow.png">
+<meta property="og:image" content="https://github.com/Jude95/EasyRecyclerView/blob/master/recycler3.gif">
+<meta property="og:image" content="https://github.com/nr4bt/dialogplus/blob/master/art/dialogplus.gif">
+<meta property="og:image" content="https://github.com/nr4bt/dialogplus/blob/master/art/dialogplusanim.gif">
+<meta property="og:image" content="https://camo.githubusercontent.com/4e85ee91169c2ad5dc500b3b415a0c974766615d/68747470733a2f2f7261772e6769746875622e636f6d2f5068696c4a61792f4d5043686172742f6d61737465722f73637265656e73686f74732f63756269636c696e6563686172742e706e67">
+<meta property="og:image" content="https://raw.githubusercontent.com/youth5201314/banner/master/image/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/youth5201314/banner/master/image/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GrenderG/Toasty/master/art/scr2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GrenderG/Toasty/master/art/scr6.png">
+<meta property="og:image" content="https://github.com/laobie/StatusBarUtil/blob/master/img/use_in_fragment.gif">
+<meta property="og:image" content="https://github.com/czy1121/loadinglayout/blob/master/screenshot1.png">
+<meta property="og:image" content="https://github.com/jeasonlzy/Screenshots/blob/master/NineGridView/demo3.png">
+<meta property="og:updated_time" content="2018-04-11T13:55:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 常用开源框架和项目（持续更新中...）">
+<meta name="twitter:description" content="前言  把之前项目中用到和网上看到一些Android框架、库和开源项目进行汇总，方便今天的查找和使用。日后会不断更新和添加…另外，文章中 gif 图可能会挂，开源到 GitHub 上看一下原图（比较大）">
+<meta name="twitter:image" content="https://github.com/nostra13/Android-Universal-Image-Loader/raw/master/wiki/UIL_Flow.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: '[object Object]'
+  };
+</script>
+
+  <title> Android 常用开源框架和项目（持续更新中...） | Robin's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?97551011862ccb1d84eef0bd7737cfc3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">人淡如菊</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Android 常用开源框架和项目（持续更新中...）
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-03-08T09:36:29+08:00" content="2017-03-08">
+            2017-03-08
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Android/" itemprop="url" rel="index">
+                  <span itemprop="name">Android</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <!--
+              <a href="/2017/03/08/Android-常用开源框架和项目（持续更新中-）/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/Android-常用开源框架和项目（持续更新中-）/" itemprop="commentsCount"></span>
+              </a>
+              -->
+              <a href="/2017/03/08/Android-常用开源框架和项目（持续更新中-）/#comments" itemprop="discussionUrl">
+                <span>评论</span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote>
+<p>前言</p>
+</blockquote>
+<p>把之前项目中用到和网上看到一些Android框架、库和开源项目进行汇总，方便今天的查找和使用。日后会不断更新和添加…另外，文章中 gif 图可能会挂，开源到 GitHub 上看一下原图（比较大）</p>
+<a id="more"></a>
+<p><br></p>
+<h1 id="1、网络请求框架"><a href="#1、网络请求框架" class="headerlink" title="1、网络请求框架"></a>1、网络请求框架</h1><p><br></p>
+<h2 id="1-1、OkHttp"><a href="#1-1、OkHttp" class="headerlink" title="1.1、OkHttp"></a>1.1、<a href="https://github.com/square/okhttp" target="_blank" rel="external">OkHttp</a></h2><p><br></p>
+<p>An HTTP &amp; HTTP/2 client for Android and Java applications</p>
+<blockquote>
+<p>Android 和 Java 应用的 Http &amp; Http/2 client</p>
+</blockquote>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.okhttp3:okhttp:3.5.0'</span></div></pre></td></tr></table></figure>
+<p>ProGuard</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="deletion">-dontwarn okhttp3.**</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="1-2、Retrofit"><a href="#1-2、Retrofit" class="headerlink" title="1.2、Retrofit"></a>1.2、<a href="https://github.com/square/retrofit" target="_blank" rel="external">Retrofit</a></h2><p><br></p>
+<p>Type-safe HTTP client for Android and Java by Square, Inc. Retrofit turns your HTTP API into a Java interface.</p>
+<blockquote>
+<p>类型安全的 Android 和 Java 的 Http 请求库。</p>
+</blockquote>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.1.0'</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>需要 Java7 或者 Android Studio 2.3</p>
+</blockquote>
+<p><br></p>
+<h2 id="1-3、Volley"><a href="#1-3、Volley" class="headerlink" title="1.3、Volley"></a>1.3、<a href="https://android.googlesource.com/platform/frameworks/volley" target="_blank" rel="external">Volley</a></h2><p><br><br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://android.googlesource.com/platform/frameworks/volley</div></pre></td></tr></table></figure></p>
+<p><br></p>
+<h2 id="1-4、Asynchronous-Http-Client-for-Android"><a href="#1-4、Asynchronous-Http-Client-for-Android" class="headerlink" title="1.4、Asynchronous Http Client for Android"></a>1.4、<a href="https://github.com/loopj/android-async-http" target="_blank" rel="external">Asynchronous Http Client for Android</a></h2><p><br><br>An asynchronous, callback-based Http client for Android built on top of Apache’s HttpClient libraries.</p>
+<blockquote>
+<p>一个异步、基于回调的Android Http Client, 封装了 Apache 的 HttpClient 库</p>
+</blockquote>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.loopj.android:android-async-http:1.4.9'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="1-5、框架比较"><a href="#1-5、框架比较" class="headerlink" title="1.5、框架比较"></a>1.5、框架比较</h2><p><br><br><a href="http://www.cnblogs.com/hzhtracy/p/5652548.html" target="_blank" rel="external">网络框架比较</a></p>
+<p><br></p>
+<h1 id="2、图片加载框架"><a href="#2、图片加载框架" class="headerlink" title="2、图片加载框架"></a>2、图片加载框架</h1><p><br></p>
+<h2 id="2-1、ImageLoader"><a href="#2-1、ImageLoader" class="headerlink" title="2.1、ImageLoader"></a>2.1、<a href="https://github.com/nostra13/Android-Universal-Image-Loader" target="_blank" rel="external">ImageLoader</a></h2><p><br></p>
+<blockquote>
+<p><em>Android 2.0+ support</em></p>
+</blockquote>
+<p>Features</p>
+<ul>
+<li>Multithread image loading (<em>async or sync</em>)</li>
+<li>Wide customization of ImageLoader’s configuration (thread executors, downloader, decoder, memory and disk cache, display image options, etc.)</li>
+<li>Many customization options for every display image call (stub images, caching switch, decoding options, Bitmap processing and displaying, etc.)</li>
+<li>Image caching in memory and/or on disk (device’s file system or SD card)</li>
+<li>Listening loading process (including downloading progress)</li>
+</ul>
+<p>Load &amp; Display Task Flow</p>
+<p><img src="https://github.com/nostra13/Android-Universal-Image-Loader/raw/master/wiki/UIL_Flow.png" alt="Load &amp; Display Task Flow"></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.nostra13.universalimageloader:universal-image-loader:1.9.3'</span></div></pre></td></tr></table></figure>
+<h2 id="2-2、Picasso"><a href="#2-2、Picasso" class="headerlink" title="2.2、Picasso"></a>2.2、<a href="https://github.com/square/picasso" target="_blank" rel="external">Picasso</a></h2><p><br><br>A powerful image downloading and caching library for Android</p>
+<p><img src="https://github.com/square/picasso/blob/master/website/static/sample.png" alt="image"></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.picasso:picasso:2.5.2'</span></div></pre></td></tr></table></figure>
+<p>ProGuard</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-dontwarn com<span class="selector-class">.squareup</span><span class="selector-class">.okhttp</span>.**</div></pre></td></tr></table></figure>
+<h2 id="2-3、Glide"><a href="#2-3、Glide" class="headerlink" title="2.3、Glide"></a>2.3、<a href="https://github.com/bumptech/glide" target="_blank" rel="external">Glide</a></h2><p><br><br>Glide is a fast and efficient open source media management and image loading framework for Android that wraps media decoding, memory and disk caching, and resource pooling into a simple and easy to use interface.</p>
+<p>Glide supports <em>fetching, decoding, and displaying video stills, images, and animated GIFs</em>. Glide includes a flexible API that allows developers to plug in to almost any network stack. By default Glide uses a custom HttpUrlConnection based stack, but also includes utility libraries plug in to Google’s Volley project or Square’s OkHttp library instead.</p>
+<p>Glide’s primary focus is on making scrolling any kind of a list of images as smooth and fast as possible, but Glide is also effective for almost any case where you need to fetch, resize, and display a remote image.</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">repositories</span> &#123;</div><div class="line">  mavenCentral() <span class="comment">// jcenter() works as well because it pulls from Maven Central</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">  <span class="keyword">compile</span> <span class="string">'com.github.bumptech.glide:glide:3.7.0'</span></div><div class="line">  <span class="keyword">compile</span> <span class="string">'com.android.support:support-v4:19.1.0'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ProGuard</p>
+<p>Depending on your ProGuard (DexGuard) config and usage, you may need to include the following lines in your proguard.cfg (see Configuration wiki for more details):</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-keep public <span class="class"><span class="keyword">class</span> * <span class="title">implements</span> <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">module</span>.<span class="title">GlideModule</span></span></div><div class="line">-keep public <span class="class"><span class="keyword">enum</span> <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">load</span>.<span class="title">resource</span>.<span class="title">bitmap</span>.<span class="title">ImageHeaderParser</span>$** &#123;</span></div><div class="line">  **[] $VALUES;</div><div class="line">  public *;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment"># for DexGuard only</span></div><div class="line">-keepresourcexmlelements manifest/application/meta-data@value=GlideModule</div></pre></td></tr></table></figure>
+<h2 id="2-4、Fresco"><a href="#2-4、Fresco" class="headerlink" title="2.4、Fresco"></a>2.4、<a href="https://github.com/facebook/fresco" target="_blank" rel="external">Fresco</a></h2><p><br></p>
+<blockquote>
+<p><em>Fresco supports Android 2.3 (Gingerbread) and later.</em></p>
+</blockquote>
+<p>Fresco is a powerful system for displaying images in Android applications.</p>
+<p>Fresco takes care of image loading and display, so you don’t have to. It will load images from the network, local storage, or local resources, and display a placeholder until the image has arrived. It has two levels of cache; one in memory and another in internal storage.</p>
+<p>In Android 4.x and lower, Fresco puts images in a special region of Android memory. This lets your application run faster - and suffer the dreaded OutOfMemoryError much less often.</p>
+<p>Fresco also supports:</p>
+<ul>
+<li>streaming of <em>progressive JPEGs</em></li>
+<li>display of animated <em>GIFs and WebPs</em></li>
+<li>extensive customization of image loading and display<br>and much more!</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.facebook.fresco:fresco:1.1.0'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="2-5、框架比较"><a href="#2-5、框架比较" class="headerlink" title="2.5、框架比较"></a>2.5、框架比较</h2><p><br><br><a href="http://www.trinea.cn/android/android-image-cache-compare/" target="_blank" rel="external">图片缓存原理、特性对比</a></p>
+<p><br></p>
+<h1 id="3、响应式编程"><a href="#3、响应式编程" class="headerlink" title="3、响应式编程"></a>3、响应式编程</h1><p><br></p>
+<h2 id="3-1、RxJava"><a href="#3-1、RxJava" class="headerlink" title="3.1、RxJava"></a>3.1、<a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="external">RxJava</a></h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex.rxjava2:rxjava:x.y.z'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="3-2、RxAndroid"><a href="#3-2、RxAndroid" class="headerlink" title="3.2、RxAndroid"></a>3.2、<a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="external">RxAndroid</a></h2><p><br><br>RxAndroid: Reactive Extensions for Android</p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">compile <span class="symbol">'io</span>.reactivex.rxjava2:rxandroid:<span class="number">2.0</span>.<span class="number">1</span>'</div><div class="line">// Because RxAndroid releases are few <span class="keyword">and</span> far between, it <span class="keyword">is</span> recommended you also</div><div class="line">// explicitly depend <span class="keyword">on</span> RxJava<span class="symbol">'s</span> latest version <span class="keyword">for</span> bug fixes <span class="keyword">and</span> <span class="keyword">new</span> features.</div><div class="line">compile <span class="symbol">'io</span>.reactivex.rxjava2:rxjava:<span class="number">2.0</span>.<span class="number">1</span>'</div></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="4、注解"><a href="#4、注解" class="headerlink" title="4、注解"></a>4、注解</h1><p><br></p>
+<h2 id="4-1、Butter-Knife"><a href="#4-1、Butter-Knife" class="headerlink" title="4.1、Butter Knife"></a>4.1、<a href="https://github.com/JakeWharton/butterknife" target="_blank" rel="external">Butter Knife</a></h2><p><br><br><img src="http://jakewharton.github.io/butterknife/static/logo.png" alt="image"></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">  <span class="keyword">compile</span> <span class="string">'com.jakewharton:butterknife:8.5.1'</span></div><div class="line">  annotationProcessor <span class="string">'com.jakewharton:butterknife-compiler:8.5.1'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>然后，附赠一个 ‘Android Studio’ 的插件 ‘Android ButterKnife Zelezny’，能够自动生成代码以及Holder</p>
+</blockquote>
+<p><br></p>
+<h2 id="4-2、Dagger"><a href="#4-2、Dagger" class="headerlink" title="4.2、Dagger"></a>4.2、<a href="https://github.com/square/dagger" target="_blank" rel="external">Dagger</a></h2><p><br><br>A fast dependency injector for Android and Java.</p>
+<p>教程</p>
+<p><a href="http://www.jianshu.com/p/cd2c1c9f68d4" target="_blank" rel="external">Android：dagger2让你爱不释手-基础依赖注入框架篇</a></p>
+<p><a href="http://www.jinshu.com/p/1d42d2e6f4a5" target="_blank" rel="external">Android：dagger2让你爱不释手-重点概念讲解、融合篇</a></p>
+<p><br><br><br></p>
+<h1 id="5、数据库"><a href="#5、数据库" class="headerlink" title="5、数据库"></a>5、数据库</h1><p><br></p>
+<h2 id="5-1、OrmLite"><a href="#5-1、OrmLite" class="headerlink" title="5.1、OrmLite"></a>5.1、<a href="http://ormlite.com/sqlite_java_android_orm.shtml" target="_blank" rel="external">OrmLite</a></h2><p><br><br>Object Relational Mapping Lite (ORM Lite) provides some lightweight functionality for persisting Java objects to SQL databases while avoiding the complexity and overhead of more standard ORM packages. It supports a number of SQL databases using JDBC and also supports Sqlite with native calls to Android OS database APIs.</p>
+<p>ORMLite provides the following features:</p>
+<ul>
+<li>Setup your classes by simply adding <em>Java annotations</em>.</li>
+<li>Powerful abstract Database Access Object (DAO) classes.</li>
+<li>Flexible QueryBuilder to easily construct simple and complex queries.</li>
+<li>Supports <em>MySQL, Postgres, Microsoft SQL Server, H2, Derby, HSQLDB, and Sqlite</em> and can be extended to additional databases relatively easily.</li>
+<li>Provisional support for DB2, Oracle, ODBC, and Netezza. Contact the author if your database type is not supported.</li>
+<li>Handles <em>“compiled” SQL statements</em> for repetitive query tasks.</li>
+<li>Supports “foreign” objects with the class field being the object but an id stored in the database table.</li>
+<li>Basic support for database <em>transactions</em>.</li>
+<li><em>Auto generates SQL</em> to create and drop database tables.</li>
+<li>Spring configuration support for DOAs and class configurations.</li>
+<li>Support for configuring of tables and fields without annotations.<br><br><h2 id="5-2、GreenDao"><a href="#5-2、GreenDao" class="headerlink" title="5.2、GreenDao"></a>5.2、<a href="http://greenrobot.org/greendao/" target="_blank" rel="external">GreenDao</a></h2><br><br><img src="http://greenrobot.org/wordpress/wp-content/uploads/greenDAO-orm-320.png" alt="image"></li>
+</ul>
+<p>greenDAO’s Features at a glance</p>
+<ul>
+<li><em>Maximum performance</em> (probably the fastest ORM for Android); our benchmarks are open sourced too</li>
+<li><em>Easy to use</em> powerful APIs covering relations and joins</li>
+<li><em>Minimal memory consumption</em></li>
+<li><em>Small library size</em> (&lt;100KB) to keep your build times low and to avoid the 65k method limit</li>
+<li><em>Database encryption</em>: greenDAO supports SQLCipher to keep your user’s data safe</li>
+<li><em>Strong community</em>: More than 5.000 GitHub stars show there is a strong and active community<br>-</li>
+</ul>
+<blockquote>
+<p>GreenDao的特性或者说优势主要体现高性能、易用性、内存占用少、jar包小、安全性（加密）以及强大的社区（资料多）</p>
+</blockquote>
+<p><br></p>
+<h2 id="5-3、Realm"><a href="#5-3、Realm" class="headerlink" title="5.3、Realm"></a>5.3、<a href="https://realm.io/" target="_blank" rel="external">Realm</a></h2><p><br><br>The Realm Mobile Database is built from the ground up to run on mobile devices. Unlike a traditional database, objects in a Realm are native objects. You don’t have to copy objects out of the database, modify them, and save them back—you’re always working with the “live,” real object. If one thread or process modifies an object, other threads and processes can be immediately notified. Objects always stay in sync.</p>
+<p>The Realm Mobile Database is open source (using the Apache license) and ==cross-platform==, with libraries available for Android, iOS, Xamarin (.NET), and React Native. Realms are fully interchangeable between platforms.</p>
+<blockquote>
+<p>Realm是一个跨平台的开源库，这点很重要!!!</p>
+</blockquote>
+<p><br></p>
+<h2 id="5-4、Sugar"><a href="#5-4、Sugar" class="headerlink" title="5.4、Sugar"></a>5.4、<a href="https://github.com/satyan/sugar" target="_blank" rel="external">Sugar</a></h2><p><br><br>Insanely easy way to work with Android databases.</p>
+<p>Sugar ORM was built in contrast to other ORM’s to have:</p>
+<ul>
+<li>A simple, concise, and clean integration process with minimal configuration.</li>
+<li>Automatic table and column naming through reflection.</li>
+<li>Support for migrations between different schema versions.</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.github.satyan:sugar:1.5'</span></div></pre></td></tr></table></figure>
+<p>ProGuard</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Ensures entities remain un-obfuscated so table and columns are named correctly</span></div><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">yourpackage</span>.<span class="title">yourapp</span>.<span class="title">domainclasspackage</span>.** &#123; *; &#125;</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="5-5、ActiveAndroid"><a href="#5-5、ActiveAndroid" class="headerlink" title="5.5、ActiveAndroid"></a>5.5、<a href="https://github.com/pardom/ActiveAndroid" target="_blank" rel="external">ActiveAndroid</a></h2><p><br><br>ActiveAndroid is an active record style ORM (object relational mapper). What does that mean exactly? Well, ActiveAndroid allows you to save and retrieve SQLite database records without ever writing a single SQL statement. Each database record is wrapped neatly into a class with methods like save() and delete().</p>
+<p>ActiveAndroid does so much more than this though. Accessing the database is a hassle, to say the least, in Android. ActiveAndroid takes care of all the setup and messy stuff, and all with just a few simple steps of configuration.</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">repositories</span> &#123;</div><div class="line">    mavenCentral()</div><div class="line">    maven &#123; url <span class="string">"https://oss.sonatype.org/content/repositories/snapshots/"</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="6、文件下载"><a href="#6、文件下载" class="headerlink" title="6、文件下载"></a>6、文件下载</h1><p><br></p>
+<p><br></p>
+<h1 id="7、事件-消息库"><a href="#7、事件-消息库" class="headerlink" title="7、事件/消息库"></a>7、事件/消息库</h1><p><br></p>
+<h2 id="7-1、EventBus"><a href="#7-1、EventBus" class="headerlink" title="7.1、EventBus"></a>7.1、<a href="https://github.com/greenrobot/EventBus" target="_blank" rel="external">EventBus</a></h2><p><br><br>Android optimized event bus that simplifies communication between Activities, Fragments, Threads, Services, etc. Less code, better quality.</p>
+<p><img src="https://raw.githubusercontent.com/greenrobot/EventBus/master/EventBus-Publish-Subscribe.png" alt="image"></p>
+<p>EventBus…</p>
+<ul>
+<li>simplifies the communication between components</li>
+</ul>
+<ol>
+<li>decouples event senders and receivers</li>
+<li>performs well with Activities, Fragments, and background threads</li>
+<li>avoids complex and error-prone dependencies and life cycle issues</li>
+</ol>
+<ul>
+<li>makes your code simpler</li>
+<li>is fast</li>
+<li>is tiny (~50k jar)</li>
+<li>is proven in practice by apps with 100,000,000+ installs<br>has advanced features like delivery threads, subscriber priorities, etc.</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'org.greenrobot:eventbus:3.0.0'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="8、跨平台"><a href="#8、跨平台" class="headerlink" title="8、跨平台"></a>8、跨平台</h1><p><br></p>
+<h2 id="8-1、React-Native"><a href="#8-1、React-Native" class="headerlink" title="8.1、React Native"></a>8.1、<a href="http://facebook.github.io/react-native/" target="_blank" rel="external">React Native</a></h2><p><br><br><a href="http://reactnative.cn/" target="_blank" rel="external">中文教程</a></p>
+<p><br></p>
+<h2 id="8-2、Weex"><a href="#8-2、Weex" class="headerlink" title="8.2、Weex"></a>8.2、<a href="https://weex-project.io/cn/" target="_blank" rel="external">Weex</a></h2><p><br><br>Weex 是一套简单易用的跨平台开发方案，能以 web 的开发体验构建高性能、可扩展的 native 应用，为了做到这些，Weex 与 Vue 合作，使用 Vue 作为上层框架，并遵循 W3C 标准实现了统一的 JSEngine 和 DOM API，这样一来，你甚至可以使用其他框架驱动 Weex，打造三端一致的 native 应用。</p>
+<p>Weex 表面上是一个客户端技术，但实际上它串联起了从本地开发环境到云端部署和分发的整个链路。开发者首先可以在本地像撰写 web 页面一样撰写一个 app 的页面，然后编译成一段 JavaScript 代码，形成 Weex 的一个 JS bundle；在云端，开发者可以把生成的 JS bundle 部署上去，然后通过网络请求或预下发的方式传递到用户的移动应用客户端；在移动应用客户端里，WeexSDK 会准备好一个 JavaScript 引擎，并且在用户打开一个 Weex 页面时执行相应的 JS bundle，并在执行过程中产生各种命令发送到 native 端进行的界面渲染或数据存储、网络通信、调用设备功能、用户交互响应等移动应用的场景实践；同时，如果用户没有安装移动应用，他仍然可以在浏览器里打开一个相同的 web 页面，这个页面是使用相同的页面源代码，通过浏览器里的 JavaScript 引擎运行起来的。</p>
+<p><img src="https://weex-project.io/cn/guide/images/flow.png" alt="image"></p>
+<p><a href="https://weex-project.io/cn/guide/index.html" target="_blank" rel="external">官方教程</a></p>
+<p><br></p>
+<h1 id="9、热修复"><a href="#9、热修复" class="headerlink" title="9、热修复"></a>9、<del>热修复</del></h1><p>（先占坑…）</p>
+<p><br></p>
+<h1 id="10、UI组件库"><a href="#10、UI组件库" class="headerlink" title="10、UI组件库"></a>10、UI组件库</h1><p><br></p>
+<h2 id="10-1、刷新组件"><a href="#10-1、刷新组件" class="headerlink" title="10.1、刷新组件"></a>10.1、刷新组件</h2><p><br></p>
+<h3 id="10-1-1、EasyRecyclerView"><a href="#10-1-1、EasyRecyclerView" class="headerlink" title="10.1.1、EasyRecyclerView"></a>10.1.1、<a href="https://github.com/Jude95/EasyRecyclerView" target="_blank" rel="external">EasyRecyclerView</a></h3><p><br><br>ArrayAdapter,pull to refresh,auto load more,Header/Footer,EmptyView,ProgressView,ErrorView</p>
+<blockquote>
+<p>支持ArrayAdapter、下拉、自动加载、头部Header/尾部Footer、空数据view、进度View、错误View</p>
+</blockquote>
+<p><img src="https://github.com/Jude95/EasyRecyclerView/blob/master/recycler3.gif" alt="image"></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.jude:easyrecyclerview:4.4.0'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="10-2、Dialog对话框"><a href="#10-2、Dialog对话框" class="headerlink" title="10.2、Dialog对话框"></a>10.2、Dialog对话框</h2><p><br></p>
+<h3 id="10-2-1、DialogPlus"><a href="#10-2-1、DialogPlus" class="headerlink" title="10.2.1、DialogPlus"></a>10.2.1、<a href="https://github.com/orhanobut/dialogplus" target="_blank" rel="external">DialogPlus</a></h3><p><br><br><img src="https://github.com/nr4bt/dialogplus/blob/master/art/dialogplus.gif" alt="image"><br><img src="https://github.com/nr4bt/dialogplus/blob/master/art/dialogplusanim.gif" alt="image"></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">compile</span> <span class="string">'com.orhanobut:dialogplus:1.11<span class="variable">@aar</span>'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="10-3、图表库"><a href="#10-3、图表库" class="headerlink" title="10.3、图表库"></a>10.3、图表库</h2><p><br></p>
+<h3 id="10-3-1、MPAndroidChart"><a href="#10-3-1、MPAndroidChart" class="headerlink" title="10.3.1、MPAndroidChart"></a>10.3.1、<a href="https://github.com/PhilJay/MPAndroidChart" target="_blank" rel="external">MPAndroidChart</a></h3><p><br><br><img src="https://camo.githubusercontent.com/4e85ee91169c2ad5dc500b3b415a0c974766615d/68747470733a2f2f7261772e6769746875622e636f6d2f5068696c4a61792f4d5043686172742f6d61737465722f73637265656e73686f74732f63756269636c696e6563686172742e706e67" alt="image"></p>
+<p><br></p>
+<h2 id="10-4、Banner"><a href="#10-4、Banner" class="headerlink" title="10.4、Banner"></a>10.4、Banner</h2><p><br></p>
+<h3 id="10-4-1、youth5201314-banner"><a href="#10-4-1、youth5201314-banner" class="headerlink" title="10.4.1、youth5201314/banner"></a>10.4.1、<a href="https://github.com/youth5201314/banner" target="_blank" rel="external">youth5201314/banner</a></h3><p><br><br><img src="https://raw.githubusercontent.com/youth5201314/banner/master/image/1.png" alt="image"><br><img src="https://raw.githubusercontent.com/youth5201314/banner/master/image/2.png" alt="image"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">compile 'com.youth.banner:banner:1.4.9'  //最新版本</div><div class="line"></div><div class="line"><span class="comment">&lt;!-- if you want to load images from the internet --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span> </div><div class="line"></div><div class="line"><span class="comment">&lt;!-- if you want to load images from a file OR from the internet --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.READ_EXTERNAL_STORAGE"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="10-5、Skin-换肤"><a href="#10-5、Skin-换肤" class="headerlink" title="10.5、Skin 换肤"></a>10.5、Skin 换肤</h2><p><br></p>
+<h3 id="10-5-1、Android-Skin-Loader"><a href="#10-5-1、Android-Skin-Loader" class="headerlink" title="10.5.1、Android-Skin-Loader"></a>10.5.1、<a href="https://github.com/fengjundev/Android-Skin-Loader" target="_blank" rel="external">Android-Skin-Loader</a></h3><p><br><br>一个通过动态加载本地皮肤包进行换肤的皮肤框架</p>
+<p><br></p>
+<h1 id="11、Utils工具库"><a href="#11、Utils工具库" class="headerlink" title="11、Utils工具库"></a>11、Utils工具库</h1><p><br></p>
+<h2 id="11-1、AndroidUtilCode"><a href="#11-1、AndroidUtilCode" class="headerlink" title="11.1、AndroidUtilCode"></a>11.1、<a href="https://github.com/Blankj/AndroidUtilCode" target="_blank" rel="external">AndroidUtilCode</a></h2><p><br><br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.blankj:utilcode:1.3.6'</span></div></pre></td></tr></table></figure></p>
+<p>How to use</p>
+<blockquote>
+<p>Utils.init(context);</p>
+</blockquote>
+<p>Proguard<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">blankj</span>.<span class="title">utilcode</span>.** &#123; *;</span> &#125;</span></div><div class="line">-<span class="ruby">keepclassmembers <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">blankj</span>.<span class="title">utilcode</span>.** &#123; *;</span> &#125;</span></div><div class="line">-<span class="ruby">dontwarn com.blankj.utilcode.**</span></div></pre></td></tr></table></figure></p>
+<p><br></p>
+<h2 id="11-2、Lazy"><a href="#11-2、Lazy" class="headerlink" title="11.2、Lazy"></a>11.2、<a href="https://github.com/l123456789jy/Lazy" target="_blank" rel="external">Lazy</a></h2><p><br><br>常用的工具类</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.github.lazylibrary:lazylibrary:1.0.2'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="11-3、logger"><a href="#11-3、logger" class="headerlink" title="11.3、logger"></a>11.3、<a href="https://github.com/orhanobut/logger" target="_blank" rel="external">logger</a></h2><p><br><br>Simple, pretty and powerful logger for android</p>
+<p>Logger provides :</p>
+<ul>
+<li>Thread information</li>
+<li>Class information</li>
+<li>Method information</li>
+<li>Pretty-print for json content</li>
+<li>Pretty-print for new line “\n”</li>
+<li>Clean output</li>
+<li>Jump to source</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.orhanobut:logger:1.15'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="11-4、Toasty"><a href="#11-4、Toasty" class="headerlink" title="11.4、Toasty"></a>11.4、<a href="https://github.com/GrenderG/Toasty" target="_blank" rel="external">Toasty</a></h2><p><br><br><img src="https://raw.githubusercontent.com/GrenderG/Toasty/master/art/scr2.png" alt="image"><br><img src="https://raw.githubusercontent.com/GrenderG/Toasty/master/art/scr6.png" alt="image"></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">allprojects</span> &#123;</div><div class="line">    <span class="keyword">repositories</span> &#123;</div><div class="line">        ...</div><div class="line">        maven &#123; url <span class="string">"https://jitpack.io"</span> &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">compile</span> <span class="string">'com.github.GrenderG:Toasty:1.1.3'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="11-5、StatusBarUtil"><a href="#11-5、StatusBarUtil" class="headerlink" title="11.5、StatusBarUtil"></a>11.5、<a href="https://github.com/laobie/StatusBarUtil" target="_blank" rel="external">StatusBarUtil</a></h2><p><br><br>A util for setting status bar style on Android App. It can work above API 19(KitKat 4.4).</p>
+<p><img src="https://github.com/laobie/StatusBarUtil/blob/master/img/use_in_fragment.gif" alt="image"></p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> 'com.jaeger.statusbaruitl:<span class="keyword">library</span>:<span class="number">1.3</span><span class="number">.6</span>'</div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="11-6、Android-SplashView"><a href="#11-6、Android-SplashView" class="headerlink" title="11.6、Android-SplashView"></a>11.6、<a href="https://github.com/jkyeo/Android-SplashView" target="_blank" rel="external">Android-SplashView</a></h2><p><br></p>
+<h2 id="11-7、LoadingLayout"><a href="#11-7、LoadingLayout" class="headerlink" title="11.7、LoadingLayout"></a>11.7、<a href="https://github.com/czy1121/loadinglayout" target="_blank" rel="external">LoadingLayout</a></h2><p><br><br>简单实用的页面多状态布局(content,loading,empty,error)</p>
+<p><img src="https://github.com/czy1121/loadinglayout/blob/master/screenshot1.png" alt="image"></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="section">repositories</span> &#123; </div><div class="line">    <span class="section">maven</span> &#123; <span class="attribute">url</span> <span class="string">"https://jitpack.io"</span> &#125;</div><div class="line">&#125; </div><div class="line">dependencies &#123;</div><div class="line">    <span class="attribute">compile</span> <span class="string">'com.github.czy1121:loadinglayout:1.0.1'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="11-8、NineGridView"><a href="#11-8、NineGridView" class="headerlink" title="11.8、NineGridView"></a>11.8、<a href="https://github.com/jeasonlzy/NineGridView" target="_blank" rel="external">NineGridView</a></h2><p><br><br>类似QQ空间，微信朋友圈，微博主页等，展示图片的九宫格控件，自动根据图片的数量确定图片大小和控件大小，使用Adapter模式设置图片，对外提供接口回调，支持任意的图片加载框架,如 Glide,ImageLoader,Fresco,xUtils3,Picasso 等，支持点击图片全屏预览大图。</p>
+<p><img src="https://github.com/jeasonlzy/Screenshots/blob/master/NineGridView/demo3.png" alt="image"></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.lzy.widget:ninegridview:0.2.0'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="12、开源-Android-apps"><a href="#12、开源-Android-apps" class="headerlink" title="12、开源 Android apps"></a>12、开源 Android apps</h1><p><br></p>
+<h2 id="12-1、open-source-android-apps"><a href="#12-1、open-source-android-apps" class="headerlink" title="12.1、open-source-android-apps"></a>12.1、<a href="https://github.com/pcqpcq/open-source-android-apps" target="_blank" rel="external">open-source-android-apps</a></h2><p><br></p>
+<h1 id="13、源码解析"><a href="#13、源码解析" class="headerlink" title="13、源码解析"></a>13、源码解析</h1><p><br></p>
+<p><br></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/GitHub/" rel="tag">#GitHub</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/01/Android Gradle学习系列：（一）初识Gradle/" rel="prev">Android Gradle学习系列：（一）初识Gradle</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/04/自定义View系列：简易九宫格手势锁控件/" rel="next">自定义View系列：简易九宫格手势锁控件</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        请我喝杯茶
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2017/03/08/Android-常用开源框架和项目（持续更新中-）/"
+                   data-title="Android 常用开源框架和项目（持续更新中...）" data-url="http://whtacm.cc/2017/03/08/Android-常用开源框架和项目（持续更新中-）/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Robin" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Robin</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/whtacm" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="whtacm@gmail.com" target="_blank">Gmail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="364432355" target="_blank">QQ</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://hexo.io/" target="_blank">Hexo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://theme-next.iissnan.com/getting-started.html" target="_blank">NexT</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、网络请求框架"><span class="nav-number">1.</span> <span class="nav-text">1、网络请求框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1、OkHttp"><span class="nav-number">1.1.</span> <span class="nav-text">1.1、OkHttp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2、Retrofit"><span class="nav-number">1.2.</span> <span class="nav-text">1.2、Retrofit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3、Volley"><span class="nav-number">1.3.</span> <span class="nav-text">1.3、Volley</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4、Asynchronous-Http-Client-for-Android"><span class="nav-number">1.4.</span> <span class="nav-text">1.4、Asynchronous Http Client for Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5、框架比较"><span class="nav-number">1.5.</span> <span class="nav-text">1.5、框架比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、图片加载框架"><span class="nav-number">2.</span> <span class="nav-text">2、图片加载框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、ImageLoader"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、ImageLoader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、Picasso"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、Picasso</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3、Glide"><span class="nav-number">2.3.</span> <span class="nav-text">2.3、Glide</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4、Fresco"><span class="nav-number">2.4.</span> <span class="nav-text">2.4、Fresco</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5、框架比较"><span class="nav-number">2.5.</span> <span class="nav-text">2.5、框架比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、响应式编程"><span class="nav-number">3.</span> <span class="nav-text">3、响应式编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1、RxJava"><span class="nav-number">3.1.</span> <span class="nav-text">3.1、RxJava</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2、RxAndroid"><span class="nav-number">3.2.</span> <span class="nav-text">3.2、RxAndroid</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、注解"><span class="nav-number">4.</span> <span class="nav-text">4、注解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1、Butter-Knife"><span class="nav-number">4.1.</span> <span class="nav-text">4.1、Butter Knife</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2、Dagger"><span class="nav-number">4.2.</span> <span class="nav-text">4.2、Dagger</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、数据库"><span class="nav-number">5.</span> <span class="nav-text">5、数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1、OrmLite"><span class="nav-number">5.1.</span> <span class="nav-text">5.1、OrmLite</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2、GreenDao"><span class="nav-number">5.2.</span> <span class="nav-text">5.2、GreenDao</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3、Realm"><span class="nav-number">5.3.</span> <span class="nav-text">5.3、Realm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4、Sugar"><span class="nav-number">5.4.</span> <span class="nav-text">5.4、Sugar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5、ActiveAndroid"><span class="nav-number">5.5.</span> <span class="nav-text">5.5、ActiveAndroid</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6、文件下载"><span class="nav-number">6.</span> <span class="nav-text">6、文件下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7、事件-消息库"><span class="nav-number">7.</span> <span class="nav-text">7、事件/消息库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1、EventBus"><span class="nav-number">7.1.</span> <span class="nav-text">7.1、EventBus</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8、跨平台"><span class="nav-number">8.</span> <span class="nav-text">8、跨平台</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1、React-Native"><span class="nav-number">8.1.</span> <span class="nav-text">8.1、React Native</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2、Weex"><span class="nav-number">8.2.</span> <span class="nav-text">8.2、Weex</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9、热修复"><span class="nav-number">9.</span> <span class="nav-text">9、热修复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10、UI组件库"><span class="nav-number">10.</span> <span class="nav-text">10、UI组件库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-1、刷新组件"><span class="nav-number">10.1.</span> <span class="nav-text">10.1、刷新组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-1、EasyRecyclerView"><span class="nav-number">10.1.1.</span> <span class="nav-text">10.1.1、EasyRecyclerView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-2、Dialog对话框"><span class="nav-number">10.2.</span> <span class="nav-text">10.2、Dialog对话框</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-1、DialogPlus"><span class="nav-number">10.2.1.</span> <span class="nav-text">10.2.1、DialogPlus</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-3、图表库"><span class="nav-number">10.3.</span> <span class="nav-text">10.3、图表库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3-1、MPAndroidChart"><span class="nav-number">10.3.1.</span> <span class="nav-text">10.3.1、MPAndroidChart</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-4、Banner"><span class="nav-number">10.4.</span> <span class="nav-text">10.4、Banner</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-4-1、youth5201314-banner"><span class="nav-number">10.4.1.</span> <span class="nav-text">10.4.1、youth5201314/banner</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-5、Skin-换肤"><span class="nav-number">10.5.</span> <span class="nav-text">10.5、Skin 换肤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-5-1、Android-Skin-Loader"><span class="nav-number">10.5.1.</span> <span class="nav-text">10.5.1、Android-Skin-Loader</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11、Utils工具库"><span class="nav-number">11.</span> <span class="nav-text">11、Utils工具库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#11-1、AndroidUtilCode"><span class="nav-number">11.1.</span> <span class="nav-text">11.1、AndroidUtilCode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-2、Lazy"><span class="nav-number">11.2.</span> <span class="nav-text">11.2、Lazy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-3、logger"><span class="nav-number">11.3.</span> <span class="nav-text">11.3、logger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-4、Toasty"><span class="nav-number">11.4.</span> <span class="nav-text">11.4、Toasty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-5、StatusBarUtil"><span class="nav-number">11.5.</span> <span class="nav-text">11.5、StatusBarUtil</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-6、Android-SplashView"><span class="nav-number">11.6.</span> <span class="nav-text">11.6、Android-SplashView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-7、LoadingLayout"><span class="nav-number">11.7.</span> <span class="nav-text">11.7、LoadingLayout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-8、NineGridView"><span class="nav-number">11.8.</span> <span class="nav-text">11.8、NineGridView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12、开源-Android-apps"><span class="nav-number">12.</span> <span class="nav-text">12、开源 Android apps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#12-1、open-source-android-apps"><span class="nav-number">12.1.</span> <span class="nav-text">12.1、open-source-android-apps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#13、源码解析"><span class="nav-number">13.</span> <span class="nav-text">13、源码解析</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2016 - 
+  <span itemprop="copyrightYear">2021
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Robin
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://whtacm.cc">Robin</a>.<a class="theme-link" href="https://github.com/whtacm/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+  <div class="busuanzi-info">
+    <div class="theme-info">
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量<a class="theme-link"><span id="busuanzi_value_site_pv"></span></a>次
+    </span>
+</div>
+  </div>
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"whtacm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

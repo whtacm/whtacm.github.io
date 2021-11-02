@@ -1,0 +1,889 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉" />
+
+
+
+  <meta name="keywords" content="Android,Gradle," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Robin's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言  从 Eclipse 转 Android Studio 已经有很长一段时间了，期间也尝试过从把公司的项目在两个 IDE 之间进行过转换，还是有一些坑和心得体会的。我们都知道 Android Studio 是 Google 力推的开发 IDE ，其中主要的特性之一是项目的构建是基于Gradle 的。一直以来都在使用各种 gradle.build 文件，对其中的一些东西还是掌握的不够。加之最近">
+<meta name="keywords" content="Android,Gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Gradle学习系列：（一）初识Gradle">
+<meta property="og:url" content="http://whtacm.cc/2018/01/01/Android Gradle学习系列：（一）初识Gradle/index.html">
+<meta property="og:site_name" content="Robin&#39;s blog">
+<meta property="og:description" content="前言  从 Eclipse 转 Android Studio 已经有很长一段时间了，期间也尝试过从把公司的项目在两个 IDE 之间进行过转换，还是有一些坑和心得体会的。我们都知道 Android Studio 是 Google 力推的开发 IDE ，其中主要的特性之一是项目的构建是基于Gradle 的。一直以来都在使用各种 gradle.build 文件，对其中的一些东西还是掌握的不够。加之最近">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T13:55:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Gradle学习系列：（一）初识Gradle">
+<meta name="twitter:description" content="前言  从 Eclipse 转 Android Studio 已经有很长一段时间了，期间也尝试过从把公司的项目在两个 IDE 之间进行过转换，还是有一些坑和心得体会的。我们都知道 Android Studio 是 Google 力推的开发 IDE ，其中主要的特性之一是项目的构建是基于Gradle 的。一直以来都在使用各种 gradle.build 文件，对其中的一些东西还是掌握的不够。加之最近">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: '[object Object]'
+  };
+</script>
+
+  <title> Android Gradle学习系列：（一）初识Gradle | Robin's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?97551011862ccb1d84eef0bd7737cfc3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">人淡如菊</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Android Gradle学习系列：（一）初识Gradle
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-01-01T20:23:31+08:00" content="2018-01-01">
+            2018-01-01
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Gradle/" itemprop="url" rel="index">
+                  <span itemprop="name">Gradle</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <!--
+              <a href="/2018/01/01/Android Gradle学习系列：（一）初识Gradle/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/01/Android Gradle学习系列：（一）初识Gradle/" itemprop="commentsCount"></span>
+              </a>
+              -->
+              <a href="/2018/01/01/Android Gradle学习系列：（一）初识Gradle/#comments" itemprop="discussionUrl">
+                <span>评论</span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote>
+<p>前言</p>
+</blockquote>
+<p>从 Eclipse 转 Android Studio 已经有很长一段时间了，期间也尝试过从把公司的项目在两个 IDE 之间进行过转换，还是有一些坑和心得体会的。我们都知道 Android Studio 是 Google 力推的开发 IDE ，其中主要的特性之一是项目的构建是基于Gradle 的。一直以来都在使用各种 gradle.build 文件，对其中的一些东西还是掌握的不够。加之最近在看 Android 和 Gradle 的官方文档，索性就整合成一个系列，本系列会紧密结合 Android 开发。如需详细学习 Gradle，请阅读 <a href="https://docs.gradle.org/current/userguide/userguide.html" target="_blank" rel="external"><em>用户指南</em></a>。</p>
+<a id="more"></a>
+<p><br></p>
+<h1 id="1、Gradle介绍"><a href="#1、Gradle介绍" class="headerlink" title="1、Gradle介绍"></a>1、Gradle介绍</h1><p><br></p>
+<p>Gradle 是一个基于 JVM 的构建工具，功能类似于 Ant 或着 Maven 。它使用基于 Groovy 的特定领域语言（DSL）来声明项目的一些配置，不同于 Maven 使用 XML 进行项目配置。因此，它需要 JDK 的支持，这意味着它能运行于目前大多数操作系统之上；另一方面，Gradle 的核心是一个基于依赖编程的语言 <em>（ <a href="https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:project_evaluation" target="_blank" rel="external">We said earlier that the core of Gradle is a language for dependency based programming</a>.）</em>。</p>
+<p><br></p>
+<h1 id="2、Gradle安装"><a href="#2、Gradle安装" class="headerlink" title="2、Gradle安装"></a>2、Gradle安装</h1><p><br></p>
+<p>Gradle的安装，两种方式：</p>
+<ul>
+<li>使用包管理器进行安装</li>
+<li>手动安装，下载压缩包解压，需要配置环境变量</li>
+</ul>
+<p>下载完，可以进行验证，这一部分请参考<a href="https://gradle.org/install/" target="_blank" rel="external"><em>官方文档</em></a><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> gradle -v</span></div></pre></td></tr></table></figure></p>
+<p><br></p>
+<h1 id="3、Gradle的特性"><a href="#3、Gradle的特性" class="headerlink" title="3、Gradle的特性"></a>3、Gradle的特性</h1><p><br></p>
+<p>Gradle 拥有众多的特性，来帮助用户进行快速构建项目，例如在性能方面：</p>
+<ul>
+<li>增量构建<em>（Incremental Builds）</em>， 构建过的任务，当输入、输出或配置没有发生变化不会再次构建</li>
+<li>任务输出缓存<em>（Task Output Caching）</em>，任务构建后的输出会被缓存起来，以便复用</li>
+<li>编译器守护<em>（Compiler Daemon）</em>，Gradle 可以通过开启守护进程加快构建速度</li>
+<li>并行执行<em>（Task Output Caching）</em>，Gradle 可以开启任务并行执行来获得性能的提升</li>
+<li>依赖并行下载<em>（Task Output Caching）</em></li>
+</ul>
+<p>此外，还提供命令行接口进行任务执行、持续构建<em>（Continuous build）</em>，对依赖进行缓存、动态依赖、版本冲突解决，针对跨团队管理能够进行自配置构建环境（可以通过 Gradle wrapper指定 Gradle版本）。</p>
+<p><br></p>
+<h1 id="4、Android-Plugin"><a href="#4、Android-Plugin" class="headerlink" title="4、Android Plugin"></a>4、Android Plugin</h1><p><br></p>
+<p>针对不同生态，例如JVM、Android、C++、Swift、Objective-C，都有其特定的特性，这些特性主要是由相应的插件来完成，比如 Android 的 Build Tool，我们都会在每个 Android 项目的根目录下的 <strong>build.gradle</strong> 中看到这样的配置：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">classpath</span> <span class="string">'com.android.tools.build:gradle:2.3.1'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它指定了 Gradle Android Plugin 的版本信息，不同版本的插件版本有不同的特性，比如 <em>Instant Run</em> 需要 2.3.0 或更高的版本。因此，我们的Android项目的构建工作需要 Gradle 以及 Gradle Android Plugin 一起搭配来完成，两者版本的配置表可以参考 <a href="https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-plugin" target="_blank" rel="external"><em>Android开发者官网#Update Gradle</em></a> 。通过 Android Plugin， 你可以使用到多种（功能）<a href="https://gradle.org/features/#android-applications" target="_blank" rel="external"><em>特性</em></a>：</p>
+<ul>
+<li>构建变体<em>（Build Variants）</em>，通过构建类型和产品风味的配置来完成</li>
+<li>配置清单合并<em>（Manifest Merging）</em>，完成Manifest文件以及资源文件的自动合并</li>
+<li>Android 库工程<em>（Android Library Projects）</em>，支持多个工程（multi-projects）的构建</li>
+<li>变体依赖管理<em>（Per-Variant Dependency Management）</em>，可以针对每个变体进行依赖声明</li>
+<li>应用签名<em>（Application Signing）</em>，为应用进行自动签名</li>
+<li>混淆支持<em>（ProGuard Support）</em>，轻松为应用进行代码混淆和压缩APK</li>
+<li>单元测试<em>（Unit Testing）</em>，支持单元测试</li>
+<li>设备功能测试<em>（On-device Functional Testing）</em></li>
+<li>APK分片<em>（APK Splits）</em>，对于不同分辨率的设备或 <em>ABIs (Application Binary Interfaces)</em> 生成APK，并复用构建输出</li>
+<li>Multidex支持<em>（Multidex Support）</em>，避免单个 DEX 文件方法超过 65k 的限制</li>
+<li>NDK支持<em>（NDK Support）</em>，可以基于本地库进行 Android 开发</li>
+<li>数据绑定<em>（Databinding）</em>，使用数据绑定能够自动的把数据更新到 View 上</li>
+</ul>
+<p>Gradle Android Plugin 的源码可以通过在 app 工程的 <em>build.gradle</em> 中添加依赖：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">compile</span> <span class="string">'com.android.tools.build:gradle:2.3.1'</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>然后在 <em>External Libraries</em> 中查看插件源码，实现部分可以参考<a href="http://blog.csdn.net/qq_23012315/article/details/74230956" target="_blank" rel="external">Android Gradle Plugin解析</a>。</p>
+<p>其他的生态特性，本文就不在介绍，有兴趣的可以去了解 <a href="https://gradle.org/features/" target="_blank" rel="external"><em>Gradle Features</em></a>。</p>
+<p><br></p>
+<h1 id="5、写在最后"><a href="#5、写在最后" class="headerlink" title="5、写在最后"></a>5、写在最后</h1><p><br></p>
+<p>本篇介绍了 Gradle 的核心作用以及功能特性。Android 主要是靠 Gradle 以及附加的插件 Android Plugin 共同完成项目的构建工作的。</p>
+<p>下一篇，我们将介绍 Gradle 的一些相关知识、命令行工具 <em>（command-line）</em>和 Gradle Wrapper。</p>
+<p><br></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Gradle/" rel="tag">#Gradle</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/02/Android Gradle学习系列：（二）命令行和 Gradle Wrapper/" rel="prev">Android Gradle学习系列：（二）命令行和 Gradle Wrapper</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/08/Android-常用开源框架和项目（持续更新中-）/" rel="next">Android 常用开源框架和项目（持续更新中...）</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        请我喝杯茶
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2018/01/01/Android Gradle学习系列：（一）初识Gradle/"
+                   data-title="Android Gradle学习系列：（一）初识Gradle" data-url="http://whtacm.cc/2018/01/01/Android Gradle学习系列：（一）初识Gradle/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Robin" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Robin</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/whtacm" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="whtacm@gmail.com" target="_blank">Gmail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="364432355" target="_blank">QQ</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://hexo.io/" target="_blank">Hexo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://theme-next.iissnan.com/getting-started.html" target="_blank">NexT</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、Gradle介绍"><span class="nav-number">1.</span> <span class="nav-text">1、Gradle介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、Gradle安装"><span class="nav-number">2.</span> <span class="nav-text">2、Gradle安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、Gradle的特性"><span class="nav-number">3.</span> <span class="nav-text">3、Gradle的特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、Android-Plugin"><span class="nav-number">4.</span> <span class="nav-text">4、Android Plugin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、写在最后"><span class="nav-number">5.</span> <span class="nav-text">5、写在最后</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2016 - 
+  <span itemprop="copyrightYear">2021
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Robin
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://whtacm.cc">Robin</a>.<a class="theme-link" href="https://github.com/whtacm/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+  <div class="busuanzi-info">
+    <div class="theme-info">
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量<a class="theme-link"><span id="busuanzi_value_site_pv"></span></a>次
+    </span>
+</div>
+  </div>
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"whtacm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

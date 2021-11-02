@@ -1,0 +1,1001 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉" />
+
+
+
+  <meta name="keywords" content="Android,Gradle," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Robin's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言  在之前，我们提到 Android 项目的构建需要 Android Gradle 插件来完成。每一个 Gradle 插件就是来帮助任务进行构建的，在你的 build.gradle 文件中应用你的插件并编写构建 DSL （domain specific language）脚本。本章将给你一个直观的插件编写例子，以及 Android Gradle 插件的相关介绍。">
+<meta name="keywords" content="Android,Gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Gradle学习系列：（五）Gradle 插件开发及 Android Gradle 插件">
+<meta property="og:url" content="http://whtacm.cc/2018/01/13/Android Gradle学习系列：（五）Gradle 插件/index.html">
+<meta property="og:site_name" content="Robin&#39;s blog">
+<meta property="og:description" content="前言  在之前，我们提到 Android 项目的构建需要 Android Gradle 插件来完成。每一个 Gradle 插件就是来帮助任务进行构建的，在你的 build.gradle 文件中应用你的插件并编写构建 DSL （domain specific language）脚本。本章将给你一个直观的插件编写例子，以及 Android Gradle 插件的相关介绍。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T13:55:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Gradle学习系列：（五）Gradle 插件开发及 Android Gradle 插件">
+<meta name="twitter:description" content="前言  在之前，我们提到 Android 项目的构建需要 Android Gradle 插件来完成。每一个 Gradle 插件就是来帮助任务进行构建的，在你的 build.gradle 文件中应用你的插件并编写构建 DSL （domain specific language）脚本。本章将给你一个直观的插件编写例子，以及 Android Gradle 插件的相关介绍。">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: '[object Object]'
+  };
+</script>
+
+  <title> Android Gradle学习系列：（五）Gradle 插件开发及 Android Gradle 插件 | Robin's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?97551011862ccb1d84eef0bd7737cfc3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">人淡如菊</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Android Gradle学习系列：（五）Gradle 插件开发及 Android Gradle 插件
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-01-13T19:55:42+08:00" content="2018-01-13">
+            2018-01-13
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Android/" itemprop="url" rel="index">
+                  <span itemprop="name">Android</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Android/Gradle/" itemprop="url" rel="index">
+                  <span itemprop="name">Gradle</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Android/Gradle/Android-Studio/" itemprop="url" rel="index">
+                  <span itemprop="name">Android Studio</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <!--
+              <a href="/2018/01/13/Android Gradle学习系列：（五）Gradle 插件/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/13/Android Gradle学习系列：（五）Gradle 插件/" itemprop="commentsCount"></span>
+              </a>
+              -->
+              <a href="/2018/01/13/Android Gradle学习系列：（五）Gradle 插件/#comments" itemprop="discussionUrl">
+                <span>评论</span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote>
+<p>前言</p>
+</blockquote>
+<p>在之前，我们提到 Android 项目的构建需要 Android Gradle 插件来完成。每一个 Gradle 插件就是来帮助任务进行构建的，在你的 <em>build.gradle</em> 文件中应用你的插件并编写构建 DSL <em>（domain specific language）</em>脚本。本章将给你一个直观的插件编写例子，以及 Android Gradle 插件的相关介绍。</p>
+<a id="more"></a>
+<p><br></p>
+<h1 id="1、插件开发"><a href="#1、插件开发" class="headerlink" title="1、插件开发"></a>1、插件开发</h1><p><br></p>
+<p>插件代码可以放在下面几个地方，或者说，使用一个插件有三种方式：</p>
+<ul>
+<li>Build script，把插件源代码放在构建脚本 <em>build.gradle</em> 中。插件会被自动编译，并加入到构建脚本的 classpath 中。缺点是对外部构建脚本<em>（build script）</em>不可见，不能复用。</li>
+<li>buildSrc 项目，把插件源代码放在 <em>rootProjectDir/buildSrc/src/main/java</em> 目录下。需要编译和测试才可用，本项目构建的构建脚本都可以使用。然而，对于外部构建不可用。</li>
+<li>独立项目，打包发布成一个 JAR 包的方式。可以被多个构建复用。</li>
+</ul>
+<p>本示例中为第二种方式。</p>
+<p><br></p>
+<h2 id="1-1、创建项目"><a href="#1-1、创建项目" class="headerlink" title="1.1、创建项目"></a>1.1、创建项目</h2><p><br></p>
+<p>创建插件工程并切换到项目目录下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> mkdir greeting-plugin</span></div><div class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> greeting-plugin</span></div></pre></td></tr></table></figure>
+<p>生成插件代码目录：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p buildSrc<span class="regexp">/src/m</span>ain<span class="regexp">/java/</span>org<span class="regexp">/example/g</span>reeting</div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="1-2、创建插件"><a href="#1-2、创建插件" class="headerlink" title="1.2、创建插件"></a>1.2、创建插件</h2><p><br></p>
+<p>在刚创建的目录下生成 <em>GreetingPlugin</em> 类，该类必须实现 <em>Plugin</em> 接口。当插件被工程使用时，Gradle 会生成一个 plugin 类实例并调用实例的 <em>aplly(T)</em> 方法。</p>
+<p><strong><em>buildSrc/src/main/java/org/example/greeting/GreetingPlugin.java</em></strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.example.greeting;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.gradle.api.Plugin;</div><div class="line"><span class="keyword">import</span> org.gradle.api.<span class="keyword">Project</span>;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> GreetingPlugin <span class="keyword">implements</span> Plugin&lt;<span class="keyword">Project</span>&gt; &#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> apply(<span class="keyword">Project</span> <span class="keyword">project</span>) &#123;</div><div class="line">        <span class="keyword">project</span>.getTasks().create(<span class="string">"hello"</span>, Greeting.<span class="keyword">class</span>, (<span class="keyword">task</span>) -&gt; &#123; </div><div class="line">            <span class="keyword">task</span>.setMessage(<span class="string">"Hello"</span>);</div><div class="line">            <span class="keyword">task</span>.setRecipient(<span class="string">"World"</span>);                                </div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，生成了一个命名为 hello 的 Greeting 类型的新任务实例，并为之设置了默认值。</p>
+<p>这就是一个真实的插件代码，并且 Project 对象是全部 Gradle API 的访问入口，通过它可以完成在构建脚本所做的同样工作。在本例中，在目标项目中创建了一个 hello 任务。</p>
+<p>接下来，为 GreetingPlugin 使用的任务类型生成 java 类。依旧在改包路径下添加 Greeting 类。</p>
+<p><strong><em>buildSrc/src/main/java/org/example/greeting/Greeting.java</em></strong> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.example.greeting;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.gradle.api.DefaultTask;</div><div class="line"><span class="keyword">import</span> org.gradle.api.tasks.TaskAction;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Greeting</span> <span class="keyword">extends</span> <span class="title">DefaultTask</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String message;</div><div class="line">    <span class="keyword">private</span> String recipient;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> message; &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMessage</span><span class="params">(String message)</span> </span>&#123; <span class="keyword">this</span>.message = message; &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getRecipient</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> recipient; &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRecipient</span><span class="params">(String recipient)</span> </span>&#123; <span class="keyword">this</span>.recipient = recipient; &#125;</div><div class="line"></div><div class="line">    <span class="meta">@TaskAction</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayGreeting</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.printf(<span class="string">"%s, %s!\n"</span>, getMessage(), getRecipient()); </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该类中有一些属性以及 getter/setter 类。在 sayGreeting 方法中指定了当任务运行后输出的配置消息。</p>
+<p><br></p>
+<h2 id="1-3、使用插件"><a href="#1-3、使用插件" class="headerlink" title="1.3、使用插件"></a>1.3、使用插件</h2><p><br></p>
+<p>有了上面的工作，现在就实现了一个简单的插件了。下面，你可以使用插件（当然，比较low一点，只能打印一个输出语句）。在 build.gradle 文件中使用 apply 关键字在项目中使用插件：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply plugin: org<span class="selector-class">.example</span><span class="selector-class">.greeting</span><span class="selector-class">.GreetingPlugin</span></div></pre></td></tr></table></figure>
+<p>这样，当前的 Project 实例将使用改插件，并在构建中添加一个 hello 任务。</p>
+<p>使用 <em>gradle hello</em> 命令来执行 hello 任务来验证插件的正确性：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$ gradle hello</div><div class="line"><span class="meta">:buildSrc:compileJava</span></div><div class="line"><span class="meta">:buildSrc:compileGroovy</span> UP-TO-DATE</div><div class="line"><span class="meta">:buildSrc:processResources</span> UP-TO-DATE</div><div class="line"><span class="meta">:buildSrc:classes</span></div><div class="line"><span class="meta">:buildSrc:jar</span></div><div class="line"><span class="meta">:buildSrc:assemble</span></div><div class="line"><span class="meta">:buildSrc:compileTestJava</span> UP-TO-DATE</div><div class="line"><span class="meta">:buildSrc:compileTestGroovy</span> UP-TO-DATE</div><div class="line"><span class="meta">:buildSrc:processTestResources</span> UP-TO-DATE</div><div class="line"><span class="meta">:buildSrc:testClasses</span> UP-TO-DATE</div><div class="line"><span class="meta">:buildSrc:test</span> UP-TO-DATE</div><div class="line"><span class="meta">:buildSrc:check</span> UP-TO-DATE</div><div class="line"><span class="meta">:buildSrc:build</span></div><div class="line">:hello</div><div class="line">Hello, World!</div></pre></td></tr></table></figure>
+<p>控制台的输出表面 buildSrc 中的文件被当作了 Java 项目现进行了一个编译过程。然后在主构建中进行了执行。</p>
+<p>现在构建中 hello 任务使用的是默认值，你也可以在 build 脚本中进行一个配置：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">hello</span> &#123; </div><div class="line">    <span class="attribute">message</span> = <span class="string">"Hi"</span></div><div class="line">    recipient = <span class="string">"Gradle"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再次执行 hello 任务，并使用 -q 选项去掉一些控制台输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> gradle -q hello</span></div><div class="line">Hi, Gradle!</div></pre></td></tr></table></figure>
+<p>现在，自定义插件功能运行 OK。接下来，我们为插件声明一个ID，同时，当你发布插件时这样做会有帮助。</p>
+<p><br></p>
+<h2 id="1-4、声明插件ID"><a href="#1-4、声明插件ID" class="headerlink" title="1.4、声明插件ID"></a>1.4、声明插件ID</h2><p><br></p>
+<p>通常情况下，我们都是通过 ID 来使用插件，这样比较容易记忆。</p>
+<p>首先，生成属性文件：</p>
+<p><strong><em>buildSrc/src/main/resources/META-INF/gradle-plugins/org.example.greeting.properties</em></strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">implementation-class=org<span class="selector-class">.example</span><span class="selector-class">.greeting</span><span class="selector-class">.GreetingPlugin</span></div></pre></td></tr></table></figure>
+<p>Gradle 会根据改文件来确定 Plugin 接口的实现类。改属性文件名去掉 <em>.properties</em> 就是插件的 ID。</p>
+<p>然后，在 build 脚本中，对下面的内容进行替换：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply plugin: org<span class="selector-class">.example</span><span class="selector-class">.greeting</span><span class="selector-class">.GreetingPlugin</span></div></pre></td></tr></table></figure>
+<p>使用插件 ID：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply <span class="string">plugin :</span> <span class="string">'org.example.greeting'</span></div></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="1-5、插件配置"><a href="#1-5、插件配置" class="headerlink" title="1.5、插件配置"></a>1.5、插件配置</h2><p><br></p>
+<p>多数插件需要从构建脚本中获取一些配置。其中一个方式就是使用 extension （扩展）对象。Gradle Project 有一个相关的 <a href="https://docs.gradle.org/current/javadoc/org/gradle/api/plugins/ExtensionContainer.html" target="_blank" rel="external"><code>ExtensionContainer</code></a> 对象，它存放所有的配置及属性。你可以在其中添加扩展来为插件提供配置。一个扩展对象其实就是一个 Java Bean。</p>
+<p>配置可以提供一些丰富的属性，在 Android 开发中，这很常见：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">	compileSdkVersion rootProject<span class="selector-class">.ext</span><span class="selector-class">.android</span><span class="selector-class">.compileSdkVersion</span></div><div class="line">    buildToolsVersion rootProject<span class="selector-class">.ext</span><span class="selector-class">.android</span><span class="selector-class">.buildToolsVersion</span></div><div class="line">    buildTypes &#123;</div><div class="line">       productFlavors&#123;</div><div class="line">			...</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Android Gradle Plugin 在 build 脚本中主要的就是这个 android 扩展配置。插件通过该扩展来进行构建任务的相关配置。</p>
+<p>这里，你可以参考：</p>
+<ul>
+<li>自定义插件编写（<em>官方</em>） <a href="https://docs.gradle.org/current/userguide/custom_plugins.html" target="_blank" rel="external">Writing Custom Plugins</a> ，该指南是基于 Groovy 语言编写的。</li>
+<li><a href="https://www.jianshu.com/p/3c59eded8155" target="_blank" rel="external">Gradle插件开发</a> ，该份文章你会对自定义插件开发有一个更好的概念上的了解，尤其是对 task 的增量构建方面，扩展的编写。</li>
+<li><a href="https://github.com/whtacm/GradlePlugin" target="_blank" rel="external">A simple Gradle Plugin development example</a> ，本人在 Github 上的一个简单的插件编写示例，基于 Java 语言实现的。</li>
+</ul>
+<p><br></p>
+<h2 id="1-6、发布插件"><a href="#1-6、发布插件" class="headerlink" title="1.6、发布插件"></a>1.6、发布插件</h2><p><br></p>
+<p>开发的插件可以发布到 Gralde Portal 上，和其他插件一样共享给其他人使用。</p>
+<p>本人把前面那个插件工程从 buildSrc 中抽离了出来，建立了一个单独的插件工程，里面有上传的配置 buidl.gradle 文件，可以供你参考。</p>
+<p>本人插件的源码及完整发布配置示例 <a href="https://github.com/whtacm/GradlePluginSrc" target="_blank" rel="external">https://github.com/whtacm/GradlePluginSrc</a></p>
+<p>在这之前，你需要到 <a href="https://plugins.gradle.org/user/register?_ga=2.131428367.1810027140.1519609203-1754654511.1504769273" target="_blank" rel="external">registration page</a> 上去注册账号并申请一个 API Key，然后配置到你的 ～./gradle/gradle.properties 文件中去。</p>
+<p>然后编写自己的插件代码并配置相关的信息，执行:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">$ gradle publishPlugins</div><div class="line">:compileJava UP-TO-DATE</div><div class="line">:processResources UP-TO-DATE</div><div class="line">:classes UP-TO-DATE</div><div class="line">:jar</div><div class="line">:publishPluginJar</div><div class="line">:javadoc</div><div class="line">:publishPluginJavaDocsJar</div><div class="line">:publishPlugins</div><div class="line">Publishing plugin org<span class="selector-class">.robin</span><span class="selector-class">.example</span><span class="selector-class">.greeting</span> version <span class="number">1.0</span>.<span class="number">2</span></div><div class="line">Publishing artifact build/libs/greeting-plugin-src-<span class="number">1.0</span>.<span class="number">2</span><span class="selector-class">.jar</span></div><div class="line">Publishing artifact build/libs/greeting-plugin-src-<span class="number">1.0</span>.<span class="number">2</span>-sources<span class="selector-class">.jar</span></div><div class="line">Publishing artifact build/libs/greeting-plugin-src-<span class="number">1.0</span>.<span class="number">2</span>-javadoc<span class="selector-class">.jar</span></div><div class="line">Publishing artifact build/publish-generated-resources/pom<span class="selector-class">.xml</span></div><div class="line">Activating plugin org<span class="selector-class">.robin</span><span class="selector-class">.example</span><span class="selector-class">.greeting</span> version <span class="number">1.0</span>.<span class="number">2</span></div><div class="line"></div><div class="line">BUILD SUCCESSFUL</div><div class="line"></div><div class="line">Total <span class="selector-tag">time</span>: <span class="number">10.851</span> secs</div></pre></td></tr></table></figure>
+<p>可以看到发布成功了，到 <a href="https://plugins.gradle.org/plugin/org.robin.example.greeting" target="_blank" rel="external">https://plugins.gradle.org/plugin/org.robin.example.greeting</a> 页面上可以确认该插件上传成功并且版本一致。最后，在你的其他工程中使用该插件：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">  <span class="keyword">repositories</span> &#123;</div><div class="line">    maven &#123;</div><div class="line">      url <span class="string">"https://plugins.gradle.org/m2/"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">dependencies</span> &#123;</div><div class="line">    <span class="keyword">classpath</span> <span class="string">"gradle.plugin.org.robin.example.greeting:greeting-plugin-src:1.0.2"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">apply plugin: <span class="string">"org.robin.example.greeting"</span></div><div class="line"></div><div class="line"><span class="keyword">write</span> &#123;</div><div class="line">    clearAll <span class="keyword">true</span></div><div class="line">    targetDir <span class="keyword">file</span>(<span class="string">'./target'</span>)</div><div class="line">    generateAll <span class="keyword">true</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">bookManager &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行 </p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ gradle <span class="keyword">write</span> -q</div><div class="line">GreetingPlugin <span class="function"><span class="keyword">constructor</span>--&gt;&gt; </span></div><div class="line">...</div><div class="line"><span class="title">WriteBookTask</span>::<span class="keyword">write</span>--&gt;&gt;path: /Users/robin/android/github/Meizhi/target</div></pre></td></tr></table></figure>
+<p>控制台的输出表面插件运行正确，在该目录下生成了相关内容。</p>
+<p><br></p>
+<h2 id="1-7、进一步阅读"><a href="#1-7、进一步阅读" class="headerlink" title="1.7、进一步阅读"></a>1.7、进一步阅读</h2><p><br></p>
+<ul>
+<li>使用Java Gradle Plugin 开发插件简化插件开发 <a href="https://docs.gradle.org/4.5/userguide/java_gradle_plugin.html" target="_blank" rel="external">Simplifying plugin development with the Java Gradle Plugin Development Plugin</a></li>
+<li>发布插件到 Gradle Plugin Portal <a href="https://guides.gradle.org/publishing-plugins-to-gradle-plugin-portal/" target="_blank" rel="external">Publishing plugins to the Gradle Plugin Portal</a></li>
+<li>使用扩展进行领域建模 <a href="https://docs.gradle.org/4.5/userguide/custom_plugins.html#sec:getting_input_from_the_build" target="_blank" rel="external">Modeling your domain with extensions</a></li>
+<li>插件测试 <a href="https://docs.gradle.org/4.5/userguide/test_kit.html" target="_blank" rel="external">Testing plugins</a></li>
+<li>为新任务类型添加持续构建支持 <a href="https://docs.gradle.org/4.5/userguide/more_about_tasks.html#sec:up_to_date_checks" target="_blank" rel="external">Adding incremental build support to new task types</a></li>
+</ul>
+<p><br></p>
+<h1 id="2、Android-Gradle-Plugin"><a href="#2、Android-Gradle-Plugin" class="headerlink" title="2、Android Gradle Plugin"></a>2、Android Gradle Plugin</h1><p><br></p>
+<p>刚接触 Android Studio 的时候，一直不太了解 build.gradle 里的那些 DSL，诸如 <em>buildscript、allprojects、android</em> 太多的标签。当然，你可以通过这份官方文档来学习 <a href="http://google.github.io/android-gradle-dsl/current/index.html" target="_blank" rel="external">Android Plugin DSL Reference</a>  。后来，直到我看了 Android Gradle Plugin的代码之后我才对这些东西有了更清晰的认识。因此，为什么要了解 Android Gradle Plugin，其实是一个 <strong><em>知其所以然</em></strong> 的过程。</p>
+<p><br></p>
+<h2 id="2-1、从-Project-开始"><a href="#2-1、从-Project-开始" class="headerlink" title="2.1、从 Project 开始"></a>2.1、从 Project 开始</h2><p><br></p>
+<p>我们知道，Android Stutio 中一个工程有多个模块，工程目录以及模块目录下都有一个 <em>build.gradle</em> 文件。工程目录下的构建脚本：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    <span class="keyword">repositories</span> &#123;</div><div class="line">        mavenCentral()</div><div class="line">        ……</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">classpath</span> <span class="string">'com.android.tools.build:gradle:2.3.1'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，依赖里的 <em>classpath ‘com.android.tools.build:gradle:2.3.1’</em> 就是使用的 Android Gradle Plugin 版本。在构建时候会下载该插件版本进行构建工作。</p>
+<p>而 <em>buildscript 、dependencies</em>  这些 DSL 都由 Gradle 来实现，其中 buildscript 可以定位到 org.gradle.api.Project 的 void buildscript(Closure configureClosure) 方法。该脚本主要是配置 project 的类路径，并由 org.gradle.api.initialization.dsl.ScriptHandler 执行。</p>
+<p>此外，通过查看 Project 类，你还可以看到很多的方法，比如： void allprojects(Closure configureClosure)、Map<string, ?=""> getProperties()。</string,></p>
+<p>在前面的内容中，我们看到，要实现一个插件，需要实现 Plugin 接口的 apply 方法。当你使用插件时候，apply 被调用并传递一个 Project 类的对象。通过该对象就可以使用上面的这些方法，通过 getProperties() 方法能够获取很多的相关属性和对象。这里有很多，包括配置在 <em>～/.gradle/gradle/properties</em> 中的属性信息。</p>
+<p><br></p>
+<h2 id="2-2、BasePlugin及其子类"><a href="#2-2、BasePlugin及其子类" class="headerlink" title="2.2、BasePlugin及其子类"></a>2.2、BasePlugin及其子类</h2><p><br></p>
+<p>一般的在我们的 app 模块的 build.gradle 文件中开头需要这么写：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply <span class="string">plugin:</span> <span class="string">'com.android.application'</span></div></pre></td></tr></table></figure>
+<p>从前面的内容，我们知道该模块使用了 ID 为 <em>‘com.android.application’</em> 的插件类。那么，它的具体实现类是哪个一个呢？我们可以在 build.gradle 文件中添加：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">dependencies</span> &#123;</div><div class="line">    <span class="attribute">provided</span> <span class="string">'com.android.tools.build:gradle:2.3.1'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后 sync 一下，就可以在 External Libraries 下面找到该包。该包目录：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">com</span><span class="selector-class">.android</span><span class="selector-class">.tools</span><span class="selector-class">.build</span><span class="selector-pseudo">:gradle</span><span class="selector-pseudo">:2.3.1</span>@<span class="keyword">jar</span></div><div class="line">	|- gradle-<span class="number">2.3</span>.<span class="number">1</span>.jar</div><div class="line">		+ com.android.build.gradle</div><div class="line">		|- META-INF</div><div class="line">			|- gradle-plugins</div><div class="line">				android.properties</div><div class="line">				com.android.application.properties</div><div class="line">				com.android.library.properties</div><div class="line">				....</div><div class="line">			MANIFEST.MF</div><div class="line">		NOTICE</div></pre></td></tr></table></figure>
+<p>OK，根据前面的内容，显而易见的打开 com.android.application.properties 文件就知道了该实现类是 ：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">implementation-class=com<span class="selector-class">.android</span><span class="selector-class">.build</span><span class="selector-class">.gradle</span><span class="selector-class">.AppPlugin</span></div></pre></td></tr></table></figure>
+<p>那么，library 模块插件实现类，你也知道了：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">apply plugin: <span class="string">'com.android.library'</span></div><div class="line"></div><div class="line">implementation-class=com<span class="selector-class">.android</span><span class="selector-class">.build</span><span class="selector-class">.gradle</span><span class="selector-class">.LibraryPlugin</span></div></pre></td></tr></table></figure>
+<p>AppPlugin 类及 LibraryPlugin 类都继承了 <em>BasePlugin</em> 这个抽象类，并且都实现了 Plugin 接口。主要的工作是在 <em>BasePlugin</em> 中完成的，那么我们来看看这个类的主要工作。</p>
+<p>首先，我们来看入口 apply(Project) 方法：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="keyword">void</span> apply(@NonNull <span class="keyword">Project</span> <span class="keyword">project</span>) &#123;</div><div class="line">    checkPluginVersion();<span class="comment">// 检查插件的版本，Gradle 和 插件的版本会有一个对应的关系</span></div><div class="line"></div><div class="line">    <span class="keyword">this</span>.<span class="keyword">project</span> = <span class="keyword">project</span>;</div><div class="line">    ExecutionConfigurationUtil.setThreadPoolSize(<span class="keyword">project</span>);</div><div class="line">    <span class="comment">// 做一些检查的工作</span></div><div class="line">    checkPathForErrors();</div><div class="line">    checkModulesForErrors();</div><div class="line"></div><div class="line">    ProfilerInitializer.init(<span class="keyword">project</span>);</div><div class="line">    threadRecorder = ThreadRecorder.get();</div><div class="line"></div><div class="line">	<span class="comment">// ProcessProfileWriter 记录构建的profile信息，这里会对它进行一些设置</span></div><div class="line">    ProcessProfileWriter.getProject(<span class="keyword">project</span>.getPath())</div><div class="line">            .setAndroidPluginVersion(Version.ANDROID_GRADLE_PLUGIN_VERSION)</div><div class="line">            .setAndroidPlugin(getAnalyticsPluginType())</div><div class="line">            .setPluginGeneration(GradleBuildProject.PluginGeneration.FIRST);</div><div class="line"></div><div class="line">	<span class="comment">// 记录配置工程的时间</span></div><div class="line">    threadRecorder.record(</div><div class="line">            ExecutionType.BASE_PLUGIN_PROJECT_CONFIGURE,</div><div class="line">            <span class="keyword">project</span>.getPath(),</div><div class="line">            <span class="keyword">null</span>,</div><div class="line">            <span class="keyword">this</span>::configureProject);</div><div class="line">	<span class="comment">// 记录配置扩展的时间</span></div><div class="line">    threadRecorder.record(</div><div class="line">            ExecutionType.BASE_PLUGIN_PROJECT_BASE_EXTENSION_CREATION,</div><div class="line">            <span class="keyword">project</span>.getPath(),</div><div class="line">            <span class="keyword">null</span>,</div><div class="line">            <span class="keyword">this</span>::configureExtension);</div><div class="line">	<span class="comment">// 记录创建任务的时间</span></div><div class="line">    threadRecorder.record(</div><div class="line">            ExecutionType.BASE_PLUGIN_PROJECT_TASKS_CREATION,</div><div class="line">            <span class="keyword">project</span>.getPath(),</div><div class="line">            <span class="keyword">null</span>,</div><div class="line">            <span class="keyword">this</span>::createTasks);</div><div class="line"></div><div class="line">    <span class="comment">// Apply additional plugins</span></div><div class="line">    <span class="keyword">for</span> (String plugin : AndroidGradleOptions.getAdditionalPlugins(<span class="keyword">project</span>)) &#123;</div><div class="line">        <span class="keyword">project</span>.apply(ImmutableMap.of(<span class="string">"plugin"</span>, plugin));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，比较重要的是调用了configureProject、 configureExtension 以及 createTasks 这三个方法。从字面上，比较容易理解它们可能完成的工作。</p>
+<p>我们先看 configureProject 方法：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> configureProject() &#123;</div><div class="line">    extraModelInfo = <span class="keyword">new</span> ExtraModelInfo(<span class="keyword">project</span>);</div><div class="line">    checkGradleVersion(); <span class="comment">// 检查 Gradle 版本</span></div><div class="line">    AndroidGradleOptions.validate(<span class="keyword">project</span>);</div><div class="line">    sdkHandler = <span class="keyword">new</span> SdkHandler(<span class="keyword">project</span>, getLogger());</div><div class="line"></div><div class="line">    <span class="keyword">project</span>.afterEvaluate(p -&gt; &#123;</div><div class="line">        <span class="comment">// <span class="doctag">TODO:</span> Read flag from extension.</span></div><div class="line">        <span class="keyword">if</span> (!p.getGradle().getStartParameter().isOffline()</div><div class="line">                &amp;&amp; AndroidGradleOptions.getUseSdkDownload(p)) &#123; <span class="comment">// 依赖的下载</span></div><div class="line">            SdkLibData sdkLibData =</div><div class="line">                    SdkLibData.download(getDownloader(), getSettingsController());</div><div class="line">            dependencyManager.setSdkLibData(sdkLibData);</div><div class="line">            sdkHandler.setSdkLibData(sdkLibData);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    androidBuilder = <span class="keyword">new</span> AndroidBuilder(</div><div class="line">            <span class="keyword">project</span> == <span class="keyword">project</span>.getRootProject() ? <span class="keyword">project</span>.getName() : <span class="keyword">project</span>.getPath(),</div><div class="line">            creator,</div><div class="line">            <span class="keyword">new</span> GradleProcessExecutor(<span class="keyword">project</span>),</div><div class="line">            <span class="keyword">new</span> GradleJavaProcessExecutor(<span class="keyword">project</span>),</div><div class="line">            extraModelInfo,</div><div class="line">            getLogger(),</div><div class="line">            isVerbose());</div><div class="line">    dataBindingBuilder = <span class="keyword">new</span> DataBindingBuilder();</div><div class="line">    dataBindingBuilder.setPrintMachineReadableOutput(</div><div class="line">            extraModelInfo.getErrorFormatMode() ==</div><div class="line">                    ExtraModelInfo.ErrorFormatMode.MACHINE_PARSABLE);</div><div class="line"></div><div class="line">    <span class="comment">// Apply the Java and Jacoco plugins.</span></div><div class="line">    <span class="keyword">project</span>.getPlugins().apply(JavaBasePlugin.<span class="keyword">class</span>);</div><div class="line">    <span class="keyword">project</span>.getPlugins().apply(JacocoPlugin.<span class="keyword">class</span>);</div><div class="line"></div><div class="line">	<span class="comment">// 获取 assemble 任务为之添加描述信息</span></div><div class="line">    <span class="keyword">project</span>.getTasks()</div><div class="line">            .getByName(<span class="string">"assemble"</span>)</div><div class="line">            .setDescription(</div><div class="line">                    <span class="string">"Assembles all variants of all applications and secondary packages."</span>);</div><div class="line">	</div><div class="line">	<span class="comment">// 为构建过程添加监听，这里主要看最后一个，即构建完成后的处理</span></div><div class="line">    <span class="comment">// call back on execution. This is called after the whole build is done (not</span></div><div class="line">    <span class="comment">// after the current project is done).</span></div><div class="line">    <span class="comment">// This is will be called for each (android) projects though, so this should support</span></div><div class="line">    <span class="comment">// being called 2+ times.</span></div><div class="line">    <span class="keyword">project</span>.getGradle()</div><div class="line">            .addBuildListener(</div><div class="line">                    <span class="keyword">new</span> BuildListener() &#123;</div><div class="line">                        <span class="keyword">private</span> <span class="keyword">final</span> LibraryCache libraryCache = LibraryCache.getCache();</div><div class="line"></div><div class="line">                        @Override</div><div class="line">                        <span class="keyword">public</span> <span class="keyword">void</span> buildStarted(Gradle gradle) &#123;&#125;</div><div class="line"></div><div class="line">                        @Override</div><div class="line">                        <span class="keyword">public</span> <span class="keyword">void</span> settingsEvaluated(Settings settings) &#123;&#125;</div><div class="line"></div><div class="line">                        @Override</div><div class="line">                        <span class="keyword">public</span> <span class="keyword">void</span> projectsLoaded(Gradle gradle) &#123;&#125;</div><div class="line"></div><div class="line">                        @Override</div><div class="line">                        <span class="keyword">public</span> <span class="keyword">void</span> projectsEvaluated(Gradle gradle) &#123;&#125;</div><div class="line"></div><div class="line">                        @Override</div><div class="line">                        <span class="keyword">public</span> <span class="keyword">void</span> buildFinished(BuildResult buildResult) &#123;</div><div class="line">                            ExecutorSingleton.shutdown();</div><div class="line">                            sdkHandler.unload();</div><div class="line">                            threadRecorder.record(</div><div class="line">                                    ExecutionType.BASE_PLUGIN_BUILD_FINISHED,</div><div class="line">                                    <span class="keyword">project</span>.getPath(),</div><div class="line">                                    <span class="keyword">null</span>,</div><div class="line">                                    () -&gt; &#123;</div><div class="line">                                    	<span class="comment">// 对缓存进行清理</span></div><div class="line">                                        PreDexCache.getCache()</div><div class="line">                                                .clear(</div><div class="line">                                                        FileUtils.<span class="keyword">join</span>(</div><div class="line">                                                                <span class="keyword">project</span>.getRootProject()</div><div class="line">                                                                        .getBuildDir(),</div><div class="line">                                                                FD_INTERMEDIATES,</div><div class="line">                                                                <span class="string">"dex-cache"</span>,</div><div class="line">                                                                <span class="string">"cache.xml"</span>),</div><div class="line">                                                        getLogger());</div><div class="line">                                        JackConversionCache.getCache()</div><div class="line">                                                .clear(</div><div class="line">                                                        FileUtils.<span class="keyword">join</span>(</div><div class="line">                                                                <span class="keyword">project</span>.getRootProject()</div><div class="line">                                                                        .getBuildDir(),</div><div class="line">                                                                FD_INTERMEDIATES,</div><div class="line">                                                                <span class="string">"jack-cache"</span>,</div><div class="line">                                                                <span class="string">"cache.xml"</span>),</div><div class="line">                                                        getLogger());</div><div class="line">                                        libraryCache.unload();</div><div class="line">                                        Main.clearInternTables();</div><div class="line">                                    &#125;);</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line"></div><div class="line">	<span class="comment">// 为任务添加监听</span></div><div class="line">    <span class="keyword">project</span>.getGradle()</div><div class="line">            .getTaskGraph()</div><div class="line">            .addTaskExecutionGraphListener(</div><div class="line">                    taskGraph -&gt; &#123;</div><div class="line">                        <span class="keyword">for</span> (<span class="keyword">Task</span> <span class="keyword">task</span> : taskGraph.getAllTasks()) &#123;</div><div class="line">                            <span class="keyword">if</span> (<span class="keyword">task</span> <span class="keyword">instanceof</span> TransformTask) &#123;</div><div class="line">                                Transform transform = ((TransformTask) <span class="keyword">task</span>).getTransform();</div><div class="line">                                <span class="comment">// 这里主要是来在任务执行中复用缓存</span></div><div class="line">                                <span class="keyword">if</span> (transform <span class="keyword">instanceof</span> DexTransform) &#123;</div><div class="line">                                    PreDexCache.getCache()</div><div class="line">                                            .load(</div><div class="line">                                                    FileUtils.<span class="keyword">join</span>(</div><div class="line">                                                            <span class="keyword">project</span>.getRootProject()</div><div class="line">                                                                    .getBuildDir(),</div><div class="line">                                                            FD_INTERMEDIATES,</div><div class="line">                                                            <span class="string">"dex-cache"</span>,</div><div class="line">                                                            <span class="string">"cache.xml"</span>));</div><div class="line">                                    <span class="keyword">break</span>;</div><div class="line">                                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (transform <span class="keyword">instanceof</span> JackPreDexTransform) &#123;</div><div class="line">                                    JackConversionCache.getCache()</div><div class="line">                                            .load(</div><div class="line">                                                    FileUtils.<span class="keyword">join</span>(</div><div class="line">                                                            <span class="keyword">project</span>.getRootProject()</div><div class="line">                                                                    .getBuildDir(),</div><div class="line">                                                            FD_INTERMEDIATES,</div><div class="line">                                                            <span class="string">"jack-cache"</span>,</div><div class="line">                                                            <span class="string">"cache.xml"</span>));</div><div class="line">                                    <span class="keyword">break</span>;</div><div class="line">                                &#125;</div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>configureProject 的主要工作是下载依赖、对任务之间的缓存处理以及构建完成后的记录动作。值得注意的是这个 cache.xml 文件的路径是在工程根目录下的 <strong><em>build/intermediates/dex-cache</em></strong> 下面。除此之外，工程目录的 <strong><em>build</em></strong> 目录下存放了很多文件，比如 混淆文件、profile 报告。同时，在每个模块下面的 <strong><em>build</em></strong> 中也有大量的文件，都是在构建过程中生成的缓存等。</p>
+<p>configureExtension 的代码：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> configureExtension() &#123;</div><div class="line">	<span class="comment">// 这三行类似，是分别向 project 中添加 BuildType、 ProductFlavor </span></div><div class="line">	<span class="comment">// 以及 SigningConfig 类型的命名对象容器</span></div><div class="line">    <span class="keyword">final</span> NamedDomainObjectContainer&lt;BuildType&gt; buildTypeContainer =</div><div class="line">            <span class="keyword">project</span>.container(</div><div class="line">                    BuildType.<span class="keyword">class</span>,</div><div class="line">                    <span class="keyword">new</span> BuildTypeFactory(instantiator, <span class="keyword">project</span>, <span class="keyword">project</span>.getLogger()));</div><div class="line">    <span class="keyword">final</span> NamedDomainObjectContainer&lt;ProductFlavor&gt; productFlavorContainer =</div><div class="line">            <span class="keyword">project</span>.container(</div><div class="line">                    ProductFlavor.<span class="keyword">class</span>,</div><div class="line">                    <span class="keyword">new</span> ProductFlavorFactory(</div><div class="line">                            instantiator, <span class="keyword">project</span>, <span class="keyword">project</span>.getLogger(), extraModelInfo));</div><div class="line">    <span class="keyword">final</span> NamedDomainObjectContainer&lt;SigningConfig&gt; signingConfigContainer =</div><div class="line">            <span class="keyword">project</span>.container(SigningConfig.<span class="keyword">class</span>, <span class="keyword">new</span> SigningConfigFactory(instantiator));</div><div class="line"></div><div class="line">	<span class="comment">// 比较重要，创建扩展</span></div><div class="line">    extension =</div><div class="line">            createExtension(</div><div class="line">                    <span class="keyword">project</span>,</div><div class="line">                    instantiator,</div><div class="line">                    androidBuilder,</div><div class="line">                    sdkHandler,</div><div class="line">                    buildTypeContainer,</div><div class="line">                    productFlavorContainer,</div><div class="line">                    signingConfigContainer,</div><div class="line">                    extraModelInfo);</div><div class="line"></div><div class="line">    <span class="comment">// create the default mapping configuration.</span></div><div class="line">    <span class="keyword">project</span>.getConfigurations()</div><div class="line">            .create(<span class="string">"default"</span> + VariantDependencies.CONFIGURATION_MAPPING)</div><div class="line">            .setDescription(<span class="string">"Configuration for default mapping artifacts."</span>);</div><div class="line">    <span class="keyword">project</span>.getConfigurations().create(<span class="string">"default"</span> + VariantDependencies.CONFIGURATION_METADATA)</div><div class="line">            .setDescription(<span class="string">"Metadata for the produced APKs."</span>);</div><div class="line"></div><div class="line">	<span class="comment">// 创建依赖管理器，主要管理配置中的依赖</span></div><div class="line">    dependencyManager = <span class="keyword">new</span> DependencyManager(</div><div class="line">            <span class="keyword">project</span>,</div><div class="line">            extraModelInfo,</div><div class="line">            sdkHandler);</div><div class="line">	<span class="comment">// 创建 ndkhandler，处理ndk相关信息</span></div><div class="line">    ndkHandler = <span class="keyword">new</span> NdkHandler(</div><div class="line">            <span class="keyword">project</span>.getRootDir(),</div><div class="line">            <span class="keyword">null</span>, <span class="comment">/* compileSkdVersion, this will be set in afterEvaluate */</span></div><div class="line">            <span class="string">"gcc"</span>,</div><div class="line">            <span class="string">""</span> <span class="comment">/*toolchainVersion*/</span>);</div><div class="line">            </div><div class="line">	<span class="comment">// 创建任务管理器，对于 app 模块，它调用 AppPlugin 的 createTaskManager 方法来创建</span></div><div class="line">    <span class="comment">// ApplicationTaskManager 对象，它里面有一个 createTasksForVariantData 方法来为变体创建任务</span></div><div class="line">    taskManager =</div><div class="line">            createTaskManager(</div><div class="line">                    <span class="keyword">project</span>,</div><div class="line">                    androidBuilder,</div><div class="line">                    dataBindingBuilder,</div><div class="line">                    extension,</div><div class="line">                    sdkHandler,</div><div class="line">                    ndkHandler,</div><div class="line">                    dependencyManager,</div><div class="line">                    registry,</div><div class="line">                    threadRecorder);</div><div class="line"></div><div class="line">	<span class="comment">// 创建变体工厂，同任务管理器一样，对于 app 模块，它调用 AppPlugin 的 createVariantFactory 方法来</span></div><div class="line">	<span class="comment">// 创建 ApplicationVariantFactory 对象，它里面有一个 createVariantData 方法来为创建变体</span></div><div class="line">    variantFactory = createVariantFactory(instantiator, androidBuilder, extension);</div><div class="line">	</div><div class="line">	<span class="comment">// 创建变体管理器来创建和管理变体</span></div><div class="line">    variantManager =</div><div class="line">            <span class="keyword">new</span> VariantManager(</div><div class="line">                    <span class="keyword">project</span>,</div><div class="line">                    androidBuilder,</div><div class="line">                    extension,</div><div class="line">                    variantFactory,</div><div class="line">                    taskManager,</div><div class="line">                    instantiator,</div><div class="line">                    threadRecorder);</div><div class="line"></div><div class="line">    <span class="comment">// Register a builder for the custom tooling model</span></div><div class="line">    ModelBuilder modelBuilder = <span class="keyword">new</span> ModelBuilder(</div><div class="line">            androidBuilder,</div><div class="line">            variantManager,</div><div class="line">            taskManager,</div><div class="line">            extension,</div><div class="line">            extraModelInfo,</div><div class="line">            ndkHandler,</div><div class="line">            <span class="keyword">new</span> NativeLibraryFactoryImpl(ndkHandler),</div><div class="line">            getProjectType(),</div><div class="line">            AndroidProject.GENERATION_ORIGINAL);</div><div class="line">    registry.register(modelBuilder);</div><div class="line"></div><div class="line">    <span class="comment">// Register a builder for the native tooling model</span></div><div class="line">    NativeModelBuilder nativeModelBuilder = <span class="keyword">new</span> NativeModelBuilder(variantManager);</div><div class="line">    registry.register(nativeModelBuilder);</div><div class="line"></div><div class="line">	<span class="comment">// 后面这几个 whenObjectAdded 方法类似，当向容器里添加对象时候添加回调</span></div><div class="line">    <span class="comment">// map the whenObjectAdded callbacks on the containers.</span></div><div class="line">    signingConfigContainer.whenObjectAdded(variantManager::addSigningConfig);</div><div class="line"></div><div class="line">	<span class="comment">// 同上，添加回调</span></div><div class="line">    buildTypeContainer.whenObjectAdded(</div><div class="line">            buildType -&gt; &#123;</div><div class="line">                SigningConfig signingConfig =</div><div class="line">                        signingConfigContainer.findByName(BuilderConstants.DEBUG);</div><div class="line">                buildType.init(signingConfig);</div><div class="line">                variantManager.addBuildType(buildType);</div><div class="line">            &#125;);</div><div class="line"></div><div class="line">    productFlavorContainer.whenObjectAdded(variantManager::addProductFlavor);</div><div class="line"></div><div class="line">    <span class="comment">// map whenObjectRemoved on the containers to throw an exception.</span></div><div class="line">    signingConfigContainer.whenObjectRemoved(</div><div class="line">            <span class="keyword">new</span> UnsupportedAction(<span class="string">"Removing signingConfigs is not supported."</span>));</div><div class="line">    buildTypeContainer.whenObjectRemoved(</div><div class="line">            <span class="keyword">new</span> UnsupportedAction(<span class="string">"Removing build types is not supported."</span>));</div><div class="line">    productFlavorContainer.whenObjectRemoved(</div><div class="line">            <span class="keyword">new</span> UnsupportedAction(<span class="string">"Removing product flavors is not supported."</span>));</div><div class="line"></div><div class="line">	<span class="comment">// 生成默认值，对于 app 模块，该方法调用 ApplicationVariantFactory 的 createDefaultComponents</span></div><div class="line">	<span class="comment">// 方法，查看该方法代码只有三行，分别为signingConfigContainer添加一个名为 "debug" 的对象以及为</span></div><div class="line">	<span class="comment">// buildTypeContainer添加了名为 "debug" 和 "release" 的对象</span></div><div class="line">    <span class="comment">// create default Objects, signingConfig first as its used by the BuildTypes.</span></div><div class="line">    variantFactory.createDefaultComponents(</div><div class="line">            buildTypeContainer, productFlavorContainer, signingConfigContainer);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法，我们在本篇主要关心 createExtension 方法。在 app 模块中，该方法由 AppPlugin 实现：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@NonNull</span></div><div class="line"><span class="variable">@Override</span></div><div class="line">protected BaseExtension createExtension(</div><div class="line">        <span class="variable">@NonNull</span> Project project,</div><div class="line">        <span class="variable">@NonNull</span> Instantiator instantiator,</div><div class="line">        <span class="variable">@NonNull</span> AndroidBuilder androidBuilder,</div><div class="line">        <span class="variable">@NonNull</span> SdkHandler sdkHandler,</div><div class="line">        <span class="variable">@NonNull</span> NamedDomainObjectContainer&lt;BuildType&gt; buildTypeContainer,</div><div class="line">        <span class="variable">@NonNull</span> NamedDomainObjectContainer&lt;ProductFlavor&gt; productFlavorContainer,</div><div class="line">        <span class="variable">@NonNull</span> NamedDomainObjectContainer&lt;SigningConfig&gt; signingConfigContainer,</div><div class="line">        <span class="variable">@NonNull</span> ExtraModelInfo extraModelInfo) &#123;</div><div class="line">    <span class="selector-tag">return</span> <span class="selector-tag">project</span><span class="selector-class">.getExtensions</span>()</div><div class="line">            <span class="selector-class">.create</span>(</div><div class="line">                    <span class="string">"android"</span>,</div><div class="line">                    AppExtension.class,</div><div class="line">                    project,</div><div class="line">                    instantiator,</div><div class="line">                    androidBuilder,</div><div class="line">                    sdkHandler,</div><div class="line">                    buildTypeContainer,</div><div class="line">                    productFlavorContainer,</div><div class="line">                    signingConfigContainer,</div><div class="line">                    extraModelInfo);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>OK，到这里你也许意识到了，在 app 模块下的 build.gradle 文件中的 android{} 扩展名其实是在这里给定了。通过 project.getExtensions().create(…) 可以向容器中添加一个名为 <strong><em>android</em></strong> 的扩展，扩展类型为 AppExtension 。该类的传入参数包括 buildTypeContainer、productFlavorContainer、signingConfigContainer，它们中包括了构建类型、产品风味以及签名的配置等等。</p>
+<p>最后，我们来看 createTasks 方法：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">private <span class="literal">void</span> createTasks() &#123;</div><div class="line">    threadRecorder.record(</div><div class="line">            ExecutionType.TASK_MANAGER_CREATE_TASKS,</div><div class="line">            project.getPath(),</div><div class="line">            <span class="literal">null</span>,</div><div class="line">            <span class="function"><span class="params">()</span> -&gt;</span></div><div class="line">                    taskManager.createTasksBeforeEvaluate(</div><div class="line">                            <span class="keyword">new</span> TaskContainerAdaptor(project.getTasks())));</div><div class="line"></div><div class="line">    project.afterEvaluate(</div><div class="line">            project<span class="function"> -&gt;</span></div><div class="line">                    threadRecorder.record(</div><div class="line">                            ExecutionType.BASE_PLUGIN_CREATE_ANDROID_TASKS,</div><div class="line">                            project.getPath(),</div><div class="line">                            <span class="literal">null</span>,</div><div class="line">                            <span class="function"><span class="params">()</span> -&gt;</span> createAndroidTasks(<span class="literal">false</span>)));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法中，我们重点看它调用的 createAndroidTasks 方法，它又调用了 VariantManager 的 createAndroidTasks ，该方法又调用了 createTasksForVariantData 方法。OK，这里该方法的实现类，对于 app 模块而言是 ApplicationTaskManager 类。</p>
+<p>最后总结一下，configureProject、 configureExtension 以及 createTasks 这三个方法相互配合完成了工程的初始化、扩展配置的信息以及任务的创建工作。接下来，我们来了解下扩展相关的内容。</p>
+<p><br></p>
+<h2 id="2-3、BaseExtension及其子类"><a href="#2-3、BaseExtension及其子类" class="headerlink" title="2.3、BaseExtension及其子类"></a>2.3、BaseExtension及其子类</h2><p><br></p>
+<p>从前面的介绍中，我们了解到 buidl.gradle 中的 android{} 对应于 AppExtension 类。该类是 <strong><em>BaseExtension</em></strong> 抽象类的子类，此外， LibraryExtension、TestExtension 也是 <strong><em>BaseExtension</em></strong> 的子类，它们对应于插件 com.android.library 、com.android.test。</p>
+<p>这是一个 app 模块的 buidl.gradle 文件：</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">apply plugin: <span class="string">'com.android.application'</span></div><div class="line"></div><div class="line">android &#123;</div><div class="line">    compileSdkVersion rootProject.ext.android.compileSdkVersion</div><div class="line">    buildToolsVersion rootProject.ext.android.buildToolsVersion</div><div class="line">    </div><div class="line">    defaultConfig &#123;</div><div class="line">      ...</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    signingConfigs &#123;</div><div class="line">      ...</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    buildTypes &#123;</div><div class="line">      debug &#123;</div><div class="line">        ...</div><div class="line">      &#125;</div><div class="line">      </div><div class="line">      productFlavors &#123;</div><div class="line">        flavor1 &#123;</div><div class="line">          ...</div><div class="line">        &#125;</div><div class="line">        flavor2 &#123;</div><div class="line">          ...</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    lintOptions &#123;</div><div class="line">      ...</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它对应于 AppExtension 类，这里我们主要看 <strong><em>BaseExtension</em></strong> 类，这里几乎可以找到一切的实现。首先，我们来看构造函数：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div></pre></td><td class="code"><pre><div class="line">BaseExtension(</div><div class="line">            @NonNull <span class="keyword">final</span> <span class="keyword">Project</span> <span class="keyword">project</span>,</div><div class="line">            @NonNull Instantiator instantiator,</div><div class="line">            @NonNull AndroidBuilder androidBuilder,</div><div class="line">            @NonNull SdkHandler sdkHandler,</div><div class="line">            @NonNull NamedDomainObjectContainer&lt;BuildType&gt; buildTypes,</div><div class="line">            @NonNull NamedDomainObjectContainer&lt;ProductFlavor&gt; productFlavors,</div><div class="line">            @NonNull NamedDomainObjectContainer&lt;SigningConfig&gt; signingConfigs,</div><div class="line">            @NonNull ExtraModelInfo extraModelInfo,</div><div class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> publishPackage) &#123;</div><div class="line">        <span class="keyword">this</span>.androidBuilder = androidBuilder;</div><div class="line">        <span class="keyword">this</span>.sdkHandler = sdkHandler;</div><div class="line">        <span class="keyword">this</span>.buildTypes = buildTypes;</div><div class="line">        <span class="comment">//noinspection unchecked</span></div><div class="line">        <span class="keyword">this</span>.productFlavors = (NamedDomainObjectContainer) productFlavors;</div><div class="line">        <span class="keyword">this</span>.signingConfigs = signingConfigs;</div><div class="line">        <span class="keyword">this</span>.extraModelInfo = extraModelInfo;</div><div class="line">        <span class="keyword">this</span>.<span class="keyword">project</span> = <span class="keyword">project</span>;</div><div class="line"></div><div class="line">        logger = Logging.getLogger(<span class="keyword">this</span>.getClass());</div><div class="line"></div><div class="line">		<span class="comment">// 下面的都类似，使用 instantiator.newInstance 方法来生成实例，它们都有 getter/setter 方法，</span></div><div class="line">		<span class="comment">// 会根据构建脚本 android&#123;&#125; 相应的内容被自动填充</span></div><div class="line">        defaultConfig = instantiator.newInstance(ProductFlavor.<span class="keyword">class</span>, BuilderConstants.MAIN,</div><div class="line">                <span class="keyword">project</span>, instantiator, <span class="keyword">project</span>.getLogger(), extraModelInfo);</div><div class="line"></div><div class="line">        aaptOptions = instantiator.newInstance(AaptOptions.<span class="keyword">class</span>);</div><div class="line">        dexOptions = instantiator.newInstance(DexOptions.<span class="keyword">class</span>, extraModelInfo);</div><div class="line">        lintOptions = instantiator.newInstance(LintOptions.<span class="keyword">class</span>);</div><div class="line">        externalNativeBuild = instantiator.newInstance(</div><div class="line">                ExternalNativeBuild.<span class="keyword">class</span>, instantiator, <span class="keyword">project</span>);</div><div class="line">        testOptions = instantiator.newInstance(TestOptions.<span class="keyword">class</span>);</div><div class="line">        compileOptions = instantiator.newInstance(CompileOptions.<span class="keyword">class</span>);</div><div class="line">        packagingOptions = instantiator.newInstance(PackagingOptions.<span class="keyword">class</span>);</div><div class="line">        jacoco = instantiator.newInstance(JacocoOptions.<span class="keyword">class</span>);</div><div class="line">        adbOptions = instantiator.newInstance(AdbOptions.<span class="keyword">class</span>);</div><div class="line">        splits = instantiator.newInstance(Splits.<span class="keyword">class</span>, instantiator);</div><div class="line">        dataBinding = instantiator.newInstance(DataBindingOptions.<span class="keyword">class</span>);</div><div class="line"></div><div class="line">		<span class="comment">// 向 project 中添加 AndroidSourceSet 类型的容器</span></div><div class="line">        sourceSetsContainer =</div><div class="line">                <span class="keyword">project</span>.container(</div><div class="line">                        AndroidSourceSet.<span class="keyword">class</span>,</div><div class="line">                        <span class="keyword">new</span> AndroidSourceSetFactory(instantiator, <span class="keyword">project</span>, publishPackage));</div><div class="line">		<span class="comment">// 添加回调</span></div><div class="line">        sourceSetsContainer.whenObjectAdded(</div><div class="line">                <span class="keyword">new</span> Action&lt;AndroidSourceSet&gt;() &#123;</div><div class="line">                    @Override</div><div class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> execute(AndroidSourceSet sourceSet) &#123;</div><div class="line">                        ConfigurationContainer <span class="keyword">configurations</span> = <span class="keyword">project</span>.getConfigurations();</div><div class="line"></div><div class="line">                        createConfiguration(</div><div class="line">                                <span class="keyword">configurations</span>,</div><div class="line">                                sourceSet.getCompileConfigurationName(),</div><div class="line">                                <span class="string">"Classpath for compiling the "</span> + sourceSet.getName() + <span class="string">" sources."</span>);</div><div class="line"></div><div class="line">                        String packageConfigDescription;</div><div class="line">                        <span class="keyword">if</span> (publishPackage) &#123;</div><div class="line">                            packageConfigDescription =</div><div class="line">                                    <span class="string">"Classpath only used when publishing '"</span></div><div class="line">                                            + sourceSet.getName()</div><div class="line">                                            + <span class="string">"'."</span>;</div><div class="line">                        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                            packageConfigDescription =</div><div class="line">                                    <span class="string">"Classpath packaged with the compiled '"</span></div><div class="line">                                            + sourceSet.getName()</div><div class="line">                                            + <span class="string">"' classes."</span>;</div><div class="line">                        &#125;</div><div class="line">                        createConfiguration(</div><div class="line">                                <span class="keyword">configurations</span>,</div><div class="line">                                sourceSet.getPackageConfigurationName(),</div><div class="line">                                packageConfigDescription);</div><div class="line"></div><div class="line">                        createConfiguration(</div><div class="line">                                <span class="keyword">configurations</span>,</div><div class="line">                                sourceSet.getProvidedConfigurationName(),</div><div class="line">                                <span class="string">"Classpath for only compiling the "</span></div><div class="line">                                        + sourceSet.getName()</div><div class="line">                                        + <span class="string">" sources."</span>);</div><div class="line"></div><div class="line">                        createConfiguration(</div><div class="line">                                <span class="keyword">configurations</span>,</div><div class="line">                                sourceSet.getWearAppConfigurationName(),</div><div class="line">                                <span class="string">"Link to a wear app to embed for object '"</span></div><div class="line">                                        + sourceSet.getName()</div><div class="line">                                        + <span class="string">"'."</span>);</div><div class="line"></div><div class="line">                        createConfiguration(</div><div class="line">                                <span class="keyword">configurations</span>,</div><div class="line">                                sourceSet.getAnnotationProcessorConfigurationName(),</div><div class="line">                                <span class="string">"Classpath for the annotation processor for '"</span></div><div class="line">                                        + sourceSet.getName()</div><div class="line">                                        + <span class="string">"'."</span>);</div><div class="line"></div><div class="line">                        createConfiguration(</div><div class="line">                                <span class="keyword">configurations</span>,</div><div class="line">                                sourceSet.getJackPluginConfigurationName(),</div><div class="line">                                String.format(</div><div class="line">                                        <span class="string">"Classpath for the '%s' Jack plugins."</span>,</div><div class="line">                                        sourceSet.getName()));</div><div class="line"></div><div class="line">                        sourceSet.setRoot(String.format(<span class="string">"src/%s"</span>, sourceSet.getName()));</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line"></div><div class="line">		<span class="comment">// 向容器添加item</span></div><div class="line">        sourceSetsContainer.create(defaultConfig.getName());</div><div class="line"></div><div class="line">		<span class="comment">// 设置默认配置值</span></div><div class="line">        setDefaultConfigValues();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里，我们关注下 buildTypes、productFlavors 、signingConfigs、defaultConfig 这一些，它们在构建脚本对应于一些对象（即带有 <em>{}</em> 的脚本块）。而不像脚本中的 compileSdkVersion、buildToolsVersion，它们只是属性。这些属性在 <strong><em>BaseExtension</em></strong> 中只有 getter/setter，而 buildTypes、productFlavors 、signingConfigs、defaultConfig 这一些还需要类似下面的方法，比如 productFlavors ：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">productFlavors</span><span class="params">(Action&lt;? <span class="keyword">super</span> NamedDomainObjectContainer&lt;ProductFlavor&gt;&gt; action)</span> </span>&#123;</div><div class="line">        checkWritability();</div><div class="line">        action.execute(productFlavors);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>这是因为在调用 setter 方法时候，像 compileSdkVersion 一类的传递的是简单属性值，而 productFlavors 这一类的传递的是一个块（或者说是对象）。因此，需要 Action 的接口来处理该情况。</p>
+<p>另外，在 buildTypes、productFlavors 、signingConfigs 里可以创建指定类型的命名对象（块），就像上面的 app 模块中的 buidle.gradle 中的 productFlavors：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class">productFlavors </span>&#123;</div><div class="line">        <span class="class">flavor1 </span>&#123;</div><div class="line">          ...</div><div class="line">          <span class="class">nkd </span>&#123;</div><div class="line">            ...</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="class">flavor2 </span>&#123;</div><div class="line">          ...</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，flavor1 和 flavor2 都属于 ProductFlavor 类型，但它们名字不同。这一特性由 NamedDomainObjectContainer 和其工厂类 ProductFlavorFactory 来完成。而 ProductFlavor 是一个实体类，它的构造函数类似 <strong><em>BaseExtension</em></strong> 。当然，属于 ProductFlavor 类型的 flavor1 里面可以包含了一些属性和脚本块 （比如 <em>ndk{}</em>）。</p>
+<p>整个扩展里就是属性和脚本块的组合，它给整个项目提供了丰富的配置信息，这些信息被各种任务获取来完成如变体等配置处理。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Gradle/" rel="tag">#Gradle</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/10/08/Promise 学习系列：上篇/" rel="prev">Promise 学习系列：上篇</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/10/Android Gradle学习系列：（四）依赖管理/" rel="next">Android Gradle学习系列：（四）依赖管理-基础篇</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        请我喝杯茶
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/alipay.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="http://ofdub8np7.bkt.clouddn.com/pay/wechat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2018/01/13/Android Gradle学习系列：（五）Gradle 插件/"
+                   data-title="Android Gradle学习系列：（五）Gradle 插件开发及 Android Gradle 插件" data-url="http://whtacm.cc/2018/01/13/Android Gradle学习系列：（五）Gradle 插件/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Robin" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Robin</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">醉卧塌上看风轻云淡，漫卷诗书听雨打芭蕉</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/whtacm" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="whtacm@gmail.com" target="_blank">Gmail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="364432355" target="_blank">QQ</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://hexo.io/" target="_blank">Hexo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://theme-next.iissnan.com/getting-started.html" target="_blank">NexT</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、插件开发"><span class="nav-number">1.</span> <span class="nav-text">1、插件开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1、创建项目"><span class="nav-number">1.1.</span> <span class="nav-text">1.1、创建项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2、创建插件"><span class="nav-number">1.2.</span> <span class="nav-text">1.2、创建插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3、使用插件"><span class="nav-number">1.3.</span> <span class="nav-text">1.3、使用插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4、声明插件ID"><span class="nav-number">1.4.</span> <span class="nav-text">1.4、声明插件ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5、插件配置"><span class="nav-number">1.5.</span> <span class="nav-text">1.5、插件配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6、发布插件"><span class="nav-number">1.6.</span> <span class="nav-text">1.6、发布插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7、进一步阅读"><span class="nav-number">1.7.</span> <span class="nav-text">1.7、进一步阅读</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、Android-Gradle-Plugin"><span class="nav-number">2.</span> <span class="nav-text">2、Android Gradle Plugin</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1、从-Project-开始"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、从 Project 开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2、BasePlugin及其子类"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、BasePlugin及其子类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3、BaseExtension及其子类"><span class="nav-number">2.3.</span> <span class="nav-text">2.3、BaseExtension及其子类</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2016 - 
+  <span itemprop="copyrightYear">2021
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Robin
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://whtacm.cc">Robin</a>.<a class="theme-link" href="https://github.com/whtacm/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+  <div class="busuanzi-info">
+    <div class="theme-info">
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量<a class="theme-link"><span id="busuanzi_value_site_pv"></span></a>次
+    </span>
+</div>
+  </div>
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"whtacm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
